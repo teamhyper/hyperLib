@@ -46,16 +46,22 @@ public class PortMapper {
     }
 
     private void addPort(int number, Port.Type type, String name) throws DuplicatePortException, InvalidPortException {
-        if (number < 0 || number >= portNames.get(type).length) {
+        String[] names = portNames.get(type);
+        // for now?
+        if (names == null) {
+            return;
+        }
+        
+        if (number < 0 || number >= names.length) {
             throw new InvalidPortException(number, type, name);
         }
 
-        String oldName = portNames.get(type)[number]; 
+        String oldName = names[number]; 
         if (oldName != null) {
             throw new DuplicatePortException(number, type, oldName, name);
         }
-
-        portNames.get(type)[number] = name;
+        
+        names[number] = name;
     }
 
     private void findPorts(Class<?> c) throws DuplicatePortException, InvalidPortException {
@@ -87,7 +93,7 @@ public class PortMapper {
         if (wiring == null) {
             throw new IOException("Can't find wiring.png!  Check your build properties");
         }
-        
+                
         BufferedImage img = ImageIO.read(wiring);
         Graphics g = img.createGraphics();
         g.setColor(Color.BLACK);
