@@ -4,6 +4,11 @@ jdk:
   - oraclejdk8
 
 sudo: false
+notifications:
+  slack:
+    rooms:
+      - babysmith:ULSqFgVgfIwVZhqtqM7d27kv#git
+      - babysmith:ULSqFgVgfIwVZhqtqM7d27kv#hyperlib
 addons:
   apt:
     packages:
