@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.usfirst.frc.team69.robot.hypercode2016.Robot;
 import org.usfirst.frc.team69.util.oi.ButtonData;
 import org.usfirst.frc.team69.util.oi.ButtonData.Action;
 import org.usfirst.frc.team69.util.oi.JoystickData;
@@ -25,7 +24,7 @@ public class OIBaseTest {
     public static class SingleJoystickMap {
         @MapJoystick(port = 0, role = Role.LEFT_DRIVER, type = Type.LOGITECH_2_AXIS)
         public static class LeftDriver {
-            @WhenPressed(0) public final Command foo = Robot.collector.spitCmd();
+            @WhenPressed(0) public final Command foo = null;
             @WhenPressed(4) public final Command bar = null;
             @WhileHeld(2) public final Command baz = null;
             @WhenReleased(2) public final Command buzz = null;

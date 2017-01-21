@@ -1,0 +1,12 @@
+# Eclipse project settings
+# We tell eclipse to import from gradle, and only track changes to the gradle
+# build file
+.classpath
+.project
+
+# Stuff gradle generates at build time
+.gradletasknamecache
+.gradle/
+build/
+bin/
+

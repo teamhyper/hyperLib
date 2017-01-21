@@ -2,7 +2,6 @@ package org.usfirst.frc.team69.util;
 
 import java.io.IOException;
 
-import org.usfirst.frc.team69.robot.hypercode2016.RobotMap;
 import org.usfirst.frc.team69.util.port.DuplicatePortException;
 import org.usfirst.frc.team69.util.port.InvalidPortException;
 import org.usfirst.frc.team69.util.port.PortMapper;
@@ -30,7 +29,9 @@ public class RobotInspector {
 //        }
 
         System.out.println();
+	// We need to turn this off temporarily, until we can accept the class name as a command line arg
 
+	/*
         try {
             System.out.println("Checking RobotMap...");
             new PortMapper().mapPorts(RobotMap.class);
@@ -41,6 +42,7 @@ public class RobotInspector {
         } catch (IOException e) {
             System.out.println("IOException occured while making wiring diagram: " + e.getMessage());
         }
+	*/
     }
 
 
