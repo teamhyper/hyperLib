@@ -10,7 +10,9 @@ public abstract class HYPERRobot extends IterativeRobot {
         // Set the WPILib command scheduler to run automatically.
         PeriodicScheduler.getInstance().addEvent(Scheduler.getInstance()::run);
         
+        initOI();
         initSubsystems();
+        initHelpers();
         initCommands();
     }
     
