@@ -11,8 +11,6 @@ import java.util.EnumMap;
 
 import javax.imageio.ImageIO;
 
-import org.usfirst.frc.team69.robot.hypercode2016.RobotMap;
-
 /**
  * The {@link PortMapper} class generates a wiring diagram from the {@link RobotMap}
  * class.
