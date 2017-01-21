@@ -1,5 +1,6 @@
 package org.usfirst.frc.team69.util.oi;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ public class OI {
     
     private boolean m_onRobot;
     private boolean m_commandsInitialized = false;
+    private BadOIMapException m_lastException;
     
     private static class JSWithData {
         public Joystick js;
@@ -100,6 +102,18 @@ public class OI {
         return result;
     }
     
+    public void validate() throws BadOIMapException {
+        if (m_lastException != null) {
+            throw m_lastException;
+        }
+        
+        Validator.validate(getJoystickData());
+    }
+    
+    public void drawMaps() throws IOException {
+        JoystickMapper.drawMap(getJoystickData());
+    }
+    
     private void checkJoysticksExist() {
         if (!m_onRobot) {
             throw new UnsupportedOperationException("Cannot get joysticks when not on the robot");
@@ -128,6 +142,12 @@ public class OI {
             jsData.data = createDataFromMap(jsAnnotation, jsClass);
             if (m_onRobot) {
                 jsData.js = createJoystickFromMap(jsAnnotation);
+            }
+            
+            int port = jsAnnotation.port();
+            if (m_joysticks.containsKey(port)) {
+                m_lastException = new BadOIMapException(String.format("Both %s and %s are assigned to port %d.",
+                        m_joysticks.get(port).data.name(), jsData.data.name()));
             }
             m_joysticks.put(jsAnnotation.port(), jsData);
         }
