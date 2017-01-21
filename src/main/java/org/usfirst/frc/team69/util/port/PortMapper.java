@@ -6,9 +6,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.EnumMap;
 
 import javax.imageio.ImageIO;
+
+import org.usfirst.frc.team69.robot.hypercode2016.RobotMap;
 
 /**
  * The {@link PortMapper} class generates a wiring diagram from the {@link RobotMap}
@@ -82,7 +85,12 @@ public class PortMapper {
     }
 
     private void drawMap() throws IOException {
-        BufferedImage img = ImageIO.read(getClass().getResource("wiring.png"));
+        URL wiring = getClass().getResource("wiring.png");
+        if (wiring == null) {
+            throw new IOException("Can't find wiring.png!  Check your build properties");
+        }
+        
+        BufferedImage img = ImageIO.read(wiring);
         Graphics g = img.createGraphics();
         g.setColor(Color.BLACK);
 

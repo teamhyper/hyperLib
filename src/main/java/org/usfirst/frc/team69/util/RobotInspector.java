@@ -28,21 +28,30 @@ public class RobotInspector {
 //            System.out.println("IOException occured while making joystick map: " + e.getMessage());
 //        }
 
-        System.out.println();
-	// We need to turn this off temporarily, until we can accept the class name as a command line arg
-
-	/*
+        if (args.length < 1) {
+            System.err.println("RobotInspector requires the RobotMap class name as an argument!");
+            System.exit(-1);
+        }
+        
+        Class<?> mapClass = null;
         try {
-            System.out.println("Checking RobotMap...");
-            new PortMapper().mapPorts(RobotMap.class);
+            mapClass = RobotInspector.class.getClassLoader().loadClass(args[0]);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+            System.out.println("Checking " + mapClass.getName() + "...");
+            new PortMapper().mapPorts(mapClass);
             System.out.println("Robot ports successfully mapped.");
         } catch (DuplicatePortException | InvalidPortException e) {
-            System.out.println("Wiring error: " + e.getMessage());
-            System.out.println("Check your RobotMap file!");
+            System.err.println("Wiring error: " + e.getMessage());
+            System.err.println("Check your RobotMap file!");
+            System.exit(-1);
         } catch (IOException e) {
-            System.out.println("IOException occured while making wiring diagram: " + e.getMessage());
+            System.err.println("IOException occured while making wiring diagram: " + e.getMessage());
+            System.err.println("We can continue with the build, but you don't get any diagrams.");
         }
-	*/
     }
 
 

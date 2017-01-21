@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+This file is meant to be included by your build.xml.  To override the default
+deploy task to make robotinspector run, add the following lines to your
+build.xml:
+
+    <import file="path/to/here/robot_inspector.xml" />
+    <target name="deploy" depends="inspect,athena-project-build.deploy />
+
+Also, if you are using submodules, you need to add
+
+    hyperlib.res.dir=hyperLib/src/main/resources/
+    
+To your build.properties.  If you are using a jar, then you are good.
+-->
+<project name="robot-inspector">
+    <target name="inspect" depends="compile">
+        <echo>[HYPERLib] Running RobotInspector.</echo>
+        <java className="org.usfirst.frc.team69.util.RobotInspector" failonerror="true">
+            <classpath>
+                <path refid="classpath.path" />
+            	<pathelement path="${hyperlib.res.dir}" />
+                <pathelement path="${build.dir}" />
+            </classpath>
+        	<arg value="${robotinspector.robotmap.class}"/>
+        </java>
+    </target>
+</project>
