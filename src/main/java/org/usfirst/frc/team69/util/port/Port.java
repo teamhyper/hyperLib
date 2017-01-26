@@ -10,7 +10,8 @@ public @interface Port {
         DIO,
         ANALOG,
         RELAY,
-        PCM
+        PCM,
+        CAN
     }
 
     public Type type();

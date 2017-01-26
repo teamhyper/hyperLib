@@ -8,9 +8,17 @@ public class ButtonData {
     private Field m_field;
     
     public enum Action {
-        WHEN_PRESSED,
-        WHEN_RELEASED,
-        WHILE_HELD
+        WHEN_PRESSED("RELEASED"),
+        WHEN_RELEASED("PRESSED"),
+        WHILE_HELD("HELD");
+        
+        private final String m_desc;
+        
+        private Action(String desc) {
+            m_desc = desc;
+        }
+        
+        public String desc() { return m_desc; }
     }
     
     public ButtonData(int port, Action action, Field field) {
@@ -23,4 +31,7 @@ public class ButtonData {
     public Action action() { return m_action; }
     public String name() { return m_field.getName(); }
     public Field field() { return m_field; }
+    public String description() {
+        return String.format("%s: %s", m_action.desc(), name());
+    }
 }

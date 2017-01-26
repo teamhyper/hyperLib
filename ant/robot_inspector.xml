@@ -14,15 +14,17 @@ Also, if you are using submodules, you need to add
 To your build.properties.  If you are using a jar, then you are good.
 -->
 <project name="robot-inspector">
-    <target name="inspect" depends="compile">
-        <echo>[HYPERLib] Running RobotInspector.</echo>
+	<!-- Wpilib does something strange where it cleans first, which can mess us up.
+	Doing the clean here makes sure it happens before, not after, we compile things. -->
+    <target name="inspect" depends="clean,compile">
         <java className="org.usfirst.frc.team69.util.RobotInspector" failonerror="true">
             <classpath>
                 <path refid="classpath.path" />
             	<pathelement path="${hyperlib.res.dir}" />
                 <pathelement path="${build.dir}" />
             </classpath>
-        	<arg value="${robotinspector.robotmap.class}"/>
+        	<sysproperty key="robotinspector.robotmap.class" value="${robotinspector.robotmap.class}" />
+        	<sysproperty key="robotinspector.oimap.class" value="${robotinspector.oimap.class}" />
         </java>
     </target>
 </project>

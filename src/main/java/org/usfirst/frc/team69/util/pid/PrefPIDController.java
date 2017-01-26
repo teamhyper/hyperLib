@@ -1,4 +1,6 @@
-package org.usfirst.frc.team69.util;
+package org.usfirst.frc.team69.util.pid;
+
+import org.usfirst.frc.team69.util.PeriodicScheduler;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
