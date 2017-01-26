@@ -13,13 +13,19 @@ public class PreferencesSet {
     
     private ArrayList<Preference> m_preferences = new ArrayList<Preference>();
     private HashSet<String> m_prefNames = new HashSet<String>();
+    
+    private static HashSet<String> setNames = new HashSet<String>();
 
     public PreferencesSet(String name, PreferencesListener listener) {
         if (name == null) {
             throw new NullPointerException("name == null");
         } else if (listener == null) {
             throw new NullPointerException("listener == null");
+        } if (setNames.contains(name)) {
+            throw new IllegalStateException("A PreferencesSet named " + name + " already exists");
         }
+        
+        setNames.add(name);
         
         m_name = name;
         m_listener = listener;
@@ -55,7 +61,7 @@ public class PreferencesSet {
         }
         
         if (m_prefNames.contains(name)) {
-            throw new IllegalStateException("A preference with the same name already exists");
+            throw new IllegalStateException("A preference with the name " + name + " already exists");
         }
     }
     
