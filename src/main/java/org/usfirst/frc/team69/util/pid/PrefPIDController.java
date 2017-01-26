@@ -8,6 +8,17 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Preferences;
 
+/**
+ * This class wraps a {@link PIDController}, using the Preferences file to
+ * store and load parameters.  The methods which set parameters only set
+ * defaults, and the Preferences file is always used if it is set.
+ * 
+ * This allows for easy tuning of constants with persistant storage, without
+ * having to recompile the code.
+ * 
+ * @author James Hagborg
+ *
+ */
 public class PrefPIDController extends PIDController {
     
     private static final String SEP = " ";

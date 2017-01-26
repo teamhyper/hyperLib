@@ -5,6 +5,13 @@ import java.util.HashSet;
 
 import org.usfirst.frc.team69.util.PeriodicScheduler;
 
+/**
+ * This class provides a set of preferences, for use in a subsystem.
+ * TODO: finish documenting this
+ * 
+ * @author James Hagborg
+ *
+ */
 public class PreferencesSet {
     public static final String SEPARATOR = " ";
     

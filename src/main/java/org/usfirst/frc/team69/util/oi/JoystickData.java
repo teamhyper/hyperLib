@@ -6,6 +6,14 @@ import java.util.List;
 import org.usfirst.frc.team69.util.oi.MapJoystick.Role;
 import org.usfirst.frc.team69.util.oi.MapJoystick.Type;
 
+/**
+ * This class is an intermediate data structure used in {@link OI} and in
+ * RobotInspector.  It holds information parsed out of the OI map for a
+ * particular joystick.
+ * 
+ * @author James Hagborg
+ *
+ */
 public class JoystickData {
     private int m_port;
     private Role m_role;

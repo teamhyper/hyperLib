@@ -11,7 +11,11 @@ import org.usfirst.frc.team69.util.port.PortMapper;
 /**
  * This is the entry point for running RobotInspector. This will verify both the
  * operator interface and port mapping and generate diagrams in the /diagrams
- * directory. To run this, right-click in eclipse and run as a java application.
+ * directory.
+ * 
+ * The class names for the port map and OI map must be specified in the system
+ * properties.  The ant build file at ant/robot_inspector.xml should set this
+ * up for you.
  * 
  * @author James Hagborg
  *

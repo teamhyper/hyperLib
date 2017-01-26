@@ -12,6 +12,19 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * The {@link OI} class represents the operator interface.  This class reads
+ * the OI layout from another class, called the "oi map class", and sets up
+ * the necessary joysticks, buttons, and commands.
+ * 
+ * This class can be used in two ways: on the robot, it actually creates commands
+ * and binds them to buttons, and stores joysticks to check their values.  Off
+ * the robot, it can still parse the map class, validate it, and draw diagrams
+ * of the controls.
+ * 
+ * @author James Hagborg
+ *
+ */
 public class OI {
     private Class<?> m_mapClass;
     
@@ -32,7 +45,8 @@ public class OI {
     private Joystick m_rightDriver;
     
     /**
-     * Construct a new OI instance
+     * Construct a new OI instance.  Note that after being constructed, the commands
+     * are not yet initialized.  You must call {@link #initCommands()}
      * 
      * @param oiMap A class to use as the map of the OI.  Look at the examples for the
      * format of this class.

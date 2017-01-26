@@ -2,6 +2,14 @@ package org.usfirst.frc.team69.util.oi;
 
 import java.lang.reflect.Field;
 
+/**
+ * This class is an intermediate data structure used in {@link OI} and in
+ * RobotInspector.  It holds information parsed out of the OI map for a
+ * particular binding of a button to a command.
+ * 
+ * @author James Hagborg
+ *
+ */
 public class ButtonData {
     private int m_port;
     private Action m_action;
