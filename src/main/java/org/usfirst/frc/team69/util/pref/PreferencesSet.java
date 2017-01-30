@@ -72,35 +72,37 @@ public class PreferencesSet {
         }
     }
     
+    private void addPreference(String name, Preference pref) {
+        pref.putDefaultIfEmpty();
+        m_preferences.add(pref);
+        m_prefNames.add(name);
+    }
+    
     public DoublePreference addDouble(String name, double value) {
         checkName(name);
         DoublePreference pref = new DoublePreference(m_name + SEPARATOR + name, value);
-        m_preferences.add(pref);
-        m_prefNames.add(name);
+        addPreference(name, pref);
         return pref;
     }
     
     public IntPreference addInt(String name, int value) {
         checkName(name);
         IntPreference pref = new IntPreference(m_name + SEPARATOR + name, value);
-        m_preferences.add(pref);
-        m_prefNames.add(name);
+        addPreference(name, pref);
         return pref;
     }
     
     public BooleanPreference addBoolean(String name, boolean value) {
         checkName(name);
         BooleanPreference pref = new BooleanPreference(m_name + SEPARATOR + name, value);
-        m_preferences.add(pref);
-        m_prefNames.add(name);
+        addPreference(name, pref);
         return pref;
     }
     
     public StringPreference addString(String name, String value) {
         checkName(name);
         StringPreference pref = new StringPreference(m_name + SEPARATOR + name, value);
-        m_preferences.add(pref);
-        m_prefNames.add(name);
+        addPreference(name, pref);
         return pref;
     }
 }
