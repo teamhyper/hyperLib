@@ -13,6 +13,13 @@ public class InvalidPortException extends Exception {
     private Port.Type type;
     private String name;
 
+    /**
+     * Construct a new {@link InvalidPortException} with the given properties.
+     * 
+     * @param number The number of the port which is invalid
+     * @param type The type of port which is invalid
+     * @param name The name of the use of the invalid port
+     */
     public InvalidPortException(int number, Port.Type type, String name) {
         this.number = number;
         this.type = type;
@@ -23,6 +30,10 @@ public class InvalidPortException extends Exception {
     public Port.Type getType() { return type; }
     public String getName() { return name; }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getMessage() {
         return String.format("%s cannot be assigned to %s #%d because it is not a valid port",
                 name, type, number);

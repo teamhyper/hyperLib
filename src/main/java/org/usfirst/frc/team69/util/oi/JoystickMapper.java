@@ -18,12 +18,18 @@ import javax.imageio.ImageIO;
  *
  */
 public class JoystickMapper {
+    /**
+     * Draws diagrams for a list of joysticks, and saves them to file.
+     * 
+     * @param data A list of {@link JoystickData} objects describing the oi
+     * @throws IOException If there is an error reading or writing the diagrams
+     */
     public static void drawMap(List<JoystickData> data) throws IOException {
         for (JoystickData js : data) {
             drawSubMap(js);
         }
     }
-
+    
     private static void drawSubMap(JoystickData joystick) throws IOException {
         BufferedImage img = null;
 

@@ -36,18 +36,58 @@ public class PrefPIDController extends PIDController {
     
     private final String m_prefString;
 
+    /**
+     * @see PIDController#PIDController(double, double, double, PIDSource, PIDOutput)
+     * @param prefString A string to identify preferences
+     * @param Kp the default value for P
+     * @param Ki the default value for I
+     * @param Kd the default value for D
+     * @param source the source of feedback
+     * @param output the output of the PID
+     */
     public PrefPIDController(String prefString, double Kp, double Ki, double Kd, PIDSource source, PIDOutput output) {
         this(prefString, Kp, Ki, Kd, 0.0, source, output, kDefaultPeriod);
     }
 
+    /**
+     * @see PIDController#PIDController(double, double, double, PIDSource, PIDOutput, double)
+     * @param prefString A string to identify preferences
+     * @param Kp the default value for P
+     * @param Ki the default value for I
+     * @param Kd the default value for D
+     * @param source the source of feedback
+     * @param output the output of the PID
+     * @param period the period to run the PID controller at
+     */
     public PrefPIDController(String prefString, double Kp, double Ki, double Kd, PIDSource source, PIDOutput output, double period) {
         this(prefString, Kp, Ki, Kd, 0.0, source, output, period);
     }
 
+    /**
+     * @see PIDController#PIDController(double, double, double, double, PIDSource, PIDOutput)
+     * @param prefString A string to identify preferences
+     * @param Kp the default value for P
+     * @param Ki the default value for I
+     * @param Kd the default value for D
+     * @param Kf the default value for F
+     * @param source the source of feedback
+     * @param output the output of the PID
+     */
     public PrefPIDController(String prefString, double Kp, double Ki, double Kd, double Kf, PIDSource source, PIDOutput output) {
         this(prefString, Kp, Ki, Kd, Kf, source, output, kDefaultPeriod);
     }
 
+    /**
+     * @see PIDController#PIDController(double, double, double, double, PIDSource, PIDOutput, double)
+     * @param prefString A string to identify preferences
+     * @param Kp the default value for P
+     * @param Ki the default value for I
+     * @param Kd the default value for D
+     * @param Kf the default value for F
+     * @param source the source of feedback
+     * @param output the output of the PID
+     * @param period the period to run the PID controller at
+     */
     public PrefPIDController(String prefString, double Kp, double Ki, double Kd, double Kf, PIDSource source, PIDOutput output,
             double period) {
         super(Kp, Ki, Kd, Kf, source, output, period);
@@ -72,6 +112,7 @@ public class PrefPIDController extends PIDController {
         if (!pref.containsKey(m_prefString + F_SUF)) pref.putDouble(m_prefString + F_SUF, m_defF);
     }
     
+    @Deprecated
     @Override
     public void setPID(double p, double i, double d, double f) {
         DriverStation.reportError("setPID will likely have no effect, since the PID reads " +
@@ -80,6 +121,7 @@ public class PrefPIDController extends PIDController {
                 "objects.", true);
     }
     
+    @Deprecated
     @Override
     public void setPID(double p, double i, double d) {
         DriverStation.reportError("setPID will likely have no effect, since the PID reads " +
@@ -88,12 +130,22 @@ public class PrefPIDController extends PIDController {
                 "objects.", true);
     }
     
+    @Deprecated
     @Override
     public void setPercentTolerance(double tolerance) {
         DriverStation.reportError("Only an absolute tolerance can be set using preferences. " +
                 "Use setAbsoluteTolerance().", true);
     }
     
+    /**
+     * Set the default absolute tolerance.  In most cases it will only matter what you
+     * pass to this the first time you call it, since it will then add an entry to the
+     * preferences file if one does not yet exist.
+     * 
+     * @param tolerance The new default value for absolute tolerance.
+     * 
+     * @see PIDController#setAbsoluteTolerance(double)
+     */
     @Override
     public void setAbsoluteTolerance(double tolerance) {
         m_defTolerance = tolerance;
@@ -106,6 +158,16 @@ public class PrefPIDController extends PIDController {
         updatePreferences();
     }
     
+    /**
+     * Set the default output range.  In most cases it will only matter what you
+     * pass to this the first time you call it, since it will then add an entry to the
+     * preferences file if one does not yet exist.
+     * 
+     * @param min The lower bound on the output.  By default -1.
+     * @param max The upper bound on the output.  By default 1.
+     * 
+     * @see PIDController#setOutputRange(double, double)
+     */
     @Override
     public void setOutputRange(double min, double max) {
         m_defMinOutput = min;

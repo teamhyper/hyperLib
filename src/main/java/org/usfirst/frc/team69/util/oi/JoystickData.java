@@ -21,6 +21,15 @@ public class JoystickData {
     private Class<?> m_class;
     private List<ButtonData> m_buttons;
     
+    /**
+     * Construct a new JoystickData object with the given parameters
+     * 
+     * @param port
+     * @param role
+     * @param type
+     * @param mapClass
+     * @param buttons
+     */
     public JoystickData(int port, Role role, Type type, Class<?> mapClass, List<ButtonData> buttons) {
         m_port = port;
         m_role = role;

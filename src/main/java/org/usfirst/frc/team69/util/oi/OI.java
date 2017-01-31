@@ -108,6 +108,15 @@ public class OI {
         return getJoystick(jsData == null ? null : jsData.js);
     }
     
+    /**
+     * Get a list of {@link JoystickData} objects describing the layout of
+     * the OI.  This list is a copy, so you are free to modify it.  This
+     * method is used by the OI mapper, but you may use it if you want your
+     * application to be aware of the OI map.
+     * 
+     * @return A list of {@link JoystickData} objects holding data parsed
+     * from the OI map
+     */
     public ArrayList<JoystickData> getJoystickData() {
         ArrayList<JoystickData> result = new ArrayList<JoystickData>();
         for (JSWithData jsData : m_joysticks.values()) {
@@ -116,6 +125,16 @@ public class OI {
         return result;
     }
     
+    /**
+     * Validate the OI based on a set of rules set in {@link Validator}.
+     * In addition, if errors were encountered in parsing, they will throw
+     * an exception here.
+     * 
+     * @throws BadOIMapException if errors were encountered in parsing, or
+     * the {@link Validator} throws an exception.
+     * 
+     * @see Validator
+     */
     public void validate() throws BadOIMapException {
         if (m_lastException != null) {
             throw m_lastException;
@@ -124,6 +143,13 @@ public class OI {
         Validator.validate(getJoystickData());
     }
     
+    /**
+     * Draw diagrams of the OI using {@link JoystickMapper#drawMap(java.util.List)}
+     * 
+     * @throws IOException if there is an error reading or writing the diagrams
+     * 
+     * @see JoystickMapper#drawMap(java.util.List)
+     */
     public void drawMaps() throws IOException {
         JoystickMapper.drawMap(getJoystickData());
     }

@@ -22,6 +22,10 @@ import org.usfirst.frc.team69.util.port.PortMapper;
  */
 public class RobotInspector {
 
+    /**
+     * The entry point into the RobotInspector application.
+     * @param args Not used.  Pass class names through system properties instead
+     */
     public static void main(String[] args) {
         boolean errored = false;
 

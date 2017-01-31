@@ -12,28 +12,34 @@ package org.usfirst.frc.team69.util.oi;
 @SuppressWarnings("serial")
 public class BadOIMapException extends Exception {
 
+    /**
+     * @see Exception#Exception()
+     */
     public BadOIMapException() {
-        // TODO Auto-generated constructor stub
     }
 
-    public BadOIMapException(String arg0) {
-        super(arg0);
-        // TODO Auto-generated constructor stub
+    /**
+     * @see Exception#Exception(String)
+     * @param msg A message string describing the exception
+     */
+    public BadOIMapException(String msg) {
+        super(msg);
     }
 
-    public BadOIMapException(Throwable arg0) {
-        super(arg0);
-        // TODO Auto-generated constructor stub
+    /**
+     * @see Exception#Exception(Throwable)
+     * @param cause The exception which caused this one
+     */
+    public BadOIMapException(Throwable cause) {
+        super(cause);
     }
 
-    public BadOIMapException(String arg0, Throwable arg1) {
-        super(arg0, arg1);
-        // TODO Auto-generated constructor stub
+    /**
+     * @see Exception#Exception(String, Throwable)
+     * @param msg A message string describing the exception
+     * @param cause The exception which caused this one
+     */
+    public BadOIMapException(String msg, Throwable cause) {
+        super(msg, cause);
     }
-
-    public BadOIMapException(String arg0, Throwable arg1, boolean arg2, boolean arg3) {
-        super(arg0, arg1, arg2, arg3);
-        // TODO Auto-generated constructor stub
-    }
-
 }

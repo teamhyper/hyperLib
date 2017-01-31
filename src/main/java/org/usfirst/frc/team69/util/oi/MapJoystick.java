@@ -26,10 +26,34 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(TYPE)
 public @interface MapJoystick {
+    /**
+     * The port the joystick is connected to.
+     */
     int port();
+    
+    /**
+     * The role the joystick serves, e.g. right driver, left operator, etc.
+     * @see OI#leftDriver()
+     * @see OI#rightDriver()
+     * @see OI#leftOperator()
+     * @see OI#rightOperator()
+     */
     Role role();
+    
+    /**
+     * The physical model of joystick used.  This determines how the
+     * diagrams are mapped, and what button numbers are allowed.
+     */
     Type type();
     
+    /**
+     * The role of a joystick determines how it is accessed in {@link OI}.  If
+     * the joystick layout does not conform to left/right driver/operator, then
+     * use OTHER and access joysticks using {@link OI#getJoystick(int)}.
+     * 
+     * @author James Hagborg
+     *
+     */
     public enum Role {
         LEFT_DRIVER,
         RIGHT_DRIVER,
@@ -38,6 +62,13 @@ public @interface MapJoystick {
         OTHER
     }
     
+    /**
+     * The physical type of a joystick.  This determines the picture to use and
+     * the number of buttons allowed.
+     * 
+     * @author James Hagborg
+     *
+     */
     public enum Type {
         LOGITECH_3_AXIS,
         LOGITECH_2_AXIS
