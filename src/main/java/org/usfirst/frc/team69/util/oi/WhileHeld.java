@@ -17,6 +17,7 @@ import java.lang.annotation.Target;
 public @interface WhileHeld {
     /**
      * The number of the button (starting at 1) to bind to
+     * @return The number of the button.
      */
     int value();
 }

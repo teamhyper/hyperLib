@@ -33,6 +33,7 @@ public @interface Port {
 
     /**
      * The type of port used on the RIO
+     * @return the type of the port
      */
     public Type type();
 }

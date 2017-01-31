@@ -22,6 +22,7 @@ public abstract class HYPERRobot extends IterativeRobot {
      *  <li>"Helper classes" which depend on subsystems but have commands which
      *  depend on them (like UserDrive and Vision in hypercode)</li>
      *  <li>Commands, including autonomous commands and commands on the OI</li>
+     * </ul>
      */
     @Override
     public void robotInit() {

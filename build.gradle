@@ -39,5 +39,6 @@ artifacts {
 // By default, checkstyle wants to look at tests
 // we override to only look at the main code
 checkstyle {
+    toolVersion = '6.11.2'
     sourceSets = [project.sourceSets.main]
 }

@@ -28,11 +28,13 @@ import java.lang.annotation.Target;
 public @interface MapJoystick {
     /**
      * The port the joystick is connected to.
+     * @return The port the joystick is connected to.
      */
     int port();
     
     /**
      * The role the joystick serves, e.g. right driver, left operator, etc.
+     * @return The role the joystick serves.
      * @see OI#leftDriver()
      * @see OI#rightDriver()
      * @see OI#leftOperator()
@@ -43,6 +45,7 @@ public @interface MapJoystick {
     /**
      * The physical model of joystick used.  This determines how the
      * diagrams are mapped, and what button numbers are allowed.
+     * @return The type of the joystick.
      */
     Type type();
     
