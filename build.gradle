@@ -27,3 +27,9 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 artifacts {
     sourcesJar
 }
+
+// By default, checkstyle wants to look at tests
+// we override to only look at the main code
+checkstyle {
+    sourceSets = [project.sourceSets.main]
+}
