@@ -7,8 +7,7 @@ import java.util.List;
  * rules, to check for common errors.  This runs as part of RobotInspector
  * 
  * @author James Hagborg
- * 
- * @see RobotInspector
+
  * @see OI
  */
 public class Validator {

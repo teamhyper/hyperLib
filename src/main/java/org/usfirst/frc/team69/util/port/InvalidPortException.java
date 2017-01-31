@@ -2,7 +2,7 @@ package org.usfirst.frc.team69.util.port;
 
 /**
  * An exception thrown when you attempt to assign hardware to a port that does
- * not exist in {@link RobotMap}.
+ * not exist in the robot map.
  * 
  * @author James Hagborg
  *

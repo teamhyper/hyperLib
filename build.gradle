@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.8
-version = '0.1.0'
+version = '0.2.0'
 
 repositories {
     mavenCentral()
@@ -24,8 +24,16 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    description 'Builds a jar file full of javadocs.'
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+// If we decide to use gradle to publish archives at some point, this is how we do it
 artifacts {
-    sourcesJar
+    archives sourcesJar
+    archives javadocJar
 }
 
 // By default, checkstyle wants to look at tests

@@ -36,11 +36,11 @@ public abstract class HYPERRobot extends IterativeRobot {
     
     /**
      * Initialize the operator interface.  This should create joysticks and buttons,
-     * but not any commands, as {@link initCommands} will not be called until after
+     * but not any commands, as {@link #initCommands} will not be called until after
      * this.
      * 
-     * If you are using the hyperLib {@link OI}, this is where you would call the
-     * constructor for {@link OI}.
+     * If you are using the hyperLib {@link org.usfirst.frc.team69.util.oi.OI}, this
+     * is where you would call the constructor for the OI.
      */
     protected abstract void initOI();
     
@@ -61,8 +61,9 @@ public abstract class HYPERRobot extends IterativeRobot {
     
     /**
      * Initialize commands.  This is where you should add commands to the OI and
-     * the autonomous command chooser.  If you are using the hyperLib {@link OI},
-     * this is where you should call {@link OI#initCommands}
+     * the autonomous command chooser.  If you are using the hyperLib
+     * {@link org.usfirst.frc.team69.util.oi.OI}, this is where you should call
+     * {@link org.usfirst.frc.team69.util.oi.OI#initCommands}
      */
     protected abstract void initCommands();
     

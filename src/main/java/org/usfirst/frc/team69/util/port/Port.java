@@ -5,7 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * The {@link Port} annotation is used to mark ports in the robot map.
- * This allows {@link RobotInspector} to parse the robot map, and do validation
+ * This allows RobotInspector to parse the robot map, and do validation
  * as well as draw diagrams.
  * 
  * This annotation is meant to be applied to static constants which represent

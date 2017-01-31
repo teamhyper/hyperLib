@@ -12,7 +12,7 @@ import java.util.EnumMap;
 import javax.imageio.ImageIO;
 
 /**
- * The {@link PortMapper} class generates a wiring diagram from the {@link RobotMap}
+ * The {@link PortMapper} class generates a wiring diagram from the robot map.
  * class.
  * 
  * @author James Hagborg

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Preferences;
  * common operations, like checking if the preference is set, and putting
  * the default value.
  * 
- * Because {@Preferences} in WPILib is not generic, we must use an abstract
+ * Because {@link Preferences} in WPILib is not generic, we must use an abstract
  * class with subclasses for each type of preference.
  * 
  * @author James Hagborg

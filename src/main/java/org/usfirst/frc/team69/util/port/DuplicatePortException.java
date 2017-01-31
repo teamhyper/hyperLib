@@ -2,7 +2,7 @@ package org.usfirst.frc.team69.util.port;
 
 /**
  * An exception thrown when you attempt to assign two pieces of hardware to the
- * same port in {@link RobotMap}.
+ * same port in the robot map.
  * 
  * @author James Hagborg
  *
