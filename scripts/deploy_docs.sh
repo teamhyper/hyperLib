@@ -4,7 +4,6 @@ echo "Deploying docs to ${DEPLOY_DIR}"
 
 echo "Pulling existing github pages..."
 # Set up git
-cd $HOME
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "travis-ci"
 git clone --quiet --branch=gh-pages "https://${GH_TOKEN}@github.com/teamhyper/hyperLib" gh-pages &> /dev/null
