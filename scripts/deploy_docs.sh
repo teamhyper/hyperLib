@@ -17,7 +17,7 @@ mkdir $HOME/gh-pages
 cd $HOME/gh-pages
 echo "debug: cwd is $(pwd)"
 git init
-git pull "https://${GH_TOKEN}@github.com/teamhyper/hyperLib.git" gh-pages &> /dev/null
+git pull "https://github.com/teamhyper/hyperLib.git" gh-pages
 ls -la
 git status
 git branch
@@ -31,6 +31,6 @@ echo "Committing and pushing..."
 # Commit and push changes
 git add -f .
 git commit -m "Add latest javadoc from build $TRAVIS_BUILD_NUMBER to $DEPLOY_DIR"
-git push -f "https://${GH_TOKEN}@github.com/teamhyper/hyperLib.git" gh-pages &> /dev/null
+git push -f "https://${GH_TOKEN}@github.com/teamhyper/hyperLib.git" +master:gh-pages &> /dev/null
 
 echo "Docs successfully deployed"
