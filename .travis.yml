@@ -11,8 +11,11 @@ addons:
   apt:
     packages:
     - oracle-java8-installer
+env:
+  global:
+    secure: L6ICTHggv5MLR+hSguUFsyf7MqKg35JhxdnYszHnwpWHjhZQVb6af6QBIwOYHyRcFI47BV4lnKsvKopwcArDww1Tvu0IHJdxHjfFJx6WEUCJcJ+0YoYmifEBUDfZEr/p6eASdsBw2jj/sOZQEtqKA7YrP5ZN2MboKWCtZI9mPAAvFdkw4+hHJ3HgUczfnwUVMgJFRsZjTjcVahXmjLGWX+dPoXRkPPRtqyLc4ZZzQTyOqmAgCzHbaHLTBW65JLW/apv/e2OBcUa/iqOA6+U/zRNb6iabVfBGC2qZT+n260DqDjvwsvFmcQChuGm1EpBeN0HmUaCnKvXLma0/k1KK16qLfQxgEL0QEYVXtiwh3rcX7yUksTWF1uIV4QonFliCRWluyJ+vvjaw2pbKVLzZ5r9WRj2+goTITza+ups9i4QGV6QMDHYjPrRWWXsc+VmaylahpPNxniBABRIN0VYevbjvBHseHqngUuPbiJn3Da6NWiivCIrnP5JTaPAnn/p9THGp1xy+zT4zN6KgTppu5Sfn8iXHfn36X0Sk2+TlgVAIL0HeiCAPT2WX/nUuVQHgKTffp333N2xD3ciaHn4COEij8F3P4wpCazkS3hO5HQkptchCWtbh2wmN3ZkE/l7vClkmkFGqclwZvc+vO2cyc2EuEugV1WrzOddxYx+BaTo=
 deploy:
-  provider: releases
+- provider: releases
   api_key:
     secure: H7vM4gMn3YEZMFlBnWZyjSncLdBa9ZfbHHz157aijRZcRDpej8YUNsaV4mii2AOxxd2Ihsz7A9fWwVtFUUdvq2VRB4rQz2vgoPTncqwh00APDbsuBU65qTOEcw8gbnS9CV3glAcsqSULzrjV7MDbKpDjf4XNat2SjVsTkadAfeD/1ICe9klfjt3Dc9OSOcGs5h8aF80AQDl4gkEO44owhGmUBdlPF5yBC/JZ+cat5txL/1M3w6MWqNzneqcRCILbTP0R+xGwOGI9gSjEQSo4hW82zNcS+3nGoO/chNbAicYCA9FPFvssiqlcRxVI4OekPKXiWP89WmrABjZbu85ES77jd+midLjeCxbjSuHr99iWd+hUR2elu6bc97d1cx06MH33bMyeeEb+hKIJ/LfJL5XmTISyBdjbo1iydjVrJdyB9PDReWkm3aySIHZgq9RE92cBuv0pwSmCo4RHQReWti3dT8STySQfTioEUcS1ZLANWkYjzfiDqBu24kK1Y2h9ha9h+aZ1bSlpNWINxStiAK1ITauyj+6oFPLRGc0jVG9RdguNNoIJyPyG/St/IbWtX5URIrfaNnwx09C5ltKcEFoYHt+UA+/AZCxSdDgKm/iKM+xjHqiXbgwv+Zqt2JCm2Tpv90Hi3t5bZW5pzfaw4xJeH0Zpl+ehM7LDRFeFt4U=
   file_glob: true
@@ -20,3 +23,13 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+- provider: script
+  script: scripts/deploy_docs.sh releases/$TRAVIS_TAG
+  skip_cleanup: true
+  on:
+    tags: true
+- provider: script
+  script: scripts/deploy_docs.sh latest/$TRAVIS_BRANCH
+  skip_cleanup: true
+  on:
+    branch: master
