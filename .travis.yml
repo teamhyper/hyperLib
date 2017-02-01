@@ -24,7 +24,7 @@ deploy:
   on:
     tags: true
 - provider: script
-  script: scripts/deploy_docs.sh releases/$TRAVIS_TAG
+  script: scripts/deploy_docs.sh release/$TRAVIS_TAG
   skip_cleanup: true
   on:
     tags: true
