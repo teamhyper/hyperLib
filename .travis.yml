@@ -1,15 +1,22 @@
 language: java
-
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 sudo: false
 notifications:
   slack:
     rooms:
-      - babysmith:ULSqFgVgfIwVZhqtqM7d27kv#git
-      - babysmith:ULSqFgVgfIwVZhqtqM7d27kv#hyperlib
+    - babysmith:ULSqFgVgfIwVZhqtqM7d27kv#git
+    - babysmith:ULSqFgVgfIwVZhqtqM7d27kv#hyperlib
 addons:
   apt:
     packages:
-      - oracle-java8-installer
+    - oracle-java8-installer
+deploy:
+  provider: releases
+  api_key:
+    secure: H7vM4gMn3YEZMFlBnWZyjSncLdBa9ZfbHHz157aijRZcRDpej8YUNsaV4mii2AOxxd2Ihsz7A9fWwVtFUUdvq2VRB4rQz2vgoPTncqwh00APDbsuBU65qTOEcw8gbnS9CV3glAcsqSULzrjV7MDbKpDjf4XNat2SjVsTkadAfeD/1ICe9klfjt3Dc9OSOcGs5h8aF80AQDl4gkEO44owhGmUBdlPF5yBC/JZ+cat5txL/1M3w6MWqNzneqcRCILbTP0R+xGwOGI9gSjEQSo4hW82zNcS+3nGoO/chNbAicYCA9FPFvssiqlcRxVI4OekPKXiWP89WmrABjZbu85ES77jd+midLjeCxbjSuHr99iWd+hUR2elu6bc97d1cx06MH33bMyeeEb+hKIJ/LfJL5XmTISyBdjbo1iydjVrJdyB9PDReWkm3aySIHZgq9RE92cBuv0pwSmCo4RHQReWti3dT8STySQfTioEUcS1ZLANWkYjzfiDqBu24kK1Y2h9ha9h+aZ1bSlpNWINxStiAK1ITauyj+6oFPLRGc0jVG9RdguNNoIJyPyG/St/IbWtX5URIrfaNnwx09C5ltKcEFoYHt+UA+/AZCxSdDgKm/iKM+xjHqiXbgwv+Zqt2JCm2Tpv90Hi3t5bZW5pzfaw4xJeH0Zpl+ehM7LDRFeFt4U=
+  file_glob: true
+  file: build/libs/*.jar
+  skip_cleanup: true
+  on:
+    tags: true
