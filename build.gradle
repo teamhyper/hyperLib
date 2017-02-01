@@ -1,8 +1,15 @@
+plugins {
+  id "fr.brouillard.oss.gradle.jgitver" version "0.2.0"
+}
+
 apply plugin: 'java'
 apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.8
-version = '0.2.0'
+
+jgitver {
+  mavenLike = true
+}
 
 repositories {
     mavenCentral()
