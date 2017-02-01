@@ -12,7 +12,9 @@ git clone --quiet --branch=gh-pages "https://${GH_TOKEN}@github.com/teamhyper/hy
 ls -la
 cd gh-pages
 echo "debug: cwd is now $(pwd)"
+ls -la
 git status
+git branch
 
 echo "Copying docs over..."
 # Copy docs over
