@@ -1,20 +1,23 @@
 #!/bin/bash
 
+# Exit the script if something messes up, so we don't accidentally the whole thing
+set -e
+
 DEPLOY_DIR=$1
 
 echo "Deploying docs to ${DEPLOY_DIR}"
 
 echo "Pulling existing github pages..."
 # Set up git
-cd $HOME
-echo "debug: cwd is $(pwd)"
+
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "travis-ci"
+
+mkdir $HOME/gh-pages
+cd $HOME/gh-pages
+echo "debug: cwd is $(pwd)"
 git init
 git pull "https://${GH_TOKEN}@github.com/teamhyper/hyperLib.git" gh-pages &> /dev/null
-ls -la
-cd gh-pages
-echo "debug: cwd is now $(pwd)"
 ls -la
 git status
 git branch
