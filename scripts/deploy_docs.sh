@@ -10,7 +10,8 @@ cd $HOME
 echo "debug: cwd is $(pwd)"
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "travis-ci"
-git clone --quiet "https://${GH_TOKEN}@github.com/teamhyper/hyperLib.git" gh-pages > /dev/null
+git init
+git pull "https://${GH_TOKEN}@github.com/teamhyper/hyperLib.git" gh-pages &> /dev/null
 ls -la
 cd gh-pages
 echo "debug: cwd is now $(pwd)"
@@ -27,6 +28,6 @@ echo "Committing and pushing..."
 # Commit and push changes
 git add -f .
 git commit -m "Add latest javadoc from build $TRAVIS_BUILD_NUMBER to $DEPLOY_DIR"
-git push -fq origin gh-pages > /dev/null
+git push -f "https://${GH_TOKEN}@github.com/teamhyper/hyperLib.git" gh-pages &> /dev/null
 
 echo "Docs successfully deployed"
