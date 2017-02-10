@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.GetRequirements;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.command.WaitCommand;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 import edu.wpi.first.wpilibj.command.WaitUntilCommand;
 
 /**
@@ -198,6 +199,17 @@ public class CommandBuilder {
                 }
             }
         });
+        return this;
+    }
+    
+    /**
+     * Wait for all running parallel commands to finish before executing the
+     * next command.
+     * 
+     * @return This CommandBuilder object
+     */
+    public CommandBuilder waitForChildren() {
+        m_cmdGroup.addSequential(new WaitForChildren());
         return this;
     }
     
