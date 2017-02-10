@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,24 +22,36 @@ public class ForCommandTest {
     @Rule
     public Timeout globalTimeout = new Timeout(100, TimeUnit.MILLISECONDS);
     
+    private MockCommand mockCommand;
+    private Command loopCommand;
+    
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         UnitTestUtility.setupMockBase();
     }
 
-    @Test
-    public void testForLoop() {
-        MockCommand mockCommand = new MockCommand();
+    @Before
+    public void setUp() {
+        mockCommand = new MockCommand();
         mockCommand.setHasFinished(true);
-        Command loopCommand = new CommandBuilder()
+        loopCommand = new CommandBuilder()
                 .forLoop(10, mockCommand)
                 .build();
+        Scheduler.getInstance().removeAll();
+    }
+    
+    private void runLoopOnce() {
         loopCommand.start();
         Scheduler.getInstance().run();
         
         while (loopCommand.isRunning()) {
             Scheduler.getInstance().run();
         }
+    }
+    
+    @Test
+    public void testForLoop() {
+        runLoopOnce();
         
         assertEquals(10, mockCommand.getExecuteCount());
         assertEquals(10, mockCommand.getIsFinishedCount());
@@ -47,4 +60,15 @@ public class ForCommandTest {
         assertEquals(0, mockCommand.getInterruptedCount());
     }
 
+    @Test
+    public void testMultipleRuns() {
+        runLoopOnce();
+        runLoopOnce();
+        
+        assertEquals(20, mockCommand.getExecuteCount());
+        assertEquals(20, mockCommand.getIsFinishedCount());
+        assertEquals(20, mockCommand.getInitializeCount());
+        assertEquals(20, mockCommand.getEndCount());
+        assertEquals(0, mockCommand.getInterruptedCount());
+    }
 }
