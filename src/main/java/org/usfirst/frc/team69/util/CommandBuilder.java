@@ -1,11 +1,14 @@
 package org.usfirst.frc.team69.util;
 
+import java.util.Collections;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
+import edu.wpi.first.wpilibj.command.GetRequirements;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.command.WaitUntilCommand;
 
@@ -160,6 +163,39 @@ public class CommandBuilder {
         m_cmdGroup.addSequential(new ConditionalCommand(ifTrue, ifFalse) {
             @Override protected boolean condition() {
                 return condition.getAsBoolean();
+            }
+        });
+        return this;
+    }
+    
+    /**
+     * End any command currently running on the subsystem.  This is accomplished
+     * by running a command which ends instantly, which requires the given
+     * subsystem.  Afterwards, the default command will run, if there is one.
+     * 
+     * @param subsystem The subsystem to release
+     * @return This CommandBuilder object
+     */
+    public CommandBuilder release(Subsystem subsystem) {
+        m_cmdGroup.addSequential(QuickCommand.release(subsystem));
+        return this;
+    }
+    
+    /**
+     * End all commands currently running in parallel.  This is accomplished by
+     * starting an command which requires all the subsystems used so far,
+     * which ends instantly.  This will have the effect of starting the default
+     * commands for all these subsystems, if they have any.
+     * 
+     * @return This CommandBuilder object
+     */
+    @SuppressWarnings("unchecked")
+    public CommandBuilder releaseAll() {
+        m_cmdGroup.addSequential(new InstantCommand() {
+            {
+                for (Object req : Collections.list(GetRequirements.getRequirements(m_cmdGroup))) {
+                    requires((Subsystem) req);
+                }
             }
         });
         return this;
