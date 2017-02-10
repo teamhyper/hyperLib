@@ -23,6 +23,7 @@ dependencies {
     // We only need the desktop version right now, since this build file is only used for local testing.
     compile group: 'edu.wpi.first.wpilib.networktables.java', name: 'NetworkTables', version: '3.+', classifier: 'desktop'
     testCompile group: 'junit', name: 'junit', version: '4.+'
+    testCompile group: 'com.google.guava', name: 'guava', version: '19.0'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
