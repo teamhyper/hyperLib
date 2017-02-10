@@ -193,6 +193,29 @@ public class CommandBuilder {
         return this;
     }
     
+    // This needs to be a class, so we can pass-by-reference to the loop command
+    private static class Counter {
+        public int value = 0;
+    }
+    
+    /**
+     * Run a command a given number of times.  This is effectively a for loop,
+     * although the command cannot make use of the value of the counter.
+     * 
+     * This uses {@link #whileLoop(BooleanSupplier, Command)} under the hood,
+     * so the semantics are the same as that.
+     * 
+     * @param count The number of times to run the command.
+     * @param body The body of the command to execute.
+     * @return This CommandBuilder object
+     */
+    public CommandBuilder forLoop(int count, Command body) {
+        Counter counter = new Counter();
+        m_cmdGroup.addSequential(QuickCommand.oneShot(null, () -> counter.value = 0));
+        m_cmdGroup.addSequential(new WhileCommand(() -> counter.value++ < count, body));
+        return this;
+    }
+    
     /**
      * End any command currently running on the subsystem.  This is accomplished
      * by running a command which ends instantly, which requires the given

@@ -77,6 +77,8 @@ public class WhileCommandTest {
         assertEquals(50, body.getIsFinishedCount());
         assertEquals(10, body.getEndCount());
         assertEquals(0, body.getInterruptedCount());
+        // The loop ran 10 times, and started an 11th
+        assertEquals(11, condition.getTimesChecked());
     }
     
     @Test
@@ -109,6 +111,7 @@ public class WhileCommandTest {
         assertEquals(0, body.getIsFinishedCount());
         assertEquals(0, body.getEndCount());
         assertEquals(0, body.getInterruptedCount());
+        assertEquals(1, condition.getTimesChecked());
     }
     
     @Test
@@ -130,6 +133,8 @@ public class WhileCommandTest {
         assertEquals(1, body.getIsFinishedCount());
         assertEquals(1, body.getEndCount());
         assertEquals(0, body.getInterruptedCount());
+        // checked once at start, another at end
+        assertEquals(2, condition.getTimesChecked());
     }
     
     @Test
@@ -149,6 +154,7 @@ public class WhileCommandTest {
         assertEquals(1, body.getIsFinishedCount());
         assertEquals(0, body.getEndCount());
         assertEquals(1, body.getInterruptedCount());
+        assertEquals(1, condition.getTimesChecked());
     }
     
     @Test
@@ -171,6 +177,7 @@ public class WhileCommandTest {
         assertEquals(2, body.getInitializeCount());
         assertEquals(0, body.getEndCount());
         assertEquals(1, body.getInterruptedCount());
+        assertEquals(2, condition.getTimesChecked());
     }
 
 }

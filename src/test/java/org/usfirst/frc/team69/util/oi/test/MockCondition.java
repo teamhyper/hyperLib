@@ -5,6 +5,7 @@ import java.util.function.BooleanSupplier;
 public class MockCondition implements BooleanSupplier {
 
     private boolean m_cond;
+    private int timesChecked = 0;
     
     public MockCondition(boolean startState) {
         m_cond = startState;
@@ -16,7 +17,11 @@ public class MockCondition implements BooleanSupplier {
     
     @Override
     public boolean getAsBoolean() {
+        timesChecked++;
         return m_cond;
     }
 
+    public int getTimesChecked() {
+        return timesChecked;
+    }
 }
