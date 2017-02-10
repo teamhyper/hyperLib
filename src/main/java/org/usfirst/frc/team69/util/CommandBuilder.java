@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.command.WaitForChildren;
 import edu.wpi.first.wpilibj.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj.command.WhileCommand;
 
 /**
  * A builder class to create commands in autonomous.  Currently, it wraps a
@@ -166,6 +167,29 @@ public class CommandBuilder {
                 return condition.getAsBoolean();
             }
         });
+        return this;
+    }
+
+    /**
+     * Loop repeatedly while checking a condition.
+     * 
+     * Given a command as a body and a condition to check, this command will
+     * repeatedly check the condition, and execute the command if it is met.
+     * 
+     * The requirements of the body command are removed when this method is
+     * called.  This means you cannot re-use the command object you pass to
+     * this method.  This allows CommandGroups and cancelling to work properly.
+     * 
+     * Because HyperLib is currently in pre-release, these semantics may change
+     * based on what we consider "reasonable defaults".
+     * 
+     * @param condition The condition to check
+     * @param body The command to run as the loop body
+     * @return This CommandBuilder object
+     * @see WhileCommand
+     */
+    public CommandBuilder whileLoop(BooleanSupplier condition, Command body) {
+        m_cmdGroup.addSequential(new WhileCommand(condition, body));
         return this;
     }
     
