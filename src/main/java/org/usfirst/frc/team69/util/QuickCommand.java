@@ -351,4 +351,31 @@ public class QuickCommand {
             }
         };
     }
+    
+    /**
+     * Create a command which releases control of a subsystem.
+     * 
+     * The {@link Command} returned by this method will require the given
+     * subsystem, and end instantly.  This has the effect of stopping any
+     * command using the given subsystem, and of starting the default
+     * command, if one exists.
+     * 
+     * @param subsystem The subsystem to release
+     * @return A command which releases the subsystem
+     */
+    public static Command release(Subsystem subsystem) {
+        if (subsystem == null) {
+            throw new NullPointerException("subsystem == null");
+        }
+        
+        return new Command() {
+            {
+                requires(subsystem);
+            }
+            @Override
+            protected boolean isFinished() {
+                return true;
+            }
+        };
+    }
 }
