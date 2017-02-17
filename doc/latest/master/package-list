@@ -1,3 +1,4 @@
+edu.wpi.first.wpilibj.command
 org.usfirst.frc.team69.util
 org.usfirst.frc.team69.util.driving
 org.usfirst.frc.team69.util.oi
