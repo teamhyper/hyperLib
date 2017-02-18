@@ -23,8 +23,8 @@ public class ButtonData {
      *
      */
     public enum Action {
-        WHEN_PRESSED("R"),
-        WHEN_RELEASED("P"),
+        WHEN_PRESSED("P"),
+        WHEN_RELEASED("R"),
         WHILE_HELD("H");
         
         private final String m_desc;
