@@ -23,9 +23,9 @@ public class ButtonData {
      *
      */
     public enum Action {
-        WHEN_PRESSED("RELEASED"),
-        WHEN_RELEASED("PRESSED"),
-        WHILE_HELD("HELD");
+        WHEN_PRESSED("R"),
+        WHEN_RELEASED("P"),
+        WHILE_HELD("H");
         
         private final String m_desc;
         
