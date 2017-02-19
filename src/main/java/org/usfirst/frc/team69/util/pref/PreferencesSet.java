@@ -28,6 +28,19 @@ public class PreferencesSet {
     private static HashSet<String> setNames = new HashSet<String>();
 
     /**
+     * Check the set name does not exist and add it if it does.  This needs to
+     * be synchronized to access the global list.
+     * @param name The name to add and check
+     */
+    private synchronized static void registerSetName(String name) {
+        if (setNames.contains(name)) {
+            throw new IllegalStateException("A PreferencesSet named " + name + " already exists");
+        }
+        
+        setNames.add(name);
+    }
+    
+    /**
      * Construct a new {@link PreferencesSet} object with the given name and
      * {@link PreferencesListener}.  Each time a preference in the set is
      * updated, the listener will be called.
@@ -41,11 +54,9 @@ public class PreferencesSet {
             throw new NullPointerException("name == null");
         } else if (listener == null) {
             throw new NullPointerException("listener == null");
-        } if (setNames.contains(name)) {
-            throw new IllegalStateException("A PreferencesSet named " + name + " already exists");
         }
         
-        setNames.add(name);
+        registerSetName(name);
         
         m_name = name;
         m_listener = listener;
@@ -108,7 +119,7 @@ public class PreferencesSet {
      * @param value The default value
      * @return The newly created preference
      */
-    public DoublePreference addDouble(String name, double value) {
+    public synchronized DoublePreference addDouble(String name, double value) {
         checkName(name);
         DoublePreference pref = new DoublePreference(m_name + SEPARATOR + name, value);
         addPreference(name, pref);
@@ -122,7 +133,7 @@ public class PreferencesSet {
      * @param value The default value
      * @return The newly created preference
      */
-    public IntPreference addInt(String name, int value) {
+    public synchronized IntPreference addInt(String name, int value) {
         checkName(name);
         IntPreference pref = new IntPreference(m_name + SEPARATOR + name, value);
         addPreference(name, pref);
@@ -136,7 +147,7 @@ public class PreferencesSet {
      * @param value The default value
      * @return The newly created preference
      */
-    public BooleanPreference addBoolean(String name, boolean value) {
+    public synchronized BooleanPreference addBoolean(String name, boolean value) {
         checkName(name);
         BooleanPreference pref = new BooleanPreference(m_name + SEPARATOR + name, value);
         addPreference(name, pref);
@@ -150,7 +161,7 @@ public class PreferencesSet {
      * @param value The default value
      * @return The newly created preference
      */
-    public StringPreference addString(String name, String value) {
+    public synchronized StringPreference addString(String name, String value) {
         checkName(name);
         StringPreference pref = new StringPreference(m_name + SEPARATOR + name, value);
         addPreference(name, pref);

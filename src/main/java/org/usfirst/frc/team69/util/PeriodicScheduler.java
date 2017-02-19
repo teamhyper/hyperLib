@@ -8,6 +8,9 @@ import java.util.ArrayList;
  * one can add methods to report information to the driver station, or to
  * check if preferences have been changed.
  * 
+ * This class should be thread-safe, provided it is OK to run all events
+ * from the main thread.
+ * 
  * @author James Hagborg
  *
  */
@@ -20,7 +23,7 @@ public class PeriodicScheduler {
      * 
      * @return The sinlge instance of {@link PeriodicScheduler}
      */
-    public static PeriodicScheduler getInstance() {
+    public static synchronized PeriodicScheduler getInstance() {
         if (theInstance == null) {
             theInstance = new PeriodicScheduler();
         }
@@ -39,7 +42,7 @@ public class PeriodicScheduler {
      * 
      * @param event A {@link Runnable} object representing the task to run 
      */
-    public void addEvent(Runnable event) {
+    public synchronized void addEvent(Runnable event) {
         events.add(event);
     }
     
@@ -47,7 +50,7 @@ public class PeriodicScheduler {
      * Run all of the events which have been added to the scheduler.  If you
      * are using {@link HYPERRobot}, you do not need to call this manually.
      */
-    public void run() {
+    public synchronized void run() {
         for (Runnable event : events) {
             event.run();
         }
