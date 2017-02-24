@@ -51,6 +51,13 @@ public class PeriodicScheduler {
     }
     
     /**
+     * Remove all scheduled tasks.  This is mainly useful for testing.
+     */
+    public synchronized void clear() {
+        events.clear();
+    }
+    
+    /**
      * Run all of the events which have been added to the scheduler.  If you
      * are using {@link HYPERRobot}, you do not need to call this manually.
      */
