@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Preferences;
  */
 public class DoublePreference extends Preference {
     private double m_lastValue;
-    private double m_default;
+    private final double m_default;
     
     /**
      * Create a {@link DoublePreference} object tracking the preference with
@@ -30,7 +30,7 @@ public class DoublePreference extends Preference {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasChanged() {
+    public synchronized boolean hasChanged() {
         double newValue = get();
         boolean changed = newValue != m_lastValue;
         m_lastValue = newValue;

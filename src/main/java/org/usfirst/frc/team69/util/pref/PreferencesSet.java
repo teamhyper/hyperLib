@@ -13,6 +13,9 @@ import org.usfirst.frc.team69.util.PeriodicScheduler;
  * Example use-cases are subsystems, PID controllers, and specific tasks like
  * vision and driving, which may have many related preferences.
  * 
+ * It is safe to share this object, as well as the Preference objects it
+ * creates, among multiple threads.
+ * 
  * @author James Hagborg
  *
  */
@@ -22,10 +25,10 @@ public class PreferencesSet {
     private final String m_name;
     private final PreferencesListener m_listener;
     
-    private ArrayList<Preference> m_preferences = new ArrayList<Preference>();
-    private HashSet<String> m_prefNames = new HashSet<String>();
+    private final ArrayList<Preference> m_preferences = new ArrayList<Preference>();
+    private final HashSet<String> m_prefNames = new HashSet<String>();
     
-    private static HashSet<String> setNames = new HashSet<String>();
+    private static final HashSet<String> setNames = new HashSet<String>();
 
     /**
      * Check the set name does not exist and add it if it does.  This needs to
@@ -82,7 +85,7 @@ public class PreferencesSet {
         return m_name;
     }
     
-    private void checkForUpdates() {
+    private synchronized void checkForUpdates() {
         boolean hasChanged = false;
         
         for (Preference pref : m_preferences) {

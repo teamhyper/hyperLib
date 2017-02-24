@@ -3,14 +3,14 @@ package org.usfirst.frc.team69.util.pref;
 import edu.wpi.first.wpilibj.Preferences;
 
 /**
- * A class which represents an ineger-valued preference
+ * A class which represents an integer-valued preference
  * 
  * @author James Hagborg
  *
  */
 public class IntPreference extends Preference {
     private int m_lastValue;
-    private int m_default;
+    private final int m_default;
     
     /**
      * Create a {@link IntPreference} object tracking the preference with
@@ -30,7 +30,7 @@ public class IntPreference extends Preference {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasChanged() {
+    public synchronized boolean hasChanged() {
         int newValue = get();
         boolean changed = newValue != m_lastValue;
         m_lastValue = newValue;

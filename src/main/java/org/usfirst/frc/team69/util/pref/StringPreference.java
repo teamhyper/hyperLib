@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Preferences;
  */
 public class StringPreference extends Preference {
     private String m_lastValue;
-    private String m_default;
+    private final String m_default;
     
     /**
      * Create a {@link StringPreference} object tracking the preference with
@@ -35,7 +35,7 @@ public class StringPreference extends Preference {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasChanged() {
+    public synchronized boolean hasChanged() {
         String newValue = get();
         boolean changed = !newValue.equals(m_lastValue);
         m_lastValue = newValue;

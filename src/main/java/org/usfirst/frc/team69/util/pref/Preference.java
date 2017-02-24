@@ -45,10 +45,10 @@ public abstract class Preference {
     
     /**
      * Check if a preference with the same name as this one already exists
-     * in the preferences fil.  If not, then create the preference using
+     * in the preferences file.  If not, then create the preference using
      * the default value.
      */
-    public void putDefaultIfEmpty() {
+    public synchronized void putDefaultIfEmpty() {
         if (!Preferences.getInstance().containsKey(m_name)) {
             putDefaultValue();
         }

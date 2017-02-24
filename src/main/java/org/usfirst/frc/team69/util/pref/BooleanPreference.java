@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Preferences;
  */
 public class BooleanPreference extends Preference {
     private boolean m_lastValue;
-    private boolean m_default;
+    private final boolean m_default;
     
     /**
      * Create a {@link BooleanPreference} object tracking the preference with
@@ -30,7 +30,7 @@ public class BooleanPreference extends Preference {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasChanged() {
+    public synchronized boolean hasChanged() {
         boolean newValue = get();
         boolean changed = newValue != m_lastValue;
         m_lastValue = newValue;
