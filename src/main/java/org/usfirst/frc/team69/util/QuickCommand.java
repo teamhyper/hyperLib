@@ -22,10 +22,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * {@code exampleSubsystem.doSomething()} once and then end:
  * 
  * <pre>
- * {
- *     &#64;code
- *     Command myCmd = QuickCommand.oneShot(Robot.exampleSubsystem,
- *             () -> Robot.exampleSubsystem.doSomething());
+ * {@code
+ * Command myCmd = QuickCommand.oneShot(Robot.exampleSubsystem,
+ *         () -> Robot.exampleSubsystem.doSomething());
  * }
  * </pre>
  * 
