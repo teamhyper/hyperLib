@@ -20,6 +20,9 @@ echo "Copying docs over..."
 mkdir -p doc/${DEPLOY_DIR}
 cp -Rf ${TRAVIS_BUILD_DIR}/build/docs/javadoc/* doc/${DEPLOY_DIR}
 
+echo "Generating new index..."
+m4 -P index.m4 > index.html
+
 echo "Committing and pushing..."
 git add -f .
 git commit -m "Add latest javadoc from build $TRAVIS_BUILD_NUMBER to $DEPLOY_DIR"
