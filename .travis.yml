@@ -32,4 +32,4 @@ deploy:
   script: scripts/deploy_docs.sh latest/$TRAVIS_BRANCH
   skip_cleanup: true
   on:
-    branch: master
+    repo: teamhyper/hyperLib
