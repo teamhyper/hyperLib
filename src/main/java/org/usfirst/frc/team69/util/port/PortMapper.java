@@ -20,17 +20,24 @@ import javax.imageio.ImageIO;
  */
 public class PortMapper {
 
-    private EnumMap<Port.Type, String[]> portNames = new EnumMap<Port.Type, String[]>(Port.Type.class);
+    private EnumMap<Port.Type, String[]> portNames = 
+            new EnumMap<>(Port.Type.class);
     private Class<?> baseClass;
 
     /**
      * Generate a wiring diagram from the given class.
-     * @param c The RobotMap class containing the entries.
-     * @throws DuplicatePortException if there are duplicate ports
-     * @throws InvalidPortException if there are invalid ports
-     * @throws IOException if there was an IOException from reading or writing an image
+     * 
+     * @param c
+     *            The RobotMap class containing the entries.
+     * @throws DuplicatePortException
+     *             if there are duplicate ports
+     * @throws InvalidPortException
+     *             if there are invalid ports
+     * @throws IOException
+     *             if there was an IOException from reading or writing an image
      */
-    public void mapPorts(Class<?> c) throws DuplicatePortException, InvalidPortException, IOException {
+    public void mapPorts(Class<?> c) throws DuplicatePortException,
+                                     InvalidPortException, IOException {
         initNames();
         baseClass = c;
         findPorts(c);
@@ -45,26 +52,29 @@ public class PortMapper {
         portNames.put(Port.Type.PCM, new String[8]);
     }
 
-    private void addPort(int number, Port.Type type, String name) throws DuplicatePortException, InvalidPortException {
+    private void addPort(int number, Port.Type type,
+                         String name) throws DuplicatePortException,
+                                      InvalidPortException {
         String[] names = portNames.get(type);
         // for now?
         if (names == null) {
             return;
         }
-        
+
         if (number < 0 || number >= names.length) {
             throw new InvalidPortException(number, type, name);
         }
 
-        String oldName = names[number]; 
+        String oldName = names[number];
         if (oldName != null) {
             throw new DuplicatePortException(number, type, oldName, name);
         }
-        
+
         names[number] = name;
     }
 
-    private void findPorts(Class<?> c) throws DuplicatePortException, InvalidPortException {
+    private void findPorts(Class<?> c) throws DuplicatePortException,
+                                       InvalidPortException {
         for (Field f : c.getFields()) {
             try {
                 Port p = f.getAnnotation(Port.class);
@@ -75,11 +85,13 @@ public class PortMapper {
                 int i = f.getInt(null);
 
                 String fullName = c.getCanonicalName() + "." + f.getName();
-                String shortName = fullName.substring(baseClass.getCanonicalName().length() + 1);
+                String shortName = fullName
+                        .substring(baseClass.getCanonicalName().length() + 1);
 
                 addPort(i, p.type(), shortName);
             } catch (IllegalArgumentException | IllegalAccessException e) {
-                // Do nothing, this just means it's not an int or it's not public
+                // Do nothing, this just means it's not an int or it's not
+                // public
             }
         }
 
@@ -91,9 +103,10 @@ public class PortMapper {
     private void drawMap() throws IOException {
         URL wiring = getClass().getResource("wiring.png");
         if (wiring == null) {
-            throw new IOException("Can't find wiring.png!  Check your build properties");
+            throw new IOException(
+                    "Can't find wiring.png!  Check your build properties");
         }
-                
+
         BufferedImage img = ImageIO.read(wiring);
         Graphics g = img.createGraphics();
         g.setColor(Color.BLACK);
@@ -115,7 +128,7 @@ public class PortMapper {
             if (s != null) {
                 g.drawLine(950, p, 990, p);
                 g.drawString(s, 995, p + 4);
-                g.drawString(""+i, 950, p - 1);
+                g.drawString("" + i, 950, p - 1);
             }
             p += 25;
             i++;
@@ -131,7 +144,7 @@ public class PortMapper {
 
                 g.drawLine(400, p, 440, p);
                 g.drawString(s, 395 - w, p + 4);
-                g.drawString(""+i, 435, p - 1);
+                g.drawString("" + i, 435, p - 1);
             }
             p += 25;
             i++;
@@ -149,7 +162,7 @@ public class PortMapper {
                 g.drawLine(x, 520, x, y);
                 g.drawLine(550, y, x, y);
                 g.drawString(s, 545 - w, y + 4);
-                g.drawString(""+i, x - 8, 530);
+                g.drawString("" + i, x - 8, 530);
             }
             x += 25;
             y += 25;
@@ -166,7 +179,7 @@ public class PortMapper {
                 g.drawLine(x, 520, x, y);
                 g.drawLine(840, y, x, y);
                 g.drawString(s, 845, y + 4);
-                g.drawString(""+i, x - 8, 530);
+                g.drawString("" + i, x - 8, 530);
             }
             x += 25;
             y -= 25;
@@ -185,7 +198,7 @@ public class PortMapper {
                 g.drawLine(560, y - 8, 560, y + 8);
                 g.drawLine(520, y, 560, y);
                 g.drawString(s, 515 - w, y + 4);
-                g.drawString(""+i, 550, y - 2);
+                g.drawString("" + i, 550, y - 2);
             }
         }
 
@@ -197,7 +210,7 @@ public class PortMapper {
                 g.drawLine(850, y - 8, 850, y + 8);
                 g.drawLine(850, y, 890, y);
                 g.drawString(s, 895, y + 4);
-                g.drawString(""+i, 852, y - 2);
+                g.drawString("" + i, 852, y - 2);
             }
         }
     }

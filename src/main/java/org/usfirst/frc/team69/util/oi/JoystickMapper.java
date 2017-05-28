@@ -21,15 +21,17 @@ public class JoystickMapper {
     /**
      * Draws diagrams for a list of joysticks, and saves them to file.
      * 
-     * @param data A list of {@link JoystickData} objects describing the oi
-     * @throws IOException If there is an error reading or writing the diagrams
+     * @param data
+     *            A list of {@link JoystickData} objects describing the oi
+     * @throws IOException
+     *             If there is an error reading or writing the diagrams
      */
     public static void drawMap(List<JoystickData> data) throws IOException {
         for (JoystickData js : data) {
             drawSubMap(js);
         }
     }
-    
+
     private static void drawSubMap(JoystickData joystick) throws IOException {
         BufferedImage img = null;
 
@@ -41,14 +43,16 @@ public class JoystickMapper {
             img = draw3Axis(joystick);
             break;
         default:
-            System.err.printf("On joystick %s: type %s is not recognized, so no diagram",
+            System.err.printf(
+                    "On joystick %s: type %s is not recognized, so no diagram",
                     joystick.name(), joystick.type());
         }
 
         // img is null if new enum types are added
         if (img != null) {
             new File("diagrams").mkdirs();
-            String filename = String.format("diagrams/joystick%d.png", joystick.port());
+            String filename = String.format("diagrams/joystick%d.png",
+                    joystick.port());
             ImageIO.write(img, "png", new File(filename));
         }
     }
@@ -62,15 +66,16 @@ public class JoystickMapper {
     }
 
     private static BufferedImage draw2Axis(JoystickData js) throws IOException {
-        BufferedImage img = ImageIO.read(JoystickMapper.class.getResource("sc_mapping_helper_2_axis.jpg"));
+        BufferedImage img = ImageIO.read(JoystickMapper.class
+                .getResource("sc_mapping_helper_2_axis.jpg"));
         Graphics g = img.createGraphics();
         g.setColor(Color.BLACK);
 
         g.setFont(new Font("Arial", Font.PLAIN, 16));
         drawInfo(g, js);
 
-        int[] x = {300, 280, 297, 136, 449,  22,  10, 166, 357, 520, 520};
-        int[] y = {44, 208, 125, 125, 125, 412, 510, 643, 643, 375, 454};
+        int[] x = { 300, 280, 297, 136, 449, 22, 10, 166, 357, 520, 520 };
+        int[] y = { 44, 208, 125, 125, 125, 412, 510, 643, 643, 375, 454 };
         int[] used = new int[x.length];
 
         for (ButtonData b : js.buttons()) {
@@ -86,22 +91,24 @@ public class JoystickMapper {
     }
 
     private static BufferedImage draw3Axis(JoystickData js) throws IOException {
-        BufferedImage img = ImageIO.read(JoystickMapper.class.getResource("sc_mapping_helper.jpg"));
+        BufferedImage img = ImageIO.read(
+                JoystickMapper.class.getResource("sc_mapping_helper.jpg"));
         Graphics g = img.createGraphics();
         g.setColor(Color.BLACK);
 
         g.setFont(new Font("Arial", Font.PLAIN, 16));
         drawInfo(g, js);
 
-        int[] x = {634, 206, 450, 810, 419, 826,  28, 206,  28, 206,  28, 206};
-        int[] y = {354, 436, 296, 296, 223, 223, 562, 562, 635, 635, 708, 708};
+        int[] x = { 634, 206, 450, 810, 419, 826, 28, 206, 28, 206, 28, 206 };
+        int[] y = { 354, 436, 296, 296, 223, 223, 562, 562, 635, 635, 708,
+                708 };
         int[] used = new int[x.length];
 
         for (ButtonData b : js.buttons()) {
             int size = b.port() == 1 ? 12 : 16;
 
             g.setFont(new Font("Arial", Font.PLAIN, size));
-            
+
             int i = b.port() - 1;
             g.drawString(b.description(), x[i], y[i] + size);
             used[i]++;

@@ -11,21 +11,23 @@ import edu.wpi.first.wpilibj.Preferences;
 public class BooleanPreference extends Preference {
     private boolean m_lastValue;
     private final boolean m_default;
-    
+
     /**
      * Create a {@link BooleanPreference} object tracking the preference with
-     * the given name and default value.  Calling this function does not
-     * yet modify the preferences file.
+     * the given name and default value. Calling this function does not yet
+     * modify the preferences file.
      * 
-     * @param name The string id of the preference
-     * @param value The default value
+     * @param name
+     *            The string id of the preference
+     * @param value
+     *            The default value
      */
     public BooleanPreference(String name, boolean value) {
         super(name);
         m_lastValue = value;
         m_default = value;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -36,7 +38,7 @@ public class BooleanPreference extends Preference {
         m_lastValue = newValue;
         return changed;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -44,10 +46,10 @@ public class BooleanPreference extends Preference {
     public void putDefaultValue() {
         Preferences.getInstance().putBoolean(getName(), m_default);
     }
-    
+
     /**
-     * Get the current value of the preferences file entry, or the
-     * default if no entry exists.
+     * Get the current value of the preferences file entry, or the default if no
+     * entry exists.
      * 
      * @return The value of the preference
      * @see Preferences#getBoolean(String, boolean)

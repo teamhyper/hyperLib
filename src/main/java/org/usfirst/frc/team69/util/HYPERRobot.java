@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  * The {@link HYPERRobot} extends {@link IterativeRobot} to provide code which
- * is mostly the same in every robot.  Commands and periodic events (through
- * {@link PeriodicScheduler} run in every mode except test mode, where the 
+ * is mostly the same in every robot. Commands and periodic events (through
+ * {@link PeriodicScheduler} run in every mode except test mode, where the
  * {@link LiveWindow} runs.
  * 
  * @author James Hagborg
@@ -15,59 +15,60 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public abstract class HYPERRobot extends IterativeRobot {
     /**
-     * Initialize the robot.  This initializes in the following order:
+     * Initialize the robot. This initializes in the following order:
      * <ul>
-     *  <li>Operator Interface (buttons and joysticks, not commands)</li>
-     *  <li>Subsystems (which in turn initialize hardware like speed controllers</li>
-     *  <li>"Helper classes" which depend on subsystems but have commands which
-     *  depend on them (like UserDrive and Vision in hypercode)</li>
-     *  <li>Commands, including autonomous commands and commands on the OI</li>
+     * <li>Operator Interface (buttons and joysticks, not commands)</li>
+     * <li>Subsystems (which in turn initialize hardware like speed controllers
+     * </li>
+     * <li>"Helper classes" which depend on subsystems but have commands which
+     * depend on them (like UserDrive and Vision in hypercode)</li>
+     * <li>Commands, including autonomous commands and commands on the OI</li>
      * </ul>
      */
     @Override
-    public void robotInit() {
+    public final void robotInit() {
         // Set the WPILib command scheduler to run automatically.
         PeriodicScheduler.getInstance().addEvent(Scheduler.getInstance()::run);
-        
+
         initOI();
         initSubsystems();
         initHelpers();
         initCommands();
     }
-    
+
     /**
-     * Initialize the operator interface.  This should create joysticks and buttons,
-     * but not any commands, as {@link #initCommands} will not be called until after
-     * this.
+     * Initialize the operator interface. This should create joysticks and
+     * buttons, but not any commands, as {@link #initCommands} will not be
+     * called until after this.
      * 
-     * If you are using the hyperLib {@link org.usfirst.frc.team69.util.oi.OI}, this
-     * is where you would call the constructor for the OI.
+     * If you are using the hyperLib {@link org.usfirst.frc.team69.util.oi.OI},
+     * this is where you would call the constructor for the OI.
      */
     protected abstract void initOI();
-    
+
     /**
-     * Initialize subsystems.  This is where you should call the constructors for
-     * any subsystems.  The subsystems may reference the joysticks/buttons on the
+     * Initialize subsystems. This is where you should call the constructors for
+     * any subsystems. The subsystems may reference the joysticks/buttons on the
      * OI, as they will have already been initialized at this point.
      */
     protected abstract void initSubsystems();
-    
+
     /**
-     * Initialize helper classes.  For example, in hypercode, UserDrive is a class
-     * which manages the drive modes in teleop.  This class depends on the DriveTrain
-     * but has commands which depend on it in the OI.  For any classes like this,
-     * initialize them here.
+     * Initialize helper classes. For example, in hypercode, UserDrive is a
+     * class which manages the drive modes in teleop. This class depends on the
+     * DriveTrain but has commands which depend on it in the OI. For any classes
+     * like this, initialize them here.
      */
     protected abstract void initHelpers();
-    
+
     /**
-     * Initialize commands.  This is where you should add commands to the OI and
-     * the autonomous command chooser.  If you are using the hyperLib
+     * Initialize commands. This is where you should add commands to the OI and
+     * the autonomous command chooser. If you are using the hyperLib
      * {@link org.usfirst.frc.team69.util.oi.OI}, this is where you should call
      * {@link org.usfirst.frc.team69.util.oi.OI#initCommands}
      */
     protected abstract void initCommands();
-    
+
     /**
      * {@inheritDoc}
      */
@@ -75,7 +76,7 @@ public abstract class HYPERRobot extends IterativeRobot {
     public void disabledPeriodic() {
         PeriodicScheduler.getInstance().run();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -83,7 +84,7 @@ public abstract class HYPERRobot extends IterativeRobot {
     public void autonomousPeriodic() {
         PeriodicScheduler.getInstance().run();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -91,7 +92,7 @@ public abstract class HYPERRobot extends IterativeRobot {
     public void teleopPeriodic() {
         PeriodicScheduler.getInstance().run();
     }
-    
+
     /**
      * {@inheritDoc}
      */
