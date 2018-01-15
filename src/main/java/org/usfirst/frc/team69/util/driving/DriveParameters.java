@@ -1,6 +1,7 @@
 package org.usfirst.frc.team69.util.driving;
 
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * The {@link DriveParameters} interface allows one to use polymorphism to
@@ -36,4 +37,5 @@ public interface DriveParameters {
      *            this right now, so just pass in 0.0 if you're not sure.
      */
     void drive(RobotDrive driveTrain, double currentGyro);
+    void drive(DifferentialDrive driveTrain, double currentGyro);
 }
