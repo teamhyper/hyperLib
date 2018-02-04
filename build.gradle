@@ -30,6 +30,13 @@ dependencies {
     testCompile group: 'com.google.guava', name: 'guava', version: '19.0'
 }
 
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "full"
+    }
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     description 'Builds a jar file full of sources.'
     classifier = 'sources'
