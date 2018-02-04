@@ -1,7 +1,6 @@
 package org.usfirst.frc.team69.util.driving;
 
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;;
 
 /**
  * A class which represents arcade drive. Arcade drive uses two values: move and
@@ -46,16 +45,10 @@ public class ArcadeDriveParams implements DriveParameters {
      * {@inheritDoc}
      */
     @Override
-    public void drive(RobotDrive driveTrain, double currentGyro) {
+    public void drive(DifferentialDrive driveTrain, double currentGyro) {
         driveTrain.arcadeDrive(m_move, m_rotate, m_squareInputs);
     }
-    
-	@Override
-	public void drive(DifferentialDrive driveTrain, double currentGyro) {
-		// TODO Auto-generated method stub
-		driveTrain.arcadeDrive(m_move, m_rotate, m_squareInputs);
-	}
-
+   
     /**
      * Get the move parameter
      * 

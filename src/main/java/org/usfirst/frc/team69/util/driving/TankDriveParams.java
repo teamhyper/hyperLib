@@ -1,6 +1,5 @@
 package org.usfirst.frc.team69.util.driving;
 
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
@@ -42,12 +41,7 @@ public class TankDriveParams implements DriveParameters {
 
     /**
      * {@inheritDoc}
-     */
-    @Override
-    public void drive(RobotDrive driveTrain, double currentGyro) {
-        driveTrain.tankDrive(m_left, m_right, m_squareInputs);
-    }
-    
+     */   
 	@Override
 	public void drive(DifferentialDrive driveTrain, double currentGyro) {
 		// TODO Auto-generated method stub
