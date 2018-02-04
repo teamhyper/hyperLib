@@ -21,7 +21,11 @@ repositories {
 dependencies {
     compile group: 'edu.wpi.first.wpilibj', name: 'wpilibj-java', version: '2018.+'
     // We only need the desktop version right now, since this build file is only used for local testing.
-    compile group: 'edu.wpi.first.wpilib.networktables.java', name: 'NetworkTables', version: '3.+', classifier: 'desktop'
+    compile group: 'edu.wpi.first.ntcore', name: 'ntcore-java', version: '4.+'
+    compile group: 'edu.wpi.first.wpiutil', name: 'wpiutil-java', version: '3.+'
+    
+    runtime group: 'edu.wpi.first.ntcore', name: 'ntcore-jni', version: '4.+', classifier: 'all'
+    
     testCompile group: 'junit', name: 'junit', version: '4.+'
     testCompile group: 'com.google.guava', name: 'guava', version: '19.0'
 }
