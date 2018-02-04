@@ -9,6 +9,8 @@ notifications:
     - babysmith:ULSqFgVgfIwVZhqtqM7d27kv#hyperlib
 addons:
   apt:
+    sources:
+    - ubuntu-toolchain-r-test
     packages:
     - oracle-java8-installer
     - g++
