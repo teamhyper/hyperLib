@@ -13,7 +13,7 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - oracle-java8-installer
-    - g++-5
+    - g++-7
 env:
   global:
   - secure: KbemNv66/YeG1d5rh/DIQ/IzFGO+jkUIxyrC/Rv6qqgIAIzPljTAgvbOwlIS4VWxAc+6u3TgZ1ITHqcISmqQBd3xfqnSjzGyCmiumXmKjP3f/lsXOY0G2dqK8B5UxGyWfHuOldDIZxVs0nlNfW8cvgnVtWikAl+8oM+vZ6OFm6nZf1IqZU7PHHsF8sxi5H2PGo3IJjhkNNpjbi/N+KHpNyeKOPHGmu5jxUg1y+Xk+tpSDij/ko3URy5r1D+GX/BaZBAcRAIk4e1LIka4v6XVhbenO1vTKtmaoWhlSPpdjhi9/6No/rWWb2c+BzaN2hBhyU6g5ZY7goNsb9uzrh3LDWBiXoASPaVMOK17VTJRlARYcXRUK9HgAMj1o8wdgREVFKy8aTIX3amep2O114tnkTbCAefqWqESev5FMY/8TTsoUepO1f7La2EPt4xuckXJBLfb2yH8bbP8u8n8PtHjUJ+jmerGq3MlP8EQj21Qxk299KZ5/NaL2lnYN7krlb+2IMiDJX1Xb3AUVDtM3BFiCefLVPd7EAqbGgicSHRgal1YYaaOVmRq1kqBtTG72Pslh0PHRfjDpWG7NbNntZJG/S05iLJS9cpDeoyEri7mjC48L7Ej/V2Wwd0lEQyWf98FBFvWLja6S5o0VTjE5K1LEWoNpshxia7uZUYiW3JeC9o=
