@@ -318,6 +318,57 @@ public class QuickCommand {
 
 			@Override
 			protected void initialize() {
+				pid.setSetpoint(setPoint.getAsDouble());
+				pid.enable();
+			}
+
+			@Override
+			protected void execute() {
+				
+			}
+
+			@Override
+			protected boolean isFinished() {
+				return !hold && pid.onTarget();
+			}
+
+			@Override
+			protected void interrupted() {
+				pid.disable();
+			}
+
+			@Override
+			protected void end() {
+				pid.disable();
+			}
+		};
+	}
+	/**
+	 * Constructs a command that uses a {@link PIDController} to control a
+	 * subsystem. The pid controller is enabled when the command starts and disabled
+	 * when it ends or is interrupted.
+	 * 
+	 * @param req
+	 *            The subsystem to require
+	 * @param pid
+	 *            The PID controller to use
+	 * @param setPoint
+	 *            The point to move the PID controller to
+	 * @param hold
+	 *            Whether or not to continue running the PID loop after the target
+	 *            setpoint is reached
+	 * @return The newly created {@link Command}
+	 */
+	public static Command pidMoveContinuous(Subsystem req, PIDController pid, DoubleSupplier setPoint, boolean hold) {
+		return new Command() {
+			{
+				if (req != null) // not sure when we're going to use pid outside
+					// a subsystem lol
+					requires(req);
+			}
+
+			@Override
+			protected void initialize() {
 				pid.enable();
 			}
 
