@@ -83,8 +83,9 @@ public abstract class AutonomousRoutine extends SendableBase {
      * @param routine
      *            The subroutine to add.
      */
-    protected void addSubroutine(AutonomousRoutine routine) {
+    protected AutonomousRoutine addSubroutine(AutonomousRoutine routine) {
         m_subroutines.add(Objects.requireNonNull(routine));
+        return routine;
     }
 
     /**
