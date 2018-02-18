@@ -11,10 +11,12 @@ jgitver {
   mavenLike = true
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        url 'http://first.wpi.edu/FRC/roborio/maven/release'
+allprojects {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'http://first.wpi.edu/FRC/roborio/maven/release'
+        }
     }
 }
 

@@ -48,4 +48,10 @@ public class AutonomousPreferenceTest {
         assertNotEquals(myPref1, otherPref);
         assertNotEquals(myPref1, yetAnotherPref);
     }
+    
+    @Test
+    public void testHashCode() {
+        assertEquals(myPref1.hashCode(), myPref2.hashCode());
+        assertEquals(myPref1.hashCode(), myPref3.hashCode());
+    }
 }
