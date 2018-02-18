@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.hyperonline.autoviewer.widget.AutonomousInfoWidget"
+           minWidth="120" minHeight="32"
+           fx:id="root">
+    <padding>
+        <Insets topRightBottomLeft="8"/>
+    </padding>
+    <top>
+        <AnchorPane>
+            <ChoiceBox fx:id="chooser" 
+                    AnchorPane.topAnchor = "0.0" 
+                    AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"/>
+        </AnchorPane>
+    </top>
+    <center>
+        <GridPane fx:id="content" />
+    </center>
+</BorderPane>

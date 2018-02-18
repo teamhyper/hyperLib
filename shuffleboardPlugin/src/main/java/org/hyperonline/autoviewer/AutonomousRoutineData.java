@@ -47,7 +47,12 @@ public class AutonomousRoutineData extends ComplexData<AutonomousRoutineData> {
     }
     
     public String[] getSubroutineNames() {
-        return m_preferences.clone();
+        return m_subroutines.clone();
+    }
+    
+    @Override
+    public String toString() {
+        return getName();
     }
 
 }

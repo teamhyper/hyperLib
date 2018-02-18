@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.usfirst.frc.team69.util.CommandBuilder;
+import org.usfirst.frc.team69.util.pref.DoublePreference;
 
 import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -68,8 +69,10 @@ public abstract class AutonomousRoutine extends SendableBase {
      * @param name
      *            The name of the preference
      */
-    protected void addDoublePreference(String name) {
-        m_prefs.add(new AutonomousPreference(this, name));
+    protected DoublePreference addDoublePreference(String name) {
+        AutonomousPreference prefInfo = new AutonomousPreference(this, name);
+        m_prefs.add(prefInfo);
+        return new DoublePreference(prefInfo.getFullPath(), 0.0);
     }
 
     /**
@@ -104,11 +107,11 @@ public abstract class AutonomousRoutine extends SendableBase {
         builder.addStringArrayProperty("Preferences", this::getPreferenceNames, null);
     }
 
-    private String[] getPreferenceNames() {
+    String[] getPreferenceNames() {
         return m_prefs.stream().map(pref -> pref.getName()).toArray(String[]::new);
     }
 
-    private String[] getSubroutineNames() {
+    String[] getSubroutineNames() {
         return m_subroutines.stream().map(rtn -> rtn.getName()).toArray(String[]::new);
     }
 

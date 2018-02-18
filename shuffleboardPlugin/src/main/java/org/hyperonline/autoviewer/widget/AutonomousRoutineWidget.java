@@ -1,6 +1,7 @@
 package org.hyperonline.autoviewer.widget;
 
 import org.hyperonline.autoviewer.AutonomousRoutineData;
+import org.hyperonline.autoviewer.AutonomousRoutineType;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -21,7 +22,8 @@ import javafx.scene.layout.Pane;
 @ParametrizedController("AutonomousRoutineWidget.fxml")
 public class AutonomousRoutineWidget extends SimpleAnnotatedWidget<AutonomousRoutineData> {
 
-    public static final String PREFERENCES_LOCATION = "Preferences/$auto_routines";
+    public static final String AUTO_ROUTINES_LOCATION = "AutoRoutines";
+    public static final String PREFERENCES_LOCATION = "Preferences/$auto_preferences";
     public static final String SEPERATOR = "/";
 
     @FXML
@@ -30,55 +32,74 @@ public class AutonomousRoutineWidget extends SimpleAnnotatedWidget<AutonomousRou
     @FXML
     protected void initialize() {
         dataOrDefault.addListener((__, oldData, newData) -> {
-            int i = 0;
             // clear didn't work for some reason
             // not gunna question it now....
             root.getChildren().removeIf(___ -> true);
 
-            for (String prefName : newData.getPreferenceNames()) {
-                String path = PREFERENCES_LOCATION + SEPERATOR + newData.getName() + SEPERATOR + prefName;
-
-                if (!NetworkTableUtils.rootTable.containsKey(path)) {
-                    NetworkTableEntry entry = NetworkTableUtils.rootTable.getEntry(path);
-                    entry.setDouble(0.0);
-                }
-
-                path = NetworkTable.normalizeKey(path, false);
-
-                System.out.println("type = " + NetworkTableUtils.rootTable.getEntry(path).getType());
-                System.out.println("exists = " + NetworkTableUtils.rootTable.getEntry(path).exists());
-                System.out.println("containskey = " + NetworkTableUtils.rootTable.containsKey(path));
-                // Java can't check this is a valid cast at runtime
-                // So we try to get the data to see if it works
-                @SuppressWarnings("unchecked")
-                DataSource<Double> source = (DataSource<Double>) NetworkTableSource.forKey(path);
-                try {
-                    source.getData();
-                } catch (ClassCastException e) {
-                    System.out.println("Wrong type, using none source");
-                    source = DataSource.none();
-                }
-
-                Spinner<Double> spinner = new Spinner<>(-Double.MAX_VALUE, Double.MAX_VALUE, 0.0);
-                spinner.setValueFactory(
-                        new SpinnerValueFactory.DoubleSpinnerValueFactory(-Double.MAX_VALUE, Double.MAX_VALUE, 0.0));
-                spinner.setEditable(true);
-                spinner.getValueFactory().valueProperty().bindBidirectional(source.dataProperty());
-                GridPane.setRowIndex(spinner, i);
-                GridPane.setColumnIndex(spinner, 1);
-                root.getChildren().add(spinner);
-
-                Label label = new Label(prefName);
-                GridPane.setColumnIndex(label, 0);
-                GridPane.setRowIndex(label, i);
-                root.getChildren().add(label);
-                i++;
-            }
+            int row = 0;
+            row = addRoutineToUI(row, newData);
 
             for (String rtnName : newData.getSubroutineNames()) {
-
+                AutonomousRoutineData rtn = getRoutineData(rtnName);
+                row = addRoutineToUI(row, rtn);
             }
         });
+    }
+    
+    private int addRoutineToUI(int row, AutonomousRoutineData data) {
+        for (String prefName : data.getPreferenceNames()) {
+            DataSource<Double> source = getDataSource(data.getName(), prefName);
+            addUIEntry(row++, prefName, source);
+        }
+        return row;
+    }
+    
+    private AutonomousRoutineData getRoutineData(String name) {
+        String path = AUTO_ROUTINES_LOCATION + SEPERATOR + name;
+        DataSource<?> source = NetworkTableSource.forKey(path);
+        if (source.getDataType() != AutonomousRoutineType.Instance) {
+            System.out.println("Routine " + name + " does not have the right type!");
+            return new AutonomousRoutineData(name, new String[0], new String[0]);
+        }
+        return (AutonomousRoutineData) source.getData();
+    }
+    
+    private void addUIEntry(int rowNum, String prefName, DataSource<Double> source) {
+        Spinner<Double> spinner = new Spinner<>(-Double.MAX_VALUE, Double.MAX_VALUE, 0.0);
+        spinner.setValueFactory(
+                new SpinnerValueFactory.DoubleSpinnerValueFactory(-Double.MAX_VALUE, Double.MAX_VALUE, 0.0));
+        spinner.setEditable(true);
+        spinner.getValueFactory().valueProperty().bindBidirectional(source.dataProperty());
+        GridPane.setRowIndex(spinner, rowNum);
+        GridPane.setColumnIndex(spinner, 1);
+        root.getChildren().add(spinner);
+
+        Label label = new Label(prefName);
+        GridPane.setColumnIndex(label, 0);
+        GridPane.setRowIndex(label, rowNum);
+        root.getChildren().add(label);
+    }
+    
+    private DataSource<Double> getDataSource(String routine, String pref) {
+        String path = PREFERENCES_LOCATION + SEPERATOR + routine + SEPERATOR + pref;
+
+        if (!NetworkTableUtils.rootTable.containsKey(path)) {
+            NetworkTableEntry entry = NetworkTableUtils.rootTable.getEntry(path);
+            entry.setDouble(0.0);
+        }
+
+        // Java can't check this is a valid cast at runtime
+        // So we try to get the data to see if it works
+        @SuppressWarnings("unchecked")
+        DataSource<Double> source = (DataSource<Double>) NetworkTableSource.forKey(path);
+        try {
+            source.getData();
+        } catch (ClassCastException e) {
+            System.out.println("Wrong type, using none source");
+            source = DataSource.none();
+        }
+        
+        return source;
     }
 
     @Override

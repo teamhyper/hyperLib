@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.usfirst.frc.team69.util.CommandBuilder;
+import org.usfirst.frc.team69.util.auto.AutonomousInfo;
 import org.usfirst.frc.team69.util.auto.AutonomousRoutine;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -14,10 +15,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DesktopTester {
 
+    static class MySubroutine extends AutonomousRoutine {
+        {
+            addDoublePreference("someSubthing");
+            addDoublePreference("bar");
+        }
+        
+        @Override
+        public void build(CommandBuilder build) {
+            
+        }
+        
+    }
+    
     static class MyRoutine extends AutonomousRoutine {
         {
             addDoublePreference("foo");
             addDoublePreference("bar");
+            addSubroutine(new MySubroutine());
         }
         
         @Override
@@ -33,7 +48,14 @@ public class DesktopTester {
         inst.startServer("networktables.ini");
         
         MyRoutine rtn = new MyRoutine();
-        SmartDashboard.putData(rtn);
+        MySubroutine sub = new MySubroutine();
+        
+        
+        AutonomousInfo data = new AutonomousInfo();
+        data.addDefault(rtn);
+        data.addRoutine(sub);
+        
+        SmartDashboard.putData(data);
     }
     
     public static void main(String[] args) {
