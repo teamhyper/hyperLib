@@ -26,8 +26,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 public abstract class AutonomousRoutine extends SendableBase {
     public static final String UNNAMED = "<unnamed routine>";
 
-    private HashSet<AutonomousPreference> m_prefs = new HashSet<>();
-    private HashSet<AutonomousRoutine> m_subroutines = new HashSet<>();
+    private ArrayList<AutonomousPreference> m_prefs = new ArrayList<>();
+    private ArrayList<AutonomousRoutine> m_subroutines = new ArrayList<>();
 
     /**
      * Construct a new AutonomousRoutine.
