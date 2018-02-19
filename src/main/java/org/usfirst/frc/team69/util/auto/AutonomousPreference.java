@@ -6,7 +6,7 @@ public class AutonomousPreference {
     // Why would we need to support anything else?
     
     public static final String SEPERATOR = "/";
-    public static final String PREFERENCES_LOCATION = "/Preferences/$auto_routines";
+    public static final String PREFERENCES_LOCATION = "/Preferences/$auto_preferences";
     
     public enum Type {
         DOUBLE
