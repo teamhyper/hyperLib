@@ -7,39 +7,69 @@ import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class AutonomousInfo extends SendableBase {
-    private HashMap<String, AutonomousRoutine> m_allRoutines = new HashMap<>();
-    private String m_defaultSelection;
+    private final HashMap<String, AutonomousRoutine> m_allRoutines;
+    private final HashMap<String, AutonomousStrategy> m_allStrategies;
+    private final String m_defaultSelection;
     private NetworkTableEntry m_currentSelection;
+
+    public static class Builder {
+        private HashMap<String, AutonomousRoutine> m_allRoutines = new HashMap<>();
+        private HashMap<String, AutonomousStrategy> m_allStrategies = new HashMap<>();
+        private String m_defaultSelection;
+        
+        public Builder addStrategy(AutonomousStrategy strat) {
+            m_allStrategies.put(strat.getName(), strat);
+            for (AutonomousRoutine rtn : strat.getPossibleRoutines()) {
+                addWithSubroutines(rtn);
+            }
+            return this;
+        }
+
+        private void addWithSubroutines(AutonomousRoutine rtn) {
+            if (!m_allRoutines.containsKey(rtn.getName())) {
+                m_allRoutines.put(rtn.getName(), rtn);
+                for (AutonomousRoutine sub : rtn.getSubroutines()) {
+                    addWithSubroutines(sub);
+                }
+            }
+        }
+
+        public Builder addDefault(AutonomousStrategy strat) {
+            m_defaultSelection = strat.getName();
+            addStrategy(strat);
+            return this;
+        }
+        
+        public AutonomousInfo build() {
+            return new AutonomousInfo(m_allRoutines, m_allStrategies, m_defaultSelection);
+        }
+    }
     
-    public AutonomousInfo() {
+    private AutonomousInfo(HashMap<String, AutonomousRoutine> routines,
+            HashMap<String, AutonomousStrategy> strats, 
+            String defaultSelection) {
         setName("AutonomousInfo");
+        m_allRoutines = new HashMap<>(routines);
+        m_allStrategies = new HashMap<>(strats);
+        m_defaultSelection = defaultSelection;
     }
-    
-    public void addRoutine(AutonomousRoutine rtn) {
-        m_allRoutines.put(rtn.getName(), rtn);
-    }
-    
-    public void addDefault(AutonomousRoutine rtn) {
-        m_defaultSelection = rtn.getName();
-        m_allRoutines.put(rtn.getName(), rtn);
-    }
-    
-    public AutonomousRoutine getSelection() {
+
+    public AutonomousStrategy getSelection() {
         String selection = m_defaultSelection;
         if (m_currentSelection != null) {
             selection = m_currentSelection.getString(m_defaultSelection);
         }
-        return m_allRoutines.get(selection);
+        return m_allStrategies.get(selection);
     }
-    
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("AutonomousInfo");
         for (AutonomousRoutine rtn : m_allRoutines.values()) {
-            builder.addStringProperty("Routines/" + rtn.getName() + "/.name", rtn::getName, null);
-            builder.addStringProperty("Routines/" + rtn.getName() + "/.type", () -> "AutonomousRoutine", null);
-            builder.addStringArrayProperty("Routines/" + rtn.getName() + "/Preferences", rtn::getPreferenceNames, null);
-            builder.addStringArrayProperty("Routines/" + rtn.getName() + "/Subroutines", rtn::getSubroutineNames, null);
+            rtn.initSendable("Routines/" + rtn.getName() + "/", builder);
+        }
+        for (AutonomousStrategy strat : m_allStrategies.values()) {
+            strat.initSendable("Strategies/" + strat.getName() + "/", builder);
         }
         builder.addStringProperty("Default", () -> m_defaultSelection, null);
         m_currentSelection = builder.getEntry("Selection");

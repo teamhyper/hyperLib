@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import org.usfirst.frc.team69.util.CommandBuilder;
 import org.usfirst.frc.team69.util.auto.AutonomousInfo;
 import org.usfirst.frc.team69.util.auto.AutonomousRoutine;
+import org.usfirst.frc.team69.util.auto.AutonomousStrategy;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.HLUsageReporting;
@@ -51,11 +52,21 @@ public class DesktopTester {
         MySubroutine sub = new MySubroutine();
         
         
-        AutonomousInfo data = new AutonomousInfo();
-        data.addDefault(rtn);
-        data.addRoutine(sub);
+        AutonomousStrategy strat1 = new AutonomousStrategy.Builder("Some strategy")
+                .addScenario("LRL", rtn)
+                .addScenario("RRL", rtn)
+                .addDefault(sub)
+                .build();
+        AutonomousStrategy strat2 = new AutonomousStrategy.Builder("Some other strategy")
+                .addDefault(rtn)
+                .build();
+                
+        AutonomousInfo info = new AutonomousInfo.Builder()
+                .addStrategy(strat1)
+                .addDefault(strat2)
+                .build();
         
-        SmartDashboard.putData(data);
+        SmartDashboard.putData(info);
     }
     
     public static void main(String[] args) {

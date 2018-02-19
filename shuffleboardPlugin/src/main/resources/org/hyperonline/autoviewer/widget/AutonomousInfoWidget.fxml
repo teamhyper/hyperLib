@@ -24,6 +24,6 @@
         </AnchorPane>
     </top>
     <center>
-        <GridPane fx:id="content" />
+        <GridPane fx:id="content" hgap="10" />
     </center>
 </BorderPane>

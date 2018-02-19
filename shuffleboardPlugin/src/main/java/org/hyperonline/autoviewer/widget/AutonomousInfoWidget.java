@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import org.hyperonline.autoviewer.AutonomousInfo;
 import org.hyperonline.autoviewer.AutonomousRoutineData;
+import org.hyperonline.autoviewer.AutonomousStrategyData;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.shuffleboard.api.sources.DataSource;
@@ -16,7 +17,6 @@ import edu.wpi.first.shuffleboard.api.widget.Description;
 import edu.wpi.first.shuffleboard.api.widget.ParametrizedController;
 import edu.wpi.first.shuffleboard.api.widget.SimpleAnnotatedWidget;
 import edu.wpi.first.shuffleboard.plugin.networktables.sources.NetworkTableSource;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.control.ChoiceBox;
@@ -56,14 +56,15 @@ public class AutonomousInfoWidget extends SimpleAnnotatedWidget<AutonomousInfo> 
     
     @FXML
     protected void initialize() {
-        System.out.println("Initializing!!!!");
         dataOrDefault.addListener((__, oldData, newData) -> {
             // Update the chooser if needed
+            for (String strat : newData.getStrategyNames()) {
+                System.out.println("Strategy: " + strat);
+            }
             System.out.printf("default=%s, selected=%s, #routines=%d", newData.getDefault(), newData.getSelection(), newData.getRoutineNames().size());
-            if (!oldData.getRoutineNames().equals(newData.getRoutineNames())) {
-                System.out.println("Chainging items");
+            if (!oldData.getStrategyNames().equals(newData.getStrategyNames())) {
                 chooser.getItems().clear();
-                chooser.getItems().addAll(newData.getRoutineNames());
+                chooser.getItems().addAll(newData.getStrategyNames());
             }
             if (!Objects.equals(oldData.getSelection(), newData.getSelection())) {
                 updateSelection(newData);
@@ -77,9 +78,7 @@ public class AutonomousInfoWidget extends SimpleAnnotatedWidget<AutonomousInfo> 
                .selectedItemProperty()
                .addListener((__, oldData, newData) -> {
                    if (!m_weSelected) {
-                       System.out.println("Update from user: " + newData);
                        setData(getData().withSelection(newData));
-                       System.out.println("Done setting data");
                    }
                    m_weSelected = false;
                });
@@ -116,28 +115,61 @@ public class AutonomousInfoWidget extends SimpleAnnotatedWidget<AutonomousInfo> 
     private void repopulateContent(AutonomousInfo newData) {
         resetContent();
         
-        System.out.println("Displaying things");
-        int row = 0;
-        for (String rtn : getAllSubroutines(newData)) {
-            System.out.println("adding routine " + rtn);
-            System.out.println("Found subroutine: " + rtn);
+        String stratName = newData.getSelection();
+        if (stratName == null) {
+            content.getChildren().add(new Label("No strategy selected"));
+            return;
+        }
+        AutonomousStrategyData strat = newData.getStrategy(stratName);
+        if (strat == null) {
+            content.getChildren().add(new Label("Data for strategy '" + stratName + "' not found"));
+            return;
+        }
+        
+        System.out.println("Routines: " + String.join(",", strat.getPossibleRoutines()));
+        
+        int col = 0;
+        for (String routine : strat.getPossibleRoutines()) {
+            Label header = new Label("If the FMS data is one of: " 
+                    + String.join(",", strat.scenariosForRoutine(routine))
+                    + "\nThen " + routine + " will run.");
+            GridPane.setColumnSpan(header, 2);
+            content.getChildren().add(header);
+            populateColumn(col, newData, routine);
+            col += 2;
+        }
+        String defaultRoutine = strat.getDefault();
+        if (defaultRoutine == null) {
+            Label header = new Label("No default routine is set.");
+            GridPane.setColumnSpan(header, 2);
+            GridPane.setColumnIndex(header, col);
+            content.getChildren().add(header);
+        } else {
+            Label header = new Label("The default routine is " + defaultRoutine + ".\n");
+            GridPane.setColumnSpan(header, 2);
+            GridPane.setColumnIndex(header, col);
+            content.getChildren().add(header);
+            
+            populateColumn(col, newData, defaultRoutine);
+        }
+    }
+    
+    private void populateColumn(int col, AutonomousInfo newData, String routine) {
+        int row = 1;
+        for (String rtn : getAllSubroutines(newData, routine)) {
             AutonomousRoutineData rtnData = newData.getRoutine(rtn);
             if (rtnData != null) { 
-                row = addHeader(row, "Preferences declared in " + rtn + ":");
-                row = addRoutineToUI(row, newData.getRoutine(rtn));
-            } else {
-                System.out.println("Warning: subroutine " + rtn + " not found");
+                row = addHeader(row, col, "Preferences declared in " + rtn + ":");
+                row = addRoutineToUI(row, col, newData.getRoutine(rtn));
             }
         }
     }
     
-    private List<String> getAllSubroutines(AutonomousInfo info) {
+    private List<String> getAllSubroutines(AutonomousInfo info, String routine) {
         Deque<String> toSearch = new ArrayDeque<>();
         List<String> result = new ArrayList<>();
         
-        if (info.getSelection() != null) {
-            toSearch.push(info.getSelection());
-        }
+        toSearch.push(routine);
         while (!toSearch.isEmpty()) {
             String top = toSearch.pop();
             System.out.println("Processing: " + top);
@@ -160,45 +192,45 @@ public class AutonomousInfoWidget extends SimpleAnnotatedWidget<AutonomousInfo> 
         return result;
     }
     
-    private int addRoutineToUI(int row, AutonomousRoutineData data) {
+    private int addRoutineToUI(int row, int col, AutonomousRoutineData data) {
         for (String prefName : data.getPreferenceNames()) {
             DataSource<Double> source = getDataSource(data.getName(), prefName);
-            addUIEntry(row++, prefName, source);
+            addUIEntry(row++, col, prefName, source);
         }
         return row;
     }
     
-    private int addHeader(int rowNum, String text) {
+    private int addHeader(int rowNum, int colNum, String text) {
         if (rowNum != 0) {
             Separator sep = new Separator(Orientation.HORIZONTAL);
             sep.setMinHeight(10);
             GridPane.setColumnSpan(sep, 2);
             GridPane.setRowIndex(sep, rowNum++);
-            GridPane.setColumnIndex(sep, 0);
+            GridPane.setColumnIndex(sep, colNum);
             content.getChildren().add(sep);
         }
         
         Label header = new Label(text);
         GridPane.setColumnSpan(header, 2);
         GridPane.setRowIndex(header, rowNum++);
-        GridPane.setColumnIndex(header, 0);
+        GridPane.setColumnIndex(header, colNum);
         content.getChildren().add(header);
         
         return rowNum;
     }
     
-    private void addUIEntry(int rowNum, String prefName, DataSource<Double> source) {
+    private void addUIEntry(int rowNum, int colNum, String prefName, DataSource<Double> source) {
         Spinner<Double> spinner = new Spinner<>(-Double.MAX_VALUE, Double.MAX_VALUE, 0.0);
         spinner.setValueFactory(
                 new SpinnerValueFactory.DoubleSpinnerValueFactory(-Double.MAX_VALUE, Double.MAX_VALUE, 0.0));
         spinner.setEditable(true);
         spinner.getValueFactory().valueProperty().bindBidirectional(source.dataProperty());
         GridPane.setRowIndex(spinner, rowNum);
-        GridPane.setColumnIndex(spinner, 1);
+        GridPane.setColumnIndex(spinner, colNum + 1);
         content.getChildren().add(spinner);
 
         Label label = new Label(prefName);
-        GridPane.setColumnIndex(label, 0);
+        GridPane.setColumnIndex(label, colNum);
         GridPane.setRowIndex(label, rowNum);
         content.getChildren().add(label);
         

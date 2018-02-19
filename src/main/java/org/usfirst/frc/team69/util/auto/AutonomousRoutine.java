@@ -107,6 +107,12 @@ public abstract class AutonomousRoutine extends SendableBase {
         builder.addStringArrayProperty("Subroutines", this::getSubroutineNames, null);
         builder.addStringArrayProperty("Preferences", this::getPreferenceNames, null);
     }
+    
+    void initSendable(String prefix, SendableBuilder builder) {
+        builder.addStringProperty(prefix + ".type", () -> "AutonomousRoutine", null);
+        builder.addStringArrayProperty(prefix + "Preferences", this::getPreferenceNames, null);
+        builder.addStringArrayProperty(prefix + "Subroutines", this::getSubroutineNames, null);
+    }
 
     String[] getPreferenceNames() {
         return m_prefs.stream().map(pref -> pref.getName()).toArray(String[]::new);
