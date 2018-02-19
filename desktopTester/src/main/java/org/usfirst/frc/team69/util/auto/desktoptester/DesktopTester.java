@@ -121,8 +121,10 @@ public class DesktopTester {
                 .addDefault(rtn)
                 .build();
         
+        F1RightSwitch f1 = new F1RightSwitch();
+        
         AutonomousStrategy realStrat = new AutonomousStrategy.Builder("Real life strategy")
-                .addScenario("LRL", new F1RightSwitch())
+                .addScenario("LRL", f1)
                 .build();
                 
         AutonomousInfo info = new AutonomousInfo.Builder()
@@ -135,6 +137,7 @@ public class DesktopTester {
         
         while (true) {
             System.out.println(info.getSelection().getName());
+            System.out.println(f1.fwd1Speed.get());
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
