@@ -241,10 +241,9 @@ public class AutonomousInfoWidget extends SimpleAnnotatedWidget<AutonomousInfo> 
     private DataSource<Double> getDataSource(String routine, String pref) {
         String path = PREFERENCES_LOCATION + SEPERATOR + routine + SEPERATOR + pref;
 
-        if (!NetworkTableUtils.rootTable.containsKey(path)) {
-            NetworkTableEntry entry = NetworkTableUtils.rootTable.getEntry(path);
-            entry.setDefaultDouble(0.0);
-        }
+        NetworkTableEntry entry = NetworkTableUtils.rootTable.getEntry(path);
+        entry.setDefaultDouble(0.0);
+        entry.setPersistent();
 
         // Java can't check this is a valid cast at runtime
         // So we try to get the data to see if it works
