@@ -1,13 +1,14 @@
 package org.usfirst.frc.team69.util.auto;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
 import org.usfirst.frc.team69.util.CommandBuilder;
 import org.usfirst.frc.team69.util.pref.DoublePreference;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
@@ -41,6 +42,23 @@ public abstract class AutonomousRoutine extends SendableBase {
             name = UNNAMED;
         }
         setName(name);
+        
+        addPrefsFromAnnotations();
+    }
+    
+    private void addPrefsFromAnnotations() {
+        for (Field field : getClass().getDeclaredFields()) {
+            System.out.println("Found field: " + field.getName());
+            if (field.isAnnotationPresent(AutoPref.class) 
+                    && field.getType().isAssignableFrom(DoublePreference.class)) {
+                try {
+                    field.set(this, addDoublePreference(field.getName()));
+                } catch (IllegalAccessException e) {
+                    DriverStation.reportError("Could not initialize non-public field " + field.getName() 
+                        + " of class " + getClass().getName(), false);
+                }
+            }
+        }
     }
 
     /**

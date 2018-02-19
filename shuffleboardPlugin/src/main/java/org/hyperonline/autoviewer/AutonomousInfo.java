@@ -59,7 +59,7 @@ public class AutonomousInfo extends ComplexData<AutonomousInfo> {
                                 (String) ent2.getValue());
                     }
                 }
-                builder.addDefault((String) map.getOrDefault("Strategies/" + name + "/Default", ""));
+                builder.addDefault((String) map.get("Strategies/" + name + "/Default"));
                 m_strategies.put(name, builder.build());
             }
         }
@@ -72,6 +72,8 @@ public class AutonomousInfo extends ComplexData<AutonomousInfo> {
     
     @Override
     public Map<String, Object> asMap() {
+        // TODO put more data here
+        // doesn't really matter since we never modify it
         HashMap<String, Object> result = new HashMap<>();
         for (AutonomousRoutineData ent : m_routines.values()) {
             result.put("Routines/" + ent.getName() + "/.type", "AutonomousRoutine");

@@ -64,7 +64,9 @@ public class AutonomousStrategy {
     
     void initSendable(String prefix, SendableBuilder builder) {
         builder.addStringProperty(prefix + ".type", () -> "AutonomousStrategy", null);
-        builder.addStringProperty(prefix + "Default", m_default::getName, null);
+        if (m_default != null) {
+            builder.addStringProperty(prefix + "Default", m_default::getName, null);
+        }
         for (Entry<String, AutonomousRoutine> ent : m_map.entrySet()) {
             builder.addStringProperty(prefix + "Scenarios/" + ent.getKey(), () -> ent.getValue().getName(), null);
         }
