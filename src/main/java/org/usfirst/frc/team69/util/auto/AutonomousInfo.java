@@ -81,5 +81,6 @@ public class AutonomousInfo extends SendableBase {
         }
         builder.addStringProperty("Default", () -> m_defaultSelection, null);
         m_currentSelection = builder.getEntry("Selection");
+        System.out.println("In initSendable: the path of the entry is " + m_currentSelection.getInfo().name);
     }
 }

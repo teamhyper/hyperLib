@@ -51,7 +51,7 @@ public class AutonomousStrategy {
     }
     
     public AutonomousRoutine getRoutineForScenario(String input) {
-        return m_map.get(input);
+        return m_map.getOrDefault(input, m_default);
     }
     
     public String getName() {
