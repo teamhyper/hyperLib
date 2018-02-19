@@ -134,6 +134,7 @@ public class AutonomousInfoWidget extends SimpleAnnotatedWidget<AutonomousInfo> 
                     + String.join(",", strat.scenariosForRoutine(routine))
                     + "\nThen " + routine + " will run.");
             GridPane.setColumnSpan(header, 2);
+            GridPane.setColumnIndex(header, col);
             content.getChildren().add(header);
             populateColumn(col, newData, routine);
             col += 2;
