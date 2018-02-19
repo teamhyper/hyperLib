@@ -106,7 +106,7 @@ public class DesktopTester {
         HLUsageReporting.SetImplementation(new HLUsageReporting.Null());
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         inst.setNetworkIdentity("Robot");
-        inst.startServer("networktables.ini");
+        inst.startServer("/home/james/networktables.ini");
         
         MyRoutine rtn = new MyRoutine();
         MySubroutine sub = new MySubroutine();
