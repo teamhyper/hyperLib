@@ -56,9 +56,17 @@ public class AutonomousInfo extends SendableBase {
 
     public AutonomousStrategy getSelection() {
         String selection = m_defaultSelection;
+        System.out.println("Entering getSelection");
         if (m_currentSelection != null) {
+            System.out.println("m_currentSelection is not null, so I'm picking");
+            System.out.println("Full path of entry: " + m_currentSelection.getInfo().name);
+            if (!m_currentSelection.exists()) {
+                System.out.println("Entry does not exist.  That's an issue.");
+            }
             selection = m_currentSelection.getString(m_defaultSelection);
         }
+        System.out.println("Selected: " + selection);
+        System.out.println("Done with getSelection");
         return m_allStrategies.get(selection);
     }
 
