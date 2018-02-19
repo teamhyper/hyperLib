@@ -132,6 +132,15 @@ public class DesktopTester {
                 .build();
         
         SmartDashboard.putData(info);
+        
+        while (true) {
+            System.out.println(info.getSelection().getName());
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
     
     public static void main(String[] args) {
