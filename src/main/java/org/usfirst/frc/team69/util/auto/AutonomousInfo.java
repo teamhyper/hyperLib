@@ -1,5 +1,6 @@
 package org.usfirst.frc.team69.util.auto;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -68,6 +69,14 @@ public class AutonomousInfo extends SendableBase {
         System.out.println("Selected: " + selection);
         System.out.println("Done with getSelection");
         return m_allStrategies.get(selection);
+    }
+    
+    public Collection<AutonomousStrategy> getStrategies() {
+        return m_allStrategies.values();
+    }
+    
+    public AutonomousStrategy getDefault() {
+        return m_allStrategies.get(m_defaultSelection);
     }
 
     @Override
