@@ -192,4 +192,9 @@ public class PreferencesSet {
         addPreference(name, pref);
         return pref;
     }
+    
+    public synchronized ScalarPreference addScalar(String name, String components, double... value) {
+        checkName(name);
+        return new ScalarPreference(this, name, components, value);
+    }
 }
