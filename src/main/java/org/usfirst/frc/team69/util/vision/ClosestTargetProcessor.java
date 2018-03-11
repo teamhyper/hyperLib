@@ -118,7 +118,9 @@ public class ClosestTargetProcessor extends AbstractTargetProcessor<VisionResult
      */
     @Override
     public void writeOutput(Mat mat) {
-        Imgproc.drawMarker(mat, m_lastPoint, MARKER_COLOR);
+        if (m_lastPoint != null) {
+            Imgproc.drawMarker(mat, m_lastPoint, MARKER_COLOR);
+        }
     }
 
     /**
