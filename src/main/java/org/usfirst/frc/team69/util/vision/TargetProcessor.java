@@ -6,21 +6,17 @@ import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 
 /**
- * Interface for taking a list of rectangles found, and putting that information
- * together into the result type.
+ * Interface for taking a list of rectangles found, and doing something useful
+ * with that information, such as making it available as a PID source.
  * 
  * @author James Hagborg
- *
- * @param <T>
- *            The data type of the result.
  */
-public interface TargetProcessor<T extends VisionResult> {
+public interface TargetProcessor {
     /**
      * Extract the result type from a list of rectangles found.
      * 
      * @param targets
      *            The list of targets found.
-     * @return The extracted result.
      */
     void process(List<Rect> targets);
 
@@ -30,16 +26,6 @@ public interface TargetProcessor<T extends VisionResult> {
      * 
      * @param mat
      *            The image to draw on.
-     * @param lastResult
-     *            The most recent return value of {@link #process(List)}.
      */
     void writeOutput(Mat mat);
-
-    /**
-     * Return a default value for the result type. This is the result that is
-     * returned before the first run of the pipeline.
-     * 
-     * @return The default value for the retult type.
-     */
-    T getDefaultValue();
 }

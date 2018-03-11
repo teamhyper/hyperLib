@@ -15,11 +15,13 @@ import edu.wpi.first.wpilibj.PIDSource;
  *
  * @param <T>
  */
-public abstract class AbstractTargetProcessor<T extends VisionResult> implements TargetProcessor<T> {
+public abstract class AbstractTargetProcessor<T extends VisionResult> implements TargetProcessor {
 
     private volatile T m_lastResult;
 
     public abstract T computeResult(List<Rect> targets);
+    
+    public abstract T getDefaultValue();
     
     @Override
     public final void process(List<Rect> targets) {

@@ -25,12 +25,10 @@ import edu.wpi.first.wpilibj.CameraServer;
  * 
  * @author James Hagborg
  *
- * @param <T>
- *            The data type of the result.
  */
-public class FindTargetsPipeline<T extends VisionResult> implements VisionGUIPipeline {
+public class FindTargetsPipeline implements VisionGUIPipeline {
 
-    private final TargetProcessor<T> m_targetProcessor;
+    private final TargetProcessor m_targetProcessor;
     private final String m_name;
 
     /*
@@ -51,7 +49,7 @@ public class FindTargetsPipeline<T extends VisionResult> implements VisionGUIPip
      *            Interface specifying how to extract the result from a list of
      *            rectangles.
      */
-    public FindTargetsPipeline(String name, TargetProcessor<T> processor) {
+    public FindTargetsPipeline(String name, TargetProcessor processor) {
         m_name = Objects.requireNonNull(name);
         m_targetProcessor = Objects.requireNonNull(processor);
 
