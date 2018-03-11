@@ -139,7 +139,7 @@ public class ClosestPairTargetProcessor extends AbstractTargetProcessor<VisionRe
      */
     @Override
     public void writeOutput(Mat mat) {
-        if (m_lastPoint != null) {
+        if (m_lastPoint != null && getLastResult().foundTarget()) {
             Imgproc.drawMarker(mat, m_lastPoint, MARKER_COLOR);
         }
     }
