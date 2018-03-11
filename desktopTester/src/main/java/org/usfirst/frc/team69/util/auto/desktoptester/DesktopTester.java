@@ -135,6 +135,8 @@ public class DesktopTester {
         
         SmartDashboard.putData(info);
         
+        VisionSystem visionSystem = new VisionSystem();
+        
         while (true) {
             System.out.println(info.getSelection().getName());
             System.out.println(f1.fwd1Speed.get());

@@ -10,7 +10,6 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.usfirst.frc.team69.robot.vision.VisionResult;
 import org.usfirst.frc.team69.util.pref.IntPreference;
 
 /**
@@ -22,9 +21,16 @@ import org.usfirst.frc.team69.util.pref.IntPreference;
  * @author James Hagborg
  *
  */
-public class ClosestPairTargetProcessor implements TargetProcessor<VisionResult> {
+public class ClosestPairTargetProcessor extends AbstractTargetProcessor<VisionResult> {
 
     private final IntSupplier m_xCrosshairs, m_yCrosshairs;
+    
+    /*
+     * The most recent point where a target was found. This is stored in
+     * absolute pixels, rather than relative to the crosshairs, like the result
+     * type stores. This is only used for drawing indicators.
+     */
+    private Point m_lastPoint;
 
     /**
      * Construct a new target processor with the given fixed crosshairs
@@ -61,59 +67,68 @@ public class ClosestPairTargetProcessor implements TargetProcessor<VisionResult>
      *            The target to check
      * @return The distance from the crosshairs
      */
-    private int targetDistance(VisionResult result) {
-        int x = result.xError();
-        int y = result.yError();
-        return x * x + y * y;
+    private double targetDistance(Point result) {
+        double xError = result.x - m_xCrosshairs.getAsInt();
+        double yError = result.y - m_yCrosshairs.getAsInt();
+        return xError * xError + yError * yError;
     }
 
     /**
-     * Convert a rectangle to a VisionResult. The rectangle is assumed to be
-     * specified in pixels, starting from the top-left corner of the screen. The
-     * result type stores the difference between the center of the rectangle and
-     * the crosshairs.
+     * Find the center of a rectangle.
      * 
      * @param rect
-     *            The target to check.
-     * @return The corresponding VisionResult.
+     *            The target rectangle.
+     * @return The point at the center of the rectangle.
      */
-    private VisionResult targetToResult(Rect rect) {
+    private Point targetToPoint(Rect rect) {
         int xCenter = rect.x + rect.width / 2;
         int yCenter = rect.y + rect.height / 2;
-        int xErr = xCenter - m_xCrosshairs.getAsInt();
-        int yErr = yCenter - m_yCrosshairs.getAsInt();
-        return new VisionResult(xErr, yErr, true);
+        return new Point(xCenter, yCenter);
+    }
+
+    /**
+     * Convert a point to a result, by taking the position to be relative to the
+     * crosshairs. Since this method is only called when the point given is
+     * actually the chosen target, this also saves the point for drawing a marker
+     * later.
+     * 
+     * @param point The point at the center of the target, in absolute pixels.
+     * @return The new VisionResult
+     */
+    private VisionResult pointToResult(Point point) {
+        m_lastPoint = point;
+        return new VisionResult(
+                (int) point.x - m_xCrosshairs.getAsInt(),
+                (int) point.y - m_yCrosshairs.getAsInt(), true);
     }
     
     /**
-     * Given two VisionResults, find the average of their positions.
+     * Given two Points, find the average of their positions.
      * 
      * @param a
      * @param b
      * @return
      */
-    private VisionResult averageResults(VisionResult a, VisionResult b) {
-        int xErr = (a.xError() + b.xError()) / 2;
-        int yErr = (a.yError() + b.yError()) / 2;
-        return new VisionResult(xErr, yErr, true);
+    private Point averagePoints(Point a, Point b) {
+        return new Point((a.x + b.x) / 2, (a.y + b.y) / 2);
     }
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public VisionResult process(List<Rect> targets) {
-        VisionResult[] result = targets.stream()
-                .map(this::targetToResult)
-                .sorted(Comparator.comparingInt(this::targetDistance))
+    public VisionResult computeResult(List<Rect> targets) {
+        Point[] result = targets.stream()
+                .map(this::targetToPoint)
+                .sorted(Comparator.comparingDouble(this::targetDistance))
                 .limit(2)
-                .toArray(VisionResult[]::new);
+                .toArray(Point[]::new);
         if (result.length == 0) {
             return getDefaultValue();
         } else if (result.length == 1) {
-            return result[0];
+            return pointToResult(result[0]);
         } else {
-            return averageResults(result[0], result[1]);
+            return pointToResult(averagePoints(result[0], result[1]));
         }
     }
 
@@ -123,8 +138,8 @@ public class ClosestPairTargetProcessor implements TargetProcessor<VisionResult>
      * {@inheritDoc}
      */
     @Override
-    public void writeOutput(Mat mat, VisionResult lastResult) {
-        Imgproc.drawMarker(mat, new Point(lastResult.xError(), lastResult.yError()), MARKER_COLOR);
+    public void writeOutput(Mat mat) {
+        Imgproc.drawMarker(mat, m_lastPoint, MARKER_COLOR);
     }
 
     /**

@@ -14,7 +14,7 @@ import org.opencv.core.Rect;
  * @param <T>
  *            The data type of the result.
  */
-public interface TargetProcessor<T> {
+public interface TargetProcessor<T extends VisionResult> {
     /**
      * Extract the result type from a list of rectangles found.
      * 
@@ -22,7 +22,7 @@ public interface TargetProcessor<T> {
      *            The list of targets found.
      * @return The extracted result.
      */
-    T process(List<Rect> targets);
+    void process(List<Rect> targets);
 
     /**
      * Draw overlays on the image. This should give the user some indication of
@@ -33,7 +33,7 @@ public interface TargetProcessor<T> {
      * @param lastResult
      *            The most recent return value of {@link #process(List)}.
      */
-    void writeOutput(Mat mat, T lastResult);
+    void writeOutput(Mat mat);
 
     /**
      * Return a default value for the result type. This is the result that is
