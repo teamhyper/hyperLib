@@ -126,7 +126,7 @@ public class ClosestPairTargetProcessor extends AbstractTargetProcessor<VisionRe
         if (result.length == 0) {
             return getDefaultValue();
         } else if (result.length == 1) {
-            return pointToResult(result[0]);
+            return getDefaultValue();
         } else {
             return pointToResult(averagePoints(result[0], result[1]));
         }
