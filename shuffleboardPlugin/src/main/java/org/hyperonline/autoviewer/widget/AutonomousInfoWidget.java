@@ -27,6 +27,7 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.util.StringConverter;
 
 @Description(name = "Autonomous Info Viewer", dataTypes = AutonomousInfo.class)
 @ParametrizedController("AutonomousInfoWidget.fxml")
@@ -226,6 +227,14 @@ public class AutonomousInfoWidget extends SimpleAnnotatedWidget<AutonomousInfo> 
                 new SpinnerValueFactory.DoubleSpinnerValueFactory(-Double.MAX_VALUE, Double.MAX_VALUE, 0.0));
         spinner.setEditable(true);
         spinner.getValueFactory().valueProperty().bindBidirectional(source.dataProperty());
+        /*
+         * Copy-pasta from SO
+         * https://stackoverflow.com/questions/32340476/manually-typing-in-text-in-javafx-spinner-is-not-updating-the-value-unless-user
+         */
+        spinner.focusedProperty().addListener((s, ov, nv) -> {
+            if (nv) return;
+            commitEditorText(spinner);
+        });
         GridPane.setRowIndex(spinner, rowNum);
         GridPane.setColumnIndex(spinner, colNum + 1);
         content.getChildren().add(spinner);
@@ -257,5 +266,21 @@ public class AutonomousInfoWidget extends SimpleAnnotatedWidget<AutonomousInfo> 
         }
         
         return source;
+    }
+    
+    /*
+     * Copy-paste from stackoverflow, which copy-pasted from javafx source
+     */
+    private <T> void commitEditorText(Spinner<T> spinner) {
+        if (!spinner.isEditable()) return;
+        String text = spinner.getEditor().getText();
+        SpinnerValueFactory<T> valueFactory = spinner.getValueFactory();
+        if (valueFactory != null) {
+            StringConverter<T> converter = valueFactory.getConverter();
+            if (converter != null) {
+                T value = converter.fromString(text);
+                valueFactory.setValue(value);
+            }
+        }
     }
 }

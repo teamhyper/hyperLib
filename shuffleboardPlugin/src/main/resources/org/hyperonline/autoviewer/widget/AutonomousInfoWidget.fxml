@@ -3,6 +3,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.geometry.Insets?>
 
@@ -24,6 +25,8 @@
         </AnchorPane>
     </top>
     <center>
-        <GridPane fx:id="content" hgap="10" />
+        <ScrollPane>
+            <GridPane fx:id="content" hgap="10" />
+        </ScrollPane>
     </center>
 </BorderPane>

@@ -9,7 +9,6 @@ import org.usfirst.frc.team69.util.vision.ClosestTargetProcessor;
 import org.usfirst.frc.team69.util.vision.CrosshairsPipeline;
 import org.usfirst.frc.team69.util.vision.FindTargetsPipeline;
 import org.usfirst.frc.team69.util.vision.VisionModule;
-import org.usfirst.frc.team69.util.vision.VisionResult;
 
 import edu.wpi.cscore.CameraServerJNI;
 import edu.wpi.cscore.CvSource;
@@ -41,7 +40,7 @@ public class VisionSystem {
     }
     
     private VisionModule m_module;
-    private FindTargetsPipeline<VisionResult> m_pipeline;
+    private FindTargetsPipeline m_pipeline;
     private ClosestTargetProcessor m_processor;
     private CrosshairsPipeline m_crosshairs;
     
@@ -57,7 +56,8 @@ public class VisionSystem {
         // Set up dummy source to feed images
         m_image = Imgcodecs.imread("/home/james/Robotics/RealFullField/6.jpg");
         if (m_image.empty()) {
-            throw new RuntimeException("Could not load test image!");
+            System.out.println("Could not load test image!  Vision will not work!");
+            return;
         }
         m_source = CameraServer.getInstance().putVideo("Dummy source of file", m_image.width(), m_image.height());
         m_feederThread = new Thread(this::imageFeederThread);
@@ -66,7 +66,7 @@ public class VisionSystem {
         m_feederThread.start();
         
         m_processor = new ClosestTargetProcessor(m_xCross::get, m_yCross::get);
-        m_pipeline = new FindTargetsPipeline<>("My Pipeline", m_processor);
+        m_pipeline = new FindTargetsPipeline("My Pipeline", m_processor);
         m_crosshairs = new CrosshairsPipeline(m_xCross::get, m_yCross::get, 100, 100, 100);
         
         m_module = new VisionModule.Builder(m_source)
