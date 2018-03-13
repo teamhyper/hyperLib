@@ -14,17 +14,30 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.command.WhileCommand;
 
+/**
+ * 
+ * @author James
+ *
+ */
 public class WhileCommandTest {
 
     private MockCondition condition;
     private MockCommand body;
     private WhileCommand whileCommand;
     
+    /**
+     * 
+     * @throws Exception
+     */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         UnitTestUtility.setupMockBase();
     }
 
+    /**
+     * 
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         Scheduler.getInstance().removeAll();
@@ -34,6 +47,9 @@ public class WhileCommandTest {
         whileCommand = new WhileCommand(condition, body);
     }
     
+    /**
+     * Test Startup
+     */
     @Test
     public void testStartup() {
         // Nothing is running at first
@@ -52,6 +68,9 @@ public class WhileCommandTest {
         assertTrue(body.isRunning());
     }
 
+    /**
+     * Test that the Command runs
+     */
     @Test
     public void testWhileCommandRuns() {
         // Run the body 10 times, with each iteration taking 5 ticks
@@ -81,6 +100,9 @@ public class WhileCommandTest {
         assertEquals(11, condition.getTimesChecked());
     }
     
+    /**
+     * Test the TransferRequirements
+     */
     @Test
     public void testTransferRequirements() {
         Subsystem req = new Subsystem() {
@@ -96,6 +118,9 @@ public class WhileCommandTest {
         assertFalse(bodyWithReqs.doesRequire(req));
     }
     
+    /**
+     * Test that the Command does not run if condition is false
+     */
     @Test
     public void testDoesNotRunIfFalse() {
         whileCommand.start();
@@ -114,6 +139,9 @@ public class WhileCommandTest {
         assertEquals(1, condition.getTimesChecked());
     }
     
+    /**
+     * Test that the Command ends when the condition is false
+     */
     @Test
     public void testEndsWhenFalse() {
         whileCommand.start();
@@ -137,6 +165,9 @@ public class WhileCommandTest {
         assertEquals(2, condition.getTimesChecked());
     }
     
+    /**
+     * Test the CancelWhile Command
+     */
     @Test
     public void testCancelWhileCommand() {
         whileCommand.start();
@@ -157,6 +188,9 @@ public class WhileCommandTest {
         assertEquals(1, condition.getTimesChecked());
     }
     
+    /**
+     * Test the CancelBody Command
+     */
     @Test
     public void testCancelBodyCommand() {
         whileCommand.start();

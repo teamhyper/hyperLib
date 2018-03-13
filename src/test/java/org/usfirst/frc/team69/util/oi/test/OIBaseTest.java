@@ -19,9 +19,24 @@ import org.usfirst.frc.team69.util.oi.WhileHeld;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * 
+ * @author James
+ *
+ */
 public class OIBaseTest {
 
+	/**
+	 * 
+	 * @author James
+	 *
+	 */
     public static class SingleJoystickMap {
+    	/**
+    	 * 
+    	 * @author James
+    	 *
+    	 */
         @MapJoystick(port = 0, role = Role.LEFT_DRIVER, type = Type.LOGITECH_2_AXIS)
         public static class LeftDriver {
             @WhenPressed(0) public final Command foo = null;
@@ -30,21 +45,36 @@ public class OIBaseTest {
             @WhenReleased(2) public final Command buzz = null;
         }
     }
-    
+    /**
+     * 
+     * @author James
+     *
+     */
     public static class DoubleJoystickMap {
+    	/**
+    	 * 
+    	 * @author James
+    	 *
+    	 */
         @MapJoystick(port = 0, role = Role.LEFT_DRIVER, type = Type.LOGITECH_2_AXIS)
         public static class LeftDriver {
             @WhenPressed(0) public final Command foo = null;
             @WhenPressed(1) public final Command bar = null;
         }
-        
+        /**
+         * 
+         * @author James
+         *
+         */
         @MapJoystick(port = 1, role = Role.RIGHT_DRIVER, type = Type.LOGITECH_3_AXIS)
         public static class RightDriver {
             @WhileHeld(0) public final Command baz = null;
             @WhenReleased(1) public final Command buzz = null;
         }
     }
-    
+    /**
+     * Test mapping a single joystick
+     */
     @Test
     public void testSingleJoystick() {
         OI oi = new OI(SingleJoystickMap.class, false);
@@ -58,7 +88,9 @@ public class OIBaseTest {
         assertEquals(Role.LEFT_DRIVER, js.role());
         assertEquals(Type.LOGITECH_2_AXIS, js.type());
     }
-    
+    /**
+     * Test mapping with two joysticks
+     */
     @Test
     public void testTwoJoysticks() {
         OI oi = new OI(DoubleJoystickMap.class, false);
@@ -78,7 +110,9 @@ public class OIBaseTest {
         assertEquals(Role.RIGHT_DRIVER, js2.role());
         assertEquals(Type.LOGITECH_3_AXIS, js2.type());
     }
-    
+    /**
+     * Test buttons on a single joystick
+     */
     @Test
     public void testButtonsSingleJoystick() {
         OI oi = new OI(SingleJoystickMap.class, false);
@@ -104,6 +138,9 @@ public class OIBaseTest {
         assertEquals("buzz", buttons.get(3).name());
     }
     
+    /**
+     * Test buttons with double joysticks
+     */
     @Test
     public void testButtonsDoubleJoystick() {
         OI oi = new OI(DoubleJoystickMap.class, false);
@@ -130,31 +167,45 @@ public class OIBaseTest {
         assertEquals(Action.WHEN_RELEASED, buttons.get(1).action());
         assertEquals("buzz", buttons.get(1).name());
     }
-    
+    /**
+     * Test getting the left driver joystick from PC
+     */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetLeftDriverFromPC() {
         OI oi = new OI(SingleJoystickMap.class, false);
         oi.leftDriver();
     }
     
+    /**
+     * Test getting a single joystick from PC
+     */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetJoystickFromPC() {
         OI oi = new OI(SingleJoystickMap.class, false);
         oi.getJoystick(0);
     }
     
+    /**
+     * Test getting an empty joystick from PC
+     */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetEmptyJoystickFromPC() {
         OI oi = new OI(SingleJoystickMap.class, false);
         oi.getJoystick(1);
     }
     
+    /**
+     * Test initializing commands from PC
+     */
     @Test(expected = UnsupportedOperationException.class)
     public void testInitCommandsFromPC() {
         OI oi = new OI(SingleJoystickMap.class, false);
         oi.initCommands();
     }
     
+    /**
+     * Test that the button list is immutable
+     */
     @Test(expected = UnsupportedOperationException.class)
     public void testButtonListImmutable() {
         OI oi = new OI(SingleJoystickMap.class, false);

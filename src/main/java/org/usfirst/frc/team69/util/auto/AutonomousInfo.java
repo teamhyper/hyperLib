@@ -7,17 +7,32 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
+/**
+ * {@link AutonomousInfo}
+ * @author James
+ */
 public class AutonomousInfo extends SendableBase {
     private final HashMap<String, AutonomousRoutine> m_allRoutines;
     private final HashMap<String, AutonomousStrategy> m_allStrategies;
     private final String m_defaultSelection;
     private NetworkTableEntry m_currentSelection;
-
+    
+/**
+ * {@link Builder}
+ * @author James
+ *
+ */
     public static class Builder {
         private HashMap<String, AutonomousRoutine> m_allRoutines = new HashMap<>();
         private HashMap<String, AutonomousStrategy> m_allStrategies = new HashMap<>();
         private String m_defaultSelection;
         
+        /**
+         * 
+         * @param strat
+         * 			strategy to add
+         * @return {Builder}
+         */
         public Builder addStrategy(AutonomousStrategy strat) {
             m_allStrategies.put(strat.getName(), strat);
             for (AutonomousRoutine rtn : strat.getPossibleRoutines()) {
@@ -34,13 +49,21 @@ public class AutonomousInfo extends SendableBase {
                 }
             }
         }
-
+        /**
+         * 
+         * @param strat
+         * 			strategy to set as the default
+         * @return {Builder}
+         */
         public Builder addDefault(AutonomousStrategy strat) {
             m_defaultSelection = strat.getName();
             addStrategy(strat);
             return this;
         }
-        
+        /**
+         * 
+         * @return {AutonomousInfo}
+         */
         public AutonomousInfo build() {
             return new AutonomousInfo(m_allRoutines, m_allStrategies, m_defaultSelection);
         }
@@ -55,6 +78,10 @@ public class AutonomousInfo extends SendableBase {
         m_defaultSelection = defaultSelection;
     }
 
+    /**
+     * 
+     * @return {AutonomousStrategy}
+     */
     public AutonomousStrategy getSelection() {
         String selection = m_defaultSelection;
         System.out.println("Entering getSelection");

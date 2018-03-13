@@ -37,7 +37,9 @@ public class ClosestPairTargetProcessor extends AbstractTargetProcessor<VisionRe
      * position.
      * 
      * @param xCrosshairs
+     * 			X coordinate for the crosshairs
      * @param yCrosshairs
+     * 			Y coordinate for the crosshairs
      */
     public ClosestPairTargetProcessor(int xCrosshairs, int yCrosshairs) {
         this(() -> xCrosshairs, () -> yCrosshairs);
@@ -52,7 +54,9 @@ public class ClosestPairTargetProcessor extends AbstractTargetProcessor<VisionRe
      * from any thread.
      * 
      * @param xCrosshairs
+     * 			X coordinate for the crosshairs
      * @param yCrosshairs
+     * 			Y coordinate for the crosshairs
      */
     public ClosestPairTargetProcessor(IntSupplier xCrosshairs, IntSupplier yCrosshairs) {
         m_xCrosshairs = Objects.requireNonNull(xCrosshairs);

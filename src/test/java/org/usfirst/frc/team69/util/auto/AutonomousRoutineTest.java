@@ -8,6 +8,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.usfirst.frc.team69.util.CommandBuilder;
 
+/**
+ * {@link AutonomousRoutineTest}
+ * @author James
+ *
+ */
 public class AutonomousRoutineTest {
 
     AutonomousRoutine unnamed1, unnamed2, foo1, foo2, bar1;
@@ -19,10 +24,18 @@ public class AutonomousRoutineTest {
         }
     }
 
+    /**
+     * 
+     * @throws Exception
+     */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
     }
 
+    /**
+     * 
+     * @return {AutonomousRoutine}
+     */
     public AutonomousRoutine makeNewRoutine() {
         return new AutonomousRoutine() {
             @Override
@@ -31,6 +44,10 @@ public class AutonomousRoutineTest {
         };
     }
     
+    /**
+     * 
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         unnamed1 = makeNewRoutine();
@@ -51,12 +68,18 @@ public class AutonomousRoutineTest {
         foo1.addSubroutine(unnamed1);
     }
 
+    /**
+     * Test that equivalent AutonomousRoutines have equivalent hashcodes
+     */
     @Test
     public void testHashCode() {
         assertEquals(foo1.hashCode(), foo2.hashCode());
         assertEquals(bar1.hashCode(), bar2.hashCode());
     }
 
+    /**
+     * Test getting a routine's name
+     */
     @Test
     public void testGetName() {
         assertEquals("<unnamed routine>", unnamed1.getName());
@@ -64,6 +87,9 @@ public class AutonomousRoutineTest {
         assertEquals("Bar", bar2.getName());
     }
 
+    /**
+     * Test the getting of supported preferences
+     */
     @Test
     public void testGetSupportedPreferences() {
         AutonomousPreference bizzPref = new AutonomousPreference(foo1, "bizz");
@@ -72,6 +98,9 @@ public class AutonomousRoutineTest {
                 IsIterableContainingInAnyOrder.containsInAnyOrder(bizzPref, buzzPref));
     }
     
+    /**
+     * Test that equivalent objects are equal
+     */
     @Test
     public void testEqualsObject() {
         // Objects should equal themselves

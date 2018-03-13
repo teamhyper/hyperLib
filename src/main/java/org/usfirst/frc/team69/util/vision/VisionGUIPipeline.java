@@ -19,7 +19,8 @@ public interface VisionGUIPipeline extends VisionPipeline {
      * may access. It should NOT modify the image. Instead, save any information
      * you want to print, and use it in the next call to writeOutput.
      * 
-     * @param mat
+     * @param mat 
+     * 			image to process
      */
     void process(Mat mat);
 
@@ -27,6 +28,7 @@ public interface VisionGUIPipeline extends VisionPipeline {
      * Draw indicators onto the output image.
      * 
      * @param mat
+     * 			image to write the indicators on
      */
     void writeOutput(Mat mat);
 }
