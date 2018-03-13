@@ -7,7 +7,7 @@ services:
 - docker
 
 before_install:
-- docker build -t my-image
+- docker build -t my-image .
 - docker run my-image git clone https://github.com/teamhyper/hyperlib/ /repo
 
 script:
