@@ -14,7 +14,7 @@ public class ScalarPreference {
      * 
      * @param name
      *            The name of the preferences object.
-     * @param labels
+     * @param components
      *            A sequence of letters indicating the components. For example,
      *            "RGB", "HSV", "XYZ", etc. It may be any length.
      */
