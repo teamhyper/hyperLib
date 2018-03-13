@@ -159,7 +159,7 @@ public abstract class AutonomousRoutine extends SendableBase {
     }
 
     /**
-     * {@see equals}
+     * @see {@link #equals}
      */
     @Override
     public int hashCode() {
