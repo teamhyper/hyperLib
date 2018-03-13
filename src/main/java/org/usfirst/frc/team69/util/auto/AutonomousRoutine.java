@@ -85,6 +85,7 @@ public abstract class AutonomousRoutine extends SendableBase {
 	 * 
 	 * @param name
 	 *            The name of the preference
+	 * @return {DoublePreference}
 	 */
 	protected DoublePreference addDoublePreference(String name) {
 		AutonomousPreference prefInfo = new AutonomousPreference(this, name);
@@ -99,6 +100,8 @@ public abstract class AutonomousRoutine extends SendableBase {
 	 * 
 	 * @param routine
 	 *            The subroutine to add.
+	 *            
+	 * @return {AutonomousRoutine}
 	 */
 	protected AutonomousRoutine addSubroutine(AutonomousRoutine routine) {
 		m_subroutines.add(Objects.requireNonNull(routine));

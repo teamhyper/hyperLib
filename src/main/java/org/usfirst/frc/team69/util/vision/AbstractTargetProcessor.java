@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.PIDSource;
  * @author James Hagborg
  *
  * @param <T>
+ * 			VisionResult type of this AbstractTargetProcessor
  */
 public abstract class AbstractTargetProcessor<T extends VisionResult> implements TargetProcessor {
 
