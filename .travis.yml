@@ -7,12 +7,12 @@ services:
 - docker
 
 before_install:
-- docker pull ubuntu:16.04
-- docker run git clone https://github.com/teamhyper/hyperlib/ /repo
+- docker build -t my-image
+- docker run my-image git clone https://github.com/teamhyper/hyperlib/ /repo
 
 script:
-- docker run /bin/sh -c "cd /repo; ./gradlew assemble"
-- docker run /bin/sh -c "cd /repo; ./gradlew check"
+- docker run my-image /bin/sh -c "cd /repo; ./gradlew assemble"
+- docker run my-image /bin/sh -c "cd /repo; ./gradlew check"
 - ./gradlew javadoc
 
 notifications:
