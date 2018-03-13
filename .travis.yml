@@ -13,7 +13,7 @@ install:
 - echo "skip 'gradle assemble' step"
 
 script:
-- docker run -v "${GRADLE_CACHES}:${DOCKER_GRADLE_CACHES}" -v "$(pwd):/repo" ./.travis_docker_script.sh
+- docker run -v "${GRADLE_CACHES}:${DOCKER_GRADLE_CACHES}" -v "$(pwd):/repo" my-image ./.travis_docker_script.sh
 
 notifications:
   slack:
