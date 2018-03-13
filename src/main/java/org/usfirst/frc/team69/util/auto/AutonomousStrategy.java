@@ -8,17 +8,39 @@ import java.util.Objects;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
+/**
+ * {@link AutonomousStrategy}
+ * @author James
+ *
+ */
 public class AutonomousStrategy {
 
+	/**
+	 * {@link Builder}
+	 * @author James
+	 *
+	 */
     public static class Builder {
         private final HashMap<String, AutonomousRoutine> m_map = new HashMap<>();
         private AutonomousRoutine m_default;
         private String m_name;
         
+        /**
+         * 
+         * @param name
+         * 		the strategy's name
+         */
         public Builder(String name) {
             m_name = Objects.requireNonNull(name);
         }
-        
+        /**
+         * 
+         * @param input
+         * 			value of the scenario to match
+         * @param rtn
+         * 			routine to be run in this scenario
+         * @return {Builder}
+         */
         public Builder addScenario(String input, AutonomousRoutine rtn) {
             Objects.requireNonNull(input);
             Objects.requireNonNull(rtn);
@@ -26,11 +48,20 @@ public class AutonomousStrategy {
             return this;
         }
         
+        /**
+         * 
+         * @param rtn
+         * 			routine to set as the default for this AutonomousStrategy
+         * @return {Builder}
+         */
         public Builder addDefault(AutonomousRoutine rtn) {
             m_default = rtn;
             return this;
         }
-        
+        /**
+         * 
+         * @return {AutonomousStrategy}
+         */
         public AutonomousStrategy build() {
             return new AutonomousStrategy(m_name, m_map, m_default);
         }
@@ -45,11 +76,20 @@ public class AutonomousStrategy {
         m_map = new HashMap<>(map);
         m_default = def;
     }
-    
+    /**
+     * 
+     * @return {AutonomousRoutine}
+     */
     public AutonomousRoutine getDefaultRoutine() {
         return m_default;
     }
     
+    /**
+     * 
+     * @param input
+     * 			value of scenario to get the routine for
+     * @return {AutonomousRoutine}
+     */
     public AutonomousRoutine getRoutineForScenario(String input) {
         return m_map.getOrDefault(input, m_default);
     }

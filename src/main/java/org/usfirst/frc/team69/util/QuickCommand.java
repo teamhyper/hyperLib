@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * <pre>
  * {
  * 	&#64;code
- * 	Command myCmd = QuickCommand.oneShot(Robot.exampleSubsystem, () -> Robot.exampleSubsystem.doSomething());
+ * 	Command myCmd = QuickCommand.oneShot(Robot.exampleSubsystem, () -&gt; Robot.exampleSubsystem.doSomething());
  * }
  * </pre>
  * 

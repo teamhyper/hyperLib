@@ -45,6 +45,7 @@ public class MockCommand extends Command {
 
   /**
    * How many times the initialize method has been called.
+   * @return {int}
    */
   public int getInitializeCount() {
     return m_initializeCount;
@@ -52,6 +53,7 @@ public class MockCommand extends Command {
 
   /**
    * If the initialize method has been called at least once.
+   * @return {boolean}
    */
   public boolean hasInitialized() {
     return getInitializeCount() > 0;
@@ -59,6 +61,7 @@ public class MockCommand extends Command {
 
   /**
    * How many time the execute method has been called.
+   * @return {int}
    */
   public int getExecuteCount() {
     return m_executeCount;
@@ -66,6 +69,7 @@ public class MockCommand extends Command {
 
   /**
    * How many times the isFinished method has been called.
+   * @return {int}
    */
   public int getIsFinishedCount() {
     return m_isFinishedCount;
@@ -87,6 +91,7 @@ public class MockCommand extends Command {
 
   /**
    * How many times the end method has been called.
+   * @return {int}
    */
   public int getEndCount() {
     return m_endCount;
@@ -94,6 +99,7 @@ public class MockCommand extends Command {
 
   /**
    * If the end method has been called at least once.
+   * @return {boolean}
    */
   public boolean hasEnd() {
     return getEndCount() > 0;
@@ -101,6 +107,7 @@ public class MockCommand extends Command {
 
   /**
    * How many times the interrupted method has been called.
+   * @return {int}
    */
   public int getInterruptedCount() {
     return m_interruptedCount;
@@ -108,6 +115,7 @@ public class MockCommand extends Command {
 
   /**
    * If the interrupted method has been called at least once.
+   * @return {boolean}
    */
   public boolean hasInterrupted() {
     return getInterruptedCount() > 0;

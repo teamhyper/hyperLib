@@ -17,6 +17,15 @@ public class VisionResult {
     private final int m_yError;
     private final boolean m_foundTarget;
     
+    /**
+     * 
+     * @param xError
+     * 			error on the x-axis
+     * @param yError
+     * 			error on the y-axis
+     * @param foundTarget
+     * 			is the target found
+     */
     public VisionResult(int xError, int yError, boolean foundTarget) {
         m_xError = xError;
         m_yError = yError;

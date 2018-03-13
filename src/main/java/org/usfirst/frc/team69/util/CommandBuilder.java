@@ -116,7 +116,7 @@ public class CommandBuilder {
      * @param command
      *            A function taking a CommandBuilder specifying the sequence of
      *            commands
-     * @return
+     * @return {CommandBuilder}
      */
     public CommandBuilder parallel(Consumer<CommandBuilder> command) {
         CommandBuilder child = new CommandBuilder();

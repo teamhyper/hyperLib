@@ -7,8 +7,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.usfirst.frc.team69.util.CommandBuilder;
 
+/**
+ * 
+ * @author James
+ *
+ */
 public class AutonomousPreferenceTest {
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
     }
@@ -27,7 +36,10 @@ public class AutonomousPreferenceTest {
     
     AutonomousRoutine myRtn1, myRtn2, otherRtn;
     AutonomousPreference myPref1, myPref2, myPref3, otherPref, yetAnotherPref;
-    
+    /**
+     * 
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         myRtn1 = new MyRoutine();
@@ -40,6 +52,9 @@ public class AutonomousPreferenceTest {
         yetAnotherPref = new AutonomousPreference(otherRtn, "myPref");
     }
 
+    /**
+     * Test that equal preference objects are equal
+     */
     @Test
     public void testEqualsObject() {
         assertEquals(myPref1, myPref1);
@@ -49,6 +64,9 @@ public class AutonomousPreferenceTest {
         assertNotEquals(myPref1, yetAnotherPref);
     }
     
+    /**
+     * Test that equal preferences have equal hashcodes
+     */
     @Test
     public void testHashCode() {
         assertEquals(myPref1.hashCode(), myPref2.hashCode());
