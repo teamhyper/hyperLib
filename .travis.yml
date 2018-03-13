@@ -15,8 +15,6 @@ install:
 
 script:
 - docker run -v "${GRADLE_CACHES}:${DOCKER_GRADLE_CACHES}" -v "$(pwd):/repo" ./.travis_docker_script.sh
-- docker run my-image /bin/sh -c "cd /repo; ./gradlew assemble"
-- docker run my-image /bin/sh -c "cd /repo; ./gradlew check"
 
 notifications:
   slack:
