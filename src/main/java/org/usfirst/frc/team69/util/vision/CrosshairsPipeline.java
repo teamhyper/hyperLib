@@ -27,12 +27,17 @@ public class CrosshairsPipeline implements VisionGUIPipeline {
      * 
      * @param x
      *            Supplier for x coordinate.
-     * @param y Supplier for y coordinate.
-     * @param b Blue component of color.
-     * @param g Green component of color.
-     * @param r Red component of color.
+     * @param y
+     *            Supplier for y coordinate.
+     * @param b
+     *            Blue component of color.
+     * @param g
+     *            Green component of color.
+     * @param r
+     *            Red component of color.
      */
-    public CrosshairsPipeline(IntSupplier x, IntSupplier y, int b, int g, int r) {
+    public CrosshairsPipeline(IntSupplier x, IntSupplier y, int b, int g,
+            int r) {
         m_color = new Scalar(b, g, r);
         m_x = Objects.requireNonNull(x);
         m_y = Objects.requireNonNull(y);

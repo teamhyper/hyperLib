@@ -7,10 +7,14 @@ import java.util.function.IntSupplier;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.Point3;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team69.util.pid.DisplacementPIDSource;
 import org.usfirst.frc.team69.util.pref.IntPreference;
+
+import edu.wpi.first.wpilibj.PIDSource;
 
 /**
  * Target processor which finds the closest two targets to the crosshairs, and
@@ -18,28 +22,28 @@ import org.usfirst.frc.team69.util.pref.IntPreference;
  * boiler in the 2017 steamworks game. It can more generally be applied to
  * anything that's two pieces of tape.
  * 
+ * This processor uses the height of the targets to measure distance. However,
+ * it computes x, y, and height all as simple averages, rather than weighting by
+ * depth. This is a good approximation as long as one target is not
+ * significantly closer than the other, meaning the camera is not viewing the
+ * target from a steep angle.
+ * 
  * @author James Hagborg
  *
  */
-public class ClosestPairTargetProcessor extends AbstractTargetProcessor<VisionResult> {
+public class ClosestPairTargetProcessor
+        extends AbstractTargetProcessor<TargetWithHeightResult> {
 
     private final IntSupplier m_xCrosshairs, m_yCrosshairs;
-    
-    /*
-     * The most recent point where a target was found. This is stored in
-     * absolute pixels, rather than relative to the crosshairs, like the result
-     * type stores. This is only used for drawing indicators.
-     */
-    private Point m_lastPoint;
 
     /**
      * Construct a new target processor with the given fixed crosshairs
      * position.
      * 
      * @param xCrosshairs
-     * 			X coordinate for the crosshairs
+     *            X coordinate for the crosshairs
      * @param yCrosshairs
-     * 			Y coordinate for the crosshairs
+     *            Y coordinate for the crosshairs
      */
     public ClosestPairTargetProcessor(int xCrosshairs, int yCrosshairs) {
         this(() -> xCrosshairs, () -> yCrosshairs);
@@ -54,11 +58,12 @@ public class ClosestPairTargetProcessor extends AbstractTargetProcessor<VisionRe
      * from any thread.
      * 
      * @param xCrosshairs
-     * 			X coordinate for the crosshairs
+     *            X coordinate for the crosshairs
      * @param yCrosshairs
-     * 			Y coordinate for the crosshairs
+     *            Y coordinate for the crosshairs
      */
-    public ClosestPairTargetProcessor(IntSupplier xCrosshairs, IntSupplier yCrosshairs) {
+    public ClosestPairTargetProcessor(IntSupplier xCrosshairs,
+            IntSupplier yCrosshairs) {
         m_xCrosshairs = Objects.requireNonNull(xCrosshairs);
         m_yCrosshairs = Objects.requireNonNull(yCrosshairs);
     }
@@ -71,7 +76,7 @@ public class ClosestPairTargetProcessor extends AbstractTargetProcessor<VisionRe
      *            The target to check
      * @return The distance from the crosshairs
      */
-    private double targetDistance(Point result) {
+    private double targetDistance(Point3 result) {
         double xError = result.x - m_xCrosshairs.getAsInt();
         double yError = result.y - m_yCrosshairs.getAsInt();
         return xError * xError + yError * yError;
@@ -84,28 +89,30 @@ public class ClosestPairTargetProcessor extends AbstractTargetProcessor<VisionRe
      *            The target rectangle.
      * @return The point at the center of the rectangle.
      */
-    private Point targetToPoint(Rect rect) {
+    private Point3 targetToPoint(Rect rect) {
         int xCenter = rect.x + rect.width / 2;
         int yCenter = rect.y + rect.height / 2;
-        return new Point(xCenter, yCenter);
+        int height = rect.height;
+        return new Point3(xCenter, yCenter, height);
     }
 
     /**
      * Convert a point to a result, by taking the position to be relative to the
      * crosshairs. Since this method is only called when the point given is
-     * actually the chosen target, this also saves the point for drawing a marker
-     * later.
+     * actually the chosen target, this also saves the point for drawing a
+     * marker later.
      * 
-     * @param point The point at the center of the target, in absolute pixels.
+     * @param point
+     *            The point at the center of the target, in absolute pixels.
      * @return The new VisionResult
      */
-    private VisionResult pointToResult(Point point) {
-        m_lastPoint = point;
-        return new VisionResult(
-                (int) point.x - m_xCrosshairs.getAsInt(),
-                (int) point.y - m_yCrosshairs.getAsInt(), true);
+    private TargetWithHeightResult pointToResult(Point3 point) {
+        return new TargetWithHeightResult(
+                point.x - m_xCrosshairs.getAsInt(),
+                point.y - m_yCrosshairs.getAsInt(),
+                point.x, point.y, point.z, true);
     }
-    
+
     /**
      * Given two Points, find the average of their positions.
      * 
@@ -113,38 +120,58 @@ public class ClosestPairTargetProcessor extends AbstractTargetProcessor<VisionRe
      * @param b
      * @return
      */
-    private Point averagePoints(Point a, Point b) {
-        return new Point((a.x + b.x) / 2, (a.y + b.y) / 2);
+    private Point3 averagePoints(Point3 a, Point3 b) {
+        return new Point3((a.x + b.x) / 2, (a.y + b.y) / 2, (a.z + b.z) / 2);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public VisionResult computeResult(List<Rect> targets) {
-        Point[] result = targets.stream()
-                .map(this::targetToPoint)
+    public TargetWithHeightResult computeResult(List<Rect> targets) {
+        Point3[] result = targets.stream().map(this::targetToPoint)
                 .sorted(Comparator.comparingDouble(this::targetDistance))
-                .limit(2)
-                .toArray(Point[]::new);
-        if (result.length == 0) {
-            return getDefaultValue();
-        } else if (result.length == 1) {
+                .limit(2).toArray(Point3[]::new);
+        if (result.length < 2) {
             return getDefaultValue();
         } else {
             return pointToResult(averagePoints(result[0], result[1]));
         }
     }
+    
+    /**
+     * Get a PID source that returns the height of the target.
+     * 
+     * @return A PID source returning the height of the target.
+     */
+    public PIDSource heightPID() {
+        return new DisplacementPIDSource() {
+            @Override
+            public double pidGet() {
+                return getLastResult().height();
+            }
+        };
+    }
 
     private static final Scalar MARKER_COLOR = new Scalar(0, 0, 255);
-    
+    private static final double MARKER_WIDTH = 6;
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void writeOutput(Mat mat) {
-        if (m_lastPoint != null && getLastResult().foundTarget()) {
-            Imgproc.drawMarker(mat, m_lastPoint, MARKER_COLOR);
+        TargetWithHeightResult result = getLastResult();
+        if (result.foundTarget()) {
+            Point center = new Point(result.xAbsolute(), result.yAbsolute());
+            double height = result.height();
+            Point tl = new Point(center.x - MARKER_WIDTH / 2, center.y - height / 2);
+            Point tr = new Point(center.x + MARKER_WIDTH / 2, center.y - height / 2);
+            Point bl = new Point(center.x - MARKER_WIDTH / 2, center.y + height / 2);
+            Point br = new Point(center.x + MARKER_WIDTH / 2, center.y + height / 2);
+            Imgproc.drawMarker(mat, center, MARKER_COLOR);
+            Imgproc.line(mat, tl, tr, MARKER_COLOR);
+            Imgproc.line(mat, bl, br, MARKER_COLOR);
         }
     }
 
@@ -152,8 +179,8 @@ public class ClosestPairTargetProcessor extends AbstractTargetProcessor<VisionRe
      * {@inheritDoc}
      */
     @Override
-    public VisionResult getDefaultValue() {
-        return new VisionResult(0, 0, false);
+    public TargetWithHeightResult getDefaultValue() {
+        return new TargetWithHeightResult(0, 0, 0, 0, 0, false);
     }
 
 }

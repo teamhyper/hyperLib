@@ -99,8 +99,9 @@ public class ClosestTargetProcessor extends AbstractTargetProcessor<VisionResult
     private VisionResult pointToResult(Point point) {
         m_lastPoint = point;
         return new VisionResult(
-                (int) point.x - m_xCrosshairs.getAsInt(),
-                (int) point.y - m_yCrosshairs.getAsInt(), true);
+                point.x - m_xCrosshairs.getAsInt(),
+                point.y - m_yCrosshairs.getAsInt(), 
+                point.x, point.y, true);
     }
 
     /**
@@ -132,7 +133,7 @@ public class ClosestTargetProcessor extends AbstractTargetProcessor<VisionResult
      */
     @Override
     public VisionResult getDefaultValue() {
-        return new VisionResult(0, 0, false);
+        return new VisionResult(0, 0, 0, 0, false);
     }
 
 }
