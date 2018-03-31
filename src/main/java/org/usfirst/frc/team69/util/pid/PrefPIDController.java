@@ -33,6 +33,8 @@ public class PrefPIDController extends PIDController {
     private double m_defP, m_defI, m_defD, m_defF;
     private double m_defTolerance = -1; // -1 indicates no tolerance
     private double m_defMinOutput = -1, m_defMaxOutput = 1;
+    
+    private PIDSource m_source;
 
     private final String m_prefString;
 
@@ -132,6 +134,7 @@ public class PrefPIDController extends PIDController {
         m_defD = Kd;
         m_defF = Kf;
         m_prefString = prefString;
+        m_source = source;
 
         createKeysIfEmpty();
         updatePreferences();
@@ -231,6 +234,44 @@ public class PrefPIDController extends PIDController {
 
         updatePreferences();
     }
+    /**
+     * Gets the tolerance of the PID
+     * 
+     * @return the tolerance of this PID 
+     */
+    public double getTolerance() {
+    	return m_defTolerance;
+    }
+    
+    /**
+     * Is the system above the given target
+     * 
+     * @param target
+     * 			setpoint to check if the PID system is above
+     * 
+     * @param reverse
+     * 			is the system reversed
+     * 
+     * @return is the system above the given target
+     */
+    public boolean isAbove(double target, boolean reverse) {
+    	return (reverse ? m_source.pidGet() <= target+m_defTolerance : m_source.pidGet() >= target-m_defTolerance);
+    }
+    /**
+     * Is the system below the given target
+     * 
+     * @param target
+     * 			setpoint to check if the PID system is below
+     * 
+     * @param reverse
+     * 			is the system reversed
+     * 
+     * @return is the system below the given target
+     */
+    public boolean isBelow(double target, boolean reverse) {
+    	return (reverse ? m_source.pidGet() >= target-m_defTolerance : m_source.pidGet() <= target+m_defTolerance);
+    }
+    
 
     private void updatePreferences() {
         Preferences pref = Preferences.getInstance();
