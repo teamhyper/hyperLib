@@ -69,7 +69,7 @@ public class CommandBuilder {
      * @return This CommandBuilder object
      */
     public CommandBuilder sequential(Command command, double timeout) {
-    	if(timeout >= 0) {
+    	if(timeout >= 0.0) {
     		m_cmdGroup.addSequential(command, timeout);
     	} else {
     		m_cmdGroup.addSequential(command);
@@ -109,7 +109,7 @@ public class CommandBuilder {
      * @return This CommandBuilder object
      */
     public CommandBuilder parallel(Command command, double timeout) {
-    	if(timeout >= 0) {
+    	if(timeout >= 0.0) {
     		m_cmdGroup.addParallel(command, timeout);
     	} else {
     		m_cmdGroup.addParallel(command);
