@@ -13,7 +13,7 @@ install:
 - echo "skip 'gradle assemble' step"
 
 script:
-- docker run -v "${GRADLE_CACHES}:${DOCKER_GRADLE_CACHES}" -v "$(pwd):/hyperLib" my-image /hyperLib/.travis_docker_script.sh
+- docker run -v "$(pwd):/hyperLib" my-image /hyperLib/.travis_docker_script.sh
 
 notifications:
   slack:
