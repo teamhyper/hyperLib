@@ -2,6 +2,6 @@
 
 set -e -x
 
-cd /repo
+cd /hyperLib
 ./gradlew assemble
 ./gradlew check
