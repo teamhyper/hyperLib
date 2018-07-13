@@ -23,7 +23,7 @@ public @interface Port {
      *
      */
     public enum Type {
-        PWM, DIO, ANALOG, RELAY, PCM, CAN
+        PWM, DIO, ANALOG, RELAY, PCM, CAN, USB
     }
 
     /**

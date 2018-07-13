@@ -65,11 +65,16 @@ public class CommandBuilder {
      * @param command
      *            The command to add in sequence
      * @param timeout
-     *            The timeout, in seconds
+     *            The timeout, in seconds. if negative, no timeout is used.
      * @return This CommandBuilder object
      */
     public CommandBuilder sequential(Command command, double timeout) {
-        m_cmdGroup.addSequential(command, timeout);
+    	if(timeout >= 0.0) {
+    		m_cmdGroup.addSequential(command, timeout);
+    	} else {
+    		m_cmdGroup.addSequential(command);
+    	}
+        
         return this;
     }
 
@@ -100,11 +105,15 @@ public class CommandBuilder {
      * @param command
      *            The command to add in parallel
      * @param timeout
-     *            The timeout, in seconds
+     *            The timeout, in seconds. if negative, no timeout is used.
      * @return This CommandBuilder object
      */
     public CommandBuilder parallel(Command command, double timeout) {
-        m_cmdGroup.addParallel(command, timeout);
+    	if(timeout >= 0.0) {
+    		m_cmdGroup.addParallel(command, timeout);
+    	} else {
+    		m_cmdGroup.addParallel(command);
+    	}        
         return this;
     }
 
