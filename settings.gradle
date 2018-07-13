@@ -17,6 +17,5 @@ include 'services:webservice'
 */
 
 include 'desktopTester'
-include 'shuffleboardPlugin'
 
 rootProject.name = 'hyperlib'
