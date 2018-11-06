@@ -1,9 +1,9 @@
 plugins {
-  id "fr.brouillard.oss.gradle.jgitver" version "0.2.0"
+    id 'fr.brouillard.oss.gradle.jgitver' version '0.4.1'
+    id 'java'
+    id 'checkstyle'
+    id 'maven-publish'
 }
-
-apply plugin: 'java'
-apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.8
 
@@ -38,15 +38,52 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-// If we decide to use gradle to publish archives at some point, this is how we do it
 artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
+publishing {
+    publications {
+	mavenPublication(MavenPublication) {
+	    from components.java
+	    artifact sourcesJar {
+		classifier 'sources'
+	    }
+	    artifact javadocJar {
+		classifier 'javadoc'
+	    }
+	    
+	    groupId 'org.hyperonline'
+	    artifactId 'hyperlib'
+	    
+	    pom {
+		name = 'hyperLib'
+		description = 'Enhancements to WPILib'
+		url = 'https://teamhyper.github.io/hyperLib'
+		developers {
+		    developer {
+			id = 'jhagborg'
+			name = 'James Hagborg'
+			email = 'jameshagborg@gmail.com'
+		    }
+		}
+		scm {
+		    url = 'https://github.com/teamhyper/hyperLib'
+		}
+	    }
+	}
+    }
+}
+
 
 // By default, checkstyle wants to look at tests
 // we override to only look at the main code
 checkstyle {
     toolVersion = '6.11.2'
     sourceSets = [project.sourceSets.main]
+}
+
+wrapper {
+    gradleVersion = 4.9
 }
