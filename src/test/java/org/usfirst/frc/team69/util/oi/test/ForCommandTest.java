@@ -16,6 +16,11 @@ import edu.wpi.first.wpilibj.UnitTestUtility;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+/**
+ * {@link ForCommandTest}
+ * @author James
+ *
+ */
 public class ForCommandTest {
 
     // We're looping conditional on code under test, want to make sure that doesn't break
@@ -25,11 +30,17 @@ public class ForCommandTest {
     private MockCommand mockCommand;
     private Command loopCommand;
     
+    /**
+     * @throws {Exception}
+     */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         UnitTestUtility.setupMockBase();
     }
 
+    /**
+     * 
+     */
     @Before
     public void setUp() {
         mockCommand = new MockCommand();
@@ -49,6 +60,9 @@ public class ForCommandTest {
         }
     }
     
+    /**
+     * Test the ForLoop
+     */
     @Test
     public void testForLoop() {
         runLoopOnce();
@@ -60,6 +74,9 @@ public class ForCommandTest {
         assertEquals(0, mockCommand.getInterruptedCount());
     }
 
+    /**
+     * Test multiple runs of the Command
+     */
     @Test
     public void testMultipleRuns() {
         runLoopOnce();

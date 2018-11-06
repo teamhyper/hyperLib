@@ -12,6 +12,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * {@link TestReleaseCommand}
+ * @author James
+ *
+ */
 public class TestReleaseCommand {
 
     private Command runningCommand;
@@ -20,11 +25,19 @@ public class TestReleaseCommand {
     private Subsystem subsystem;
     private Scheduler scheduler;
     
+    /**
+     * 
+     * @throws Exception
+     */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         UnitTestUtility.setupMockBase();
     }
 
+    /**
+     * 
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         subsystem = new MySubsystem();
@@ -42,12 +55,17 @@ public class TestReleaseCommand {
             setDefaultCommand(defaultCommand);
         }
     }
-    
+    /**
+     * Test the the Command requires the Subsystem
+     */
     @Test
     public void testRequiresSubsystem() {
         assertTrue(releaseCommand.doesRequire(subsystem));
     }
     
+    /**
+     * Tests that 
+     */
     @Test
     public void testKillsRunningAndStartsDefault() {
         runningCommand.start();

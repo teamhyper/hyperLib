@@ -2,6 +2,7 @@ package org.usfirst.frc.team69.util;
 
 import java.util.Collections;
 import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -64,11 +65,16 @@ public class CommandBuilder {
      * @param command
      *            The command to add in sequence
      * @param timeout
-     *            The timeout, in seconds
+     *            The timeout, in seconds. if negative, no timeout is used.
      * @return This CommandBuilder object
      */
     public CommandBuilder sequential(Command command, double timeout) {
-        m_cmdGroup.addSequential(command, timeout);
+    	if(timeout >= 0.0) {
+    		m_cmdGroup.addSequential(command, timeout);
+    	} else {
+    		m_cmdGroup.addSequential(command);
+    	}
+        
         return this;
     }
 
@@ -99,11 +105,32 @@ public class CommandBuilder {
      * @param command
      *            The command to add in parallel
      * @param timeout
-     *            The timeout, in seconds
+     *            The timeout, in seconds. if negative, no timeout is used.
      * @return This CommandBuilder object
      */
     public CommandBuilder parallel(Command command, double timeout) {
-        m_cmdGroup.addParallel(command, timeout);
+    	if(timeout >= 0.0) {
+    		m_cmdGroup.addParallel(command, timeout);
+    	} else {
+    		m_cmdGroup.addParallel(command);
+    	}        
+        return this;
+    }
+
+    /**
+     * Add a sequence of commands in parallel. Execution of the next command
+     * will begin immediately, while this one continues to execute in parallel.
+     * The command will be killed if the timeout expires.
+     * 
+     * @param command
+     *            A function taking a CommandBuilder specifying the sequence of
+     *            commands
+     * @return {CommandBuilder}
+     */
+    public CommandBuilder parallel(Consumer<CommandBuilder> command) {
+        CommandBuilder child = new CommandBuilder();
+        command.accept(child);
+        m_cmdGroup.addParallel(child.build());
         return this;
     }
 
@@ -152,8 +179,7 @@ public class CommandBuilder {
      *            The timeout in seconds
      * @return This CommandBuilder object
      */
-    public CommandBuilder waitForCondition(BooleanSupplier condition,
-                                           double timeout) {
+    public CommandBuilder waitForCondition(BooleanSupplier condition, double timeout) {
         m_cmdGroup.addSequential(QuickCommand.waitFor(condition), timeout);
         return this;
     }
@@ -182,8 +208,7 @@ public class CommandBuilder {
      *            The command to run if the condition is false
      * @return This CommandBuilder object
      */
-    public CommandBuilder ifThenElse(BooleanSupplier condition, Command ifTrue,
-                                     Command ifFalse) {
+    public CommandBuilder ifThenElse(BooleanSupplier condition, Command ifTrue, Command ifFalse) {
         m_cmdGroup.addSequential(new ConditionalCommand(ifTrue, ifFalse) {
             @Override
             protected boolean condition() {
@@ -238,10 +263,8 @@ public class CommandBuilder {
      */
     public CommandBuilder forLoop(int count, Command body) {
         Counter counter = new Counter();
-        m_cmdGroup.addSequential(
-                QuickCommand.oneShot(null, () -> counter.value = 0));
-        m_cmdGroup.addSequential(
-                new WhileCommand(() -> counter.value++ < count, body));
+        m_cmdGroup.addSequential(QuickCommand.oneShot(null, () -> counter.value = 0));
+        m_cmdGroup.addSequential(new WhileCommand(() -> counter.value++ < count, body));
         return this;
     }
 
@@ -271,8 +294,7 @@ public class CommandBuilder {
     public CommandBuilder releaseAll() {
         m_cmdGroup.addSequential(new InstantCommand() {
             {
-                for (Object req : Collections
-                        .list(GetRequirements.getRequirements(m_cmdGroup))) {
+                for (Object req : Collections.list(GetRequirements.getRequirements(m_cmdGroup))) {
                     requires((Subsystem) req);
                 }
             }

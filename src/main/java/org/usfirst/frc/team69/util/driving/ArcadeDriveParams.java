@@ -1,6 +1,6 @@
 package org.usfirst.frc.team69.util.driving;
 
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * A class which represents arcade drive. Arcade drive uses two values: move and
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;;
  * can also be used to drive directly from the joystick.
  * 
  * This class simply wraps
- * {@link RobotDrive#arcadeDrive(double, double, boolean)}.
+ * {@link DifferentialDrive#arcadeDrive(double, double, boolean)}.
  * 
  * This class is immutable. That means you must construct a new instance each
  * time you want to change the power to the drivetrain.
@@ -48,7 +48,7 @@ public class ArcadeDriveParams implements DriveParameters {
     public void drive(DifferentialDrive driveTrain, double currentGyro) {
         driveTrain.arcadeDrive(m_move, m_rotate, m_squareInputs);
     }
-   
+
     /**
      * Get the move parameter
      * 

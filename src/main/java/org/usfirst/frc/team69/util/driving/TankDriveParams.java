@@ -6,8 +6,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * A class which represents tank drive. This mode takes two inputs: left and
  * right, and drives each side of the robot independently.
  * 
- * This class simply wraps {@link RobotDrive#tankDrive(double, double, boolean)}
- * .
+ * This class simply wraps {@link DifferentialDrive#tankDrive(double, double, boolean)}.    
  * 
  * This class is immutable. That means you must construct a new instance each
  * time you want to change the power to the drivetrain.
@@ -41,14 +40,13 @@ public class TankDriveParams implements DriveParameters {
 
     /**
      * {@inheritDoc}
-     */   
-	@Override
-	public void drive(DifferentialDrive driveTrain, double currentGyro) {
-		// TODO Auto-generated method stub
-		driveTrain.tankDrive(m_left, m_right, m_squareInputs);
-	}
+     */
+    @Override
+    public void drive(DifferentialDrive driveTrain, double currentGyro) {
+        driveTrain.tankDrive(m_left, m_right, m_squareInputs);
+    }
 
-    
+
     /**
      * Get the left parameter
      * 

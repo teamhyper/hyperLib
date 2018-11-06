@@ -1,6 +1,5 @@
 package org.usfirst.frc.team69.util.driving;
 
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
@@ -26,12 +25,12 @@ public interface DriveParameters {
      * the drivetrain (anything that starts with "set") to allow one to switch
      * between modes easily.
      * 
-     * TODO: pass a wrapper of RobotDrive, which only allows certain methods
+     * TODO: pass a wrapper of DifferentialDrive, which only allows certain methods
      * TODO: remove currentGyro. This is pretty irrelevant, and can be obtained
      * in other ways.
      * 
      * @param driveTrain
-     *            A {@link RobotDrive} object representing the drivetrain of the
+     *            A {@link DifferentialDrive} object representing the drivetrain of the
      *            robot.
      * @param currentGyro
      *            The current gyro heading, if a gyro exists. Nothing should use
