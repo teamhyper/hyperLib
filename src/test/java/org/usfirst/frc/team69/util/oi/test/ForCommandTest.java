@@ -1,18 +1,12 @@
 package org.usfirst.frc.team69.util.oi.test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.concurrent.TimeUnit;
-
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.Timeout;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.usfirst.frc.team69.util.CommandBuilder;
 
 import edu.wpi.first.wpilibj.MockCommand;
-import edu.wpi.first.wpilibj.UnitTestUtility;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -21,27 +15,14 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  * @author James
  *
  */
-public class ForCommandTest {
-
-    // We're looping conditional on code under test, want to make sure that doesn't break
-    @Rule
-    public Timeout globalTimeout = new Timeout(100, TimeUnit.MILLISECONDS);
-    
+public class ForCommandTest {    
     private MockCommand mockCommand;
     private Command loopCommand;
-    
-    /**
-     * @throws {Exception}
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        UnitTestUtility.setupMockBase();
-    }
 
     /**
      * 
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         mockCommand = new MockCommand();
         mockCommand.setHasFinished(true);

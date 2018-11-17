@@ -1,11 +1,11 @@
 package org.usfirst.frc.team69.util.oi.test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.usfirst.frc.team69.util.oi.ButtonData;
 import org.usfirst.frc.team69.util.oi.ButtonData.Action;
 import org.usfirst.frc.team69.util.oi.JoystickData;
@@ -19,24 +19,9 @@ import org.usfirst.frc.team69.util.oi.WhileHeld;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- * 
- * @author James
- *
- */
 public class OIBaseTest {
 
-	/**
-	 * 
-	 * @author James
-	 *
-	 */
     public static class SingleJoystickMap {
-    	/**
-    	 * 
-    	 * @author James
-    	 *
-    	 */
         @MapJoystick(port = 0, role = Role.LEFT_DRIVER, type = Type.LOGITECH_2_AXIS)
         public static class LeftDriver {
             @WhenPressed(0) public final Command foo = null;
@@ -45,27 +30,15 @@ public class OIBaseTest {
             @WhenReleased(2) public final Command buzz = null;
         }
     }
-    /**
-     * 
-     * @author James
-     *
-     */
+    
+    
     public static class DoubleJoystickMap {
-    	/**
-    	 * 
-    	 * @author James
-    	 *
-    	 */
         @MapJoystick(port = 0, role = Role.LEFT_DRIVER, type = Type.LOGITECH_2_AXIS)
         public static class LeftDriver {
             @WhenPressed(0) public final Command foo = null;
             @WhenPressed(1) public final Command bar = null;
         }
-        /**
-         * 
-         * @author James
-         *
-         */
+        
         @MapJoystick(port = 1, role = Role.RIGHT_DRIVER, type = Type.LOGITECH_3_AXIS)
         public static class RightDriver {
             @WhileHeld(0) public final Command baz = null;
@@ -166,49 +139,5 @@ public class OIBaseTest {
         assertEquals(1, buttons.get(1).port());
         assertEquals(Action.WHEN_RELEASED, buttons.get(1).action());
         assertEquals("buzz", buttons.get(1).name());
-    }
-    /**
-     * Test getting the left driver joystick from PC
-     */
-    @Test(expected = UnsupportedOperationException.class)
-    public void testGetLeftDriverFromPC() {
-        OI oi = new OI(SingleJoystickMap.class, false);
-        oi.leftDriver();
-    }
-    
-    /**
-     * Test getting a single joystick from PC
-     */
-    @Test(expected = UnsupportedOperationException.class)
-    public void testGetJoystickFromPC() {
-        OI oi = new OI(SingleJoystickMap.class, false);
-        oi.getJoystick(0);
-    }
-    
-    /**
-     * Test getting an empty joystick from PC
-     */
-    @Test(expected = UnsupportedOperationException.class)
-    public void testGetEmptyJoystickFromPC() {
-        OI oi = new OI(SingleJoystickMap.class, false);
-        oi.getJoystick(1);
-    }
-    
-    /**
-     * Test initializing commands from PC
-     */
-    @Test(expected = UnsupportedOperationException.class)
-    public void testInitCommandsFromPC() {
-        OI oi = new OI(SingleJoystickMap.class, false);
-        oi.initCommands();
-    }
-    
-    /**
-     * Test that the button list is immutable
-     */
-    @Test(expected = UnsupportedOperationException.class)
-    public void testButtonListImmutable() {
-        OI oi = new OI(SingleJoystickMap.class, false);
-        oi.getJoystickData().get(0).buttons().clear();
     }
 }

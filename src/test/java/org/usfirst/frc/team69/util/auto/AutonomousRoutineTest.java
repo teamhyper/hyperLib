@@ -1,11 +1,11 @@
 package org.usfirst.frc.team69.util.auto;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.usfirst.frc.team69.util.CommandBuilder;
 
 /**
@@ -26,14 +26,6 @@ public class AutonomousRoutineTest {
 
     /**
      * 
-     * @throws Exception
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
-
-    /**
-     * 
      * @return {AutonomousRoutine}
      */
     public AutonomousRoutine makeNewRoutine() {
@@ -48,7 +40,7 @@ public class AutonomousRoutineTest {
      * 
      * @throws Exception
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         unnamed1 = makeNewRoutine();
         unnamed2 = makeNewRoutine();

@@ -1,10 +1,9 @@
 package org.usfirst.frc.team69.util.auto;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.usfirst.frc.team69.util.CommandBuilder;
 
 /**
@@ -14,33 +13,26 @@ import org.usfirst.frc.team69.util.CommandBuilder;
  */
 public class AutonomousPreferenceTest {
 
-	/**
-	 * 
-	 * @throws Exception
-	 */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
-
     class MyRoutine extends AutonomousRoutine {
         @Override
         public void build(CommandBuilder builder) {
         }
     }
-    
+
     class OtherRoutine extends AutonomousRoutine {
         @Override
         public void build(CommandBuilder builder) {
         }
     }
-    
+
     AutonomousRoutine myRtn1, myRtn2, otherRtn;
     AutonomousPreference myPref1, myPref2, myPref3, otherPref, yetAnotherPref;
+
     /**
      * 
      * @throws Exception
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         myRtn1 = new MyRoutine();
         myRtn2 = new MyRoutine();
@@ -63,7 +55,7 @@ public class AutonomousPreferenceTest {
         assertNotEquals(myPref1, otherPref);
         assertNotEquals(myPref1, yetAnotherPref);
     }
-    
+
     /**
      * Test that equal preferences have equal hashcodes
      */

@@ -1,14 +1,11 @@
 package org.usfirst.frc.team69.util.oi.test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.usfirst.frc.team69.util.PeriodicScheduler;
-
-import edu.wpi.first.wpilibj.UnitTestUtility;
 
 /**
  * {@link PeriodicSchedulerTest}
@@ -18,42 +15,24 @@ import edu.wpi.first.wpilibj.UnitTestUtility;
 public class PeroidicSchedulerTest {
     
     private PeriodicScheduler m_sched;
-    
-    /**
-     * 
-     * @throws Exception
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        UnitTestUtility.setupMockBase();
-    }
 
-    /**
-     * 
-     */
-    @Before
+    @BeforeEach
     public void setUp() {
         m_sched = PeriodicScheduler.getInstance();
     }
-    /**
-     * 
-     */
-    @After
+    
+    @AfterEach
     public void tearDown() {
         m_sched.clear();
     }
-    /**
-     * 
-     */
+    
     @Test
     public void testClearOnEmpty() {
         // just check that nothing crashes
         m_sched.clear();
         m_sched.run();
     }
-    /**
-     * Test that element is cleared from the scheduler
-     */
+
     @Test
     public void testClearWithElement() {
         MockRunnable event = new MockRunnable();

@@ -1,13 +1,11 @@
 package org.usfirst.frc.team69.util.oi.test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import edu.wpi.first.wpilibj.MockCommand;
-import edu.wpi.first.wpilibj.UnitTestUtility;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -24,21 +22,12 @@ public class WhileCommandTest {
     private MockCondition condition;
     private MockCommand body;
     private WhileCommand whileCommand;
-    
-    /**
-     * 
-     * @throws Exception
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        UnitTestUtility.setupMockBase();
-    }
 
     /**
      * 
      * @throws Exception
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         Scheduler.getInstance().removeAll();
         
