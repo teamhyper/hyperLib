@@ -53,6 +53,10 @@ test {
     }
 }
 
+javadoc {
+    options.addBooleanOption('html5', true)
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     description 'Builds a jar file full of sources.'
     classifier = 'sources'

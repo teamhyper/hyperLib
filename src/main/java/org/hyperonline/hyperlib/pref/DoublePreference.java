@@ -32,7 +32,7 @@ public class DoublePreference extends Preference {
      * {@inheritDoc}
      */
     @Override
-    public synchronized boolean hasChanged() {
+    protected synchronized boolean hasChanged() {
         double newValue = get();
         boolean changed = newValue != m_lastValue;
         m_lastValue = newValue;
@@ -43,7 +43,7 @@ public class DoublePreference extends Preference {
      * {@inheritDoc}
      */
     @Override
-    public void putDefaultValue() {
+    protected void putDefaultValue() {
         Preferences.getInstance().putDouble(getName(), m_default);
     }
 

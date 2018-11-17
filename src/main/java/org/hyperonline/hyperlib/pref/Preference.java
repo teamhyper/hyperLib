@@ -62,10 +62,10 @@ public abstract class Preference {
      * 
      * @return true if the value has changed, false otherwise
      */
-    abstract boolean hasChanged();
+    protected abstract boolean hasChanged();
 
     /**
      * Put an entry with the default value.
      */
-    abstract void putDefaultValue();
+    protected abstract void putDefaultValue();
 }
