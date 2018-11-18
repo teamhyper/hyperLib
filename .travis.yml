@@ -2,19 +2,13 @@ dist: xenial
 language: java
 
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 
-notifications:
-  slack:
-    rooms:
-    - babysmith:ULSqFgVgfIwVZhqtqM7d27kv#git
-    - babysmith:ULSqFgVgfIwVZhqtqM7d27kv#hyperlib
- 
 env:
   global:
   - secure: KbemNv66/YeG1d5rh/DIQ/IzFGO+jkUIxyrC/Rv6qqgIAIzPljTAgvbOwlIS4VWxAc+6u3TgZ1ITHqcISmqQBd3xfqnSjzGyCmiumXmKjP3f/lsXOY0G2dqK8B5UxGyWfHuOldDIZxVs0nlNfW8cvgnVtWikAl+8oM+vZ6OFm6nZf1IqZU7PHHsF8sxi5H2PGo3IJjhkNNpjbi/N+KHpNyeKOPHGmu5jxUg1y+Xk+tpSDij/ko3URy5r1D+GX/BaZBAcRAIk4e1LIka4v6XVhbenO1vTKtmaoWhlSPpdjhi9/6No/rWWb2c+BzaN2hBhyU6g5ZY7goNsb9uzrh3LDWBiXoASPaVMOK17VTJRlARYcXRUK9HgAMj1o8wdgREVFKy8aTIX3amep2O114tnkTbCAefqWqESev5FMY/8TTsoUepO1f7La2EPt4xuckXJBLfb2yH8bbP8u8n8PtHjUJ+jmerGq3MlP8EQj21Qxk299KZ5/NaL2lnYN7krlb+2IMiDJX1Xb3AUVDtM3BFiCefLVPd7EAqbGgicSHRgal1YYaaOVmRq1kqBtTG72Pslh0PHRfjDpWG7NbNntZJG/S05iLJS9cpDeoyEri7mjC48L7Ej/V2Wwd0lEQyWf98FBFvWLja6S5o0VTjE5K1LEWoNpshxia7uZUYiW3JeC9o=
@@ -38,3 +32,9 @@ deploy:
   skip_cleanup: true
   on:
     repo: teamhyper/hyperLib
+
+notifications:
+  slack:
+    rooms:
+    - secure: Xo3L46gVC7NOY8eSkvAMcwgiYCmwRcVskeAhPGDxodNLPD/2zdGofiHkibWIsnYU9+6tecANCktCM9S8+MAdmp325IrOPAOdh8f4vmyRiYyEOIq+003gHGFIo6RTALfMEx4QFdaCWMLrpQpAPwtTthQo9FvyATW/vyG3pUA13XDRETVpP/Q2gSuiNuf/JCjG98vY3ytm5buelp50qCZ9Xphgs7Lx5eFvRXheESdnhCB/pByo/wPJIzhRXWLrDWUsiCUfxUeoYEx6+JU4JMYLHnx+1LW8viKhrTuH4A9sIMYhms7oeNDX13syrAji3JCV/GXBAD90TzRYPQGAlbZHP6d9i2HWmQ2miEcV1sFRr+aiutnhWZbtHC1osDG/olJ9iJz47ZrXJbeHM9rf1CAua9igoseX+Hq/vPhhJPHTHhJMSJlKBwHMHbzQF61FyFykYgA65fhMhW6fs5dPDiQGUmZJA9WP60LuzfKQxwk8Tsw4GLnU6w2t52Aabz+md27GiyODCN6yh+egbsGP+qbwdDn1Q39lnyZ5MVCEO6IbqrD3vCvSwVKAL2JJnnGEEE5gCv4g00QYrEZCya9kv7o1OY0Bc3pL7vwqJxc6fVpOoV2HJAlYj5WoOk6IRUJ6Q/pxISzAcJUrsYqOjFXonK2EGVFBQGNxmXZ+JYpjwHTFClQ=
+    - secure: W5gi5C2YvcVmBJUpaya9PoFoI/ct35PjM+odn/MdlsdgBheFiU8pEDR4ZTnLnCk2MK5eT60GX2CYRtr3Mp8Oq+cQN+Ik7Nk5NzYdn+ahSdoG3Go3GT2u1c6PfEsnn35Dwq49hywa0R64286wpNyx7vluBoQ8NVUKHB5+HlusNDsyVFhPGBIREn+8YpK2GMwizCvJ4BwwcaQcGvUFE0izRARgiTLgVNIEjbLFLMEJmGuvyk5+5gQL/hXoJwra9HTOD9xI65gsA8Adl6D3+YSpEKyaTw0uys//zkP7vA6hl3mSZqFvOIH3e7QmJphuLBe+qy6BITqVFHnYAgVFKMhMWLBWFsUfd6XTlbfqsu47KT6WSeln+285T5qIn1GbaK97dgZcJBV7apRPbU7HLGObm6WNKKjIp51NOXoFGid9L3/9CVI3KA0DWeYTBoqJhJHL4qotPYvCdEIdgkGm1Kvu4lzu9pwBDxEXSK9OElj3tWc2xMHCeTdGsnvfE3ODiS+dYi2ezFp1NIq6eAZnwU52MfbRg7QdrNR7MniYt++CwD8bZNoCYHR0MrdvXWYB11UPcMEjKWSInOnjY3pv7fA+OZbU2jPT+Rpqhp6SYal+q0734vmwtuvsqEPoMU3CWJE3Hb1SC+j/weD21ZM3oWdAu7isvMtHf0Nd83kRuw43jts=
