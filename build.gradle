@@ -21,24 +21,27 @@ allprojects {
     }
 }
 
-def WPILIB_VER = '2019.1.1-beta-1'
-def OPENCV_VER = '3.4.3-15'
+def WPILIB_VER = '2018.4.1'
+def NTCORE_VER = '4.1.0'
+def OPENCV_VER = '3.2.0'
+def WPIUTIL_VER = '3.2.0'
+def CSCORE_VER = '1.3.0'
 def JUNIT_VER = '5.3.1'
 
 dependencies {
     // We may or may not need to add the new HAL library which was split off
     // from wpilib.  Ideally we don't have to touch it at all.
     compile "edu.wpi.first.wpilibj:wpilibj-java:$WPILIB_VER"
-    compile "edu.wpi.first.ntcore:ntcore-java:$WPILIB_VER"
-    compile "edu.wpi.first.wpiutil:wpiutil-java:$WPILIB_VER"
-    compile "edu.wpi.first.cscore:cscore-java:$WPILIB_VER"
-    compile "edu.wpi.first.cameraserver:cameraserver-java:$WPILIB_VER"
-    compile "edu.wpi.first.thirdparty.frc2019.opencv:opencv-java:$OPENCV_VER"
+    compile "edu.wpi.first.ntcore:ntcore-java:$NTCORE_VER"
+    compile "edu.wpi.first.wpiutil:wpiutil-java:$WPIUTIL_VER"
+    compile "edu.wpi.first.cscore:cscore-java:$CSCORE_VER"
+    //compile "edu.wpi.first.cameraserver:cameraserver-java:$WPILIB_VER"
+    compile "org.opencv:opencv-java:$OPENCV_VER"
 
     // Do not require these as runtime dependencies, since WPILib doesn't.
     // The user can figure out what version they need (RIO vs. desktop).
-    testRuntime "edu.wpi.first.ntcore:ntcore-jni:$WPILIB_VER:all"
-    testRuntime "edu.wpi.first.cscore:cscore-jni:$WPILIB_VER:all"
+    testRuntime "edu.wpi.first.ntcore:ntcore-jni:$NTCORE_VER:all"
+    testRuntime "edu.wpi.first.cscore:cscore-jni:$CSCORE_VER:all"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VER"
     
     testCompile "org.junit.jupiter:junit-jupiter-api:$JUNIT_VER"

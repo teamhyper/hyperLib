@@ -2,7 +2,7 @@ package org.hyperonline.hyperlib.vision;
 
 import org.opencv.core.Mat;
 
-import edu.wpi.first.vision.VisionPipeline;
+import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 /**
  * A pipeline which has separate methods for processing an input image and
