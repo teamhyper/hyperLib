@@ -51,6 +51,10 @@ dependencies {
     testCompile 'com.google.guava:guava:19.0'
 }
 
+compileJava {
+    options.deprecation = true
+}
+
 test {
     testLogging {
         events "failed"
