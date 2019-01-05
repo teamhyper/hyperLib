@@ -8,6 +8,18 @@ Documentation is available on the [project website](https://teamhyper.github.io/
 
 Also check out the [wiki](https://github.com/teamhyper/hyperlib/wiki).
 
-Decided to use [semantic versioning](http://semver.org/), so the
-pre-releases will be numbered 0.x.y in some ad-hoc way, and then once
-we settle on an API, we will use MAJOR_VERSION.MINOR_VERSION.PATCH.
+# License
+Copyright 2016-2019 James Hagborg, Christopher McGroarty, Timothy Nguyen
+
+HYPERLib is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+	
+Foobar is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+for more details.
+
+You should have received a copy of the GNU General Public License
+along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
