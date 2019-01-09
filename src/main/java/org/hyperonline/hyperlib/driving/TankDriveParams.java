@@ -1,6 +1,7 @@
 package org.hyperonline.hyperlib.driving;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 /**
  * A class which represents tank drive. This mode takes two inputs: left and
@@ -44,6 +45,10 @@ public class TankDriveParams implements DriveParameters {
     @Override
     public void drive(DifferentialDrive driveTrain, double currentGyro) {
         driveTrain.tankDrive(m_left, m_right, m_squareInputs);
+    }
+    @Override
+    public void drive(MecanumDrive driveTrain, double currentGyro) throws WrongDriveTypeException {
+    	throw new WrongDriveTypeException("using Tank with MecanumDrive");
     }
 
 

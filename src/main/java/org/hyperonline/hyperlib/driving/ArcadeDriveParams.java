@@ -1,6 +1,7 @@
 package org.hyperonline.hyperlib.driving;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 /**
  * A class which represents arcade drive. Arcade drive uses two values: move and
@@ -47,6 +48,10 @@ public class ArcadeDriveParams implements DriveParameters {
     @Override
     public void drive(DifferentialDrive driveTrain, double currentGyro) {
         driveTrain.arcadeDrive(m_move, m_rotate, m_squareInputs);
+    }
+    @Override
+    public void drive(MecanumDrive driveTrain, double currentGyro) throws WrongDriveTypeException {
+    	throw new WrongDriveTypeException("using Arcade with MecanumDrive");
     }
 
     /**
