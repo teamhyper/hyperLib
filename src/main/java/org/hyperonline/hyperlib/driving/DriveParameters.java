@@ -34,6 +34,8 @@ public interface DriveParameters {
 	 * @param currentGyro The current gyro heading, if a gyro exists. Nothing should
 	 *                    use this right now, so just pass in 0.0 if you're not
 	 *                    sure.
+	 *                    
+	 * @throws WrongDriveTypeException
 	 */
 	void drive(DifferentialDrive driveTrain, double currentGyro) throws WrongDriveTypeException;
 
@@ -47,6 +49,8 @@ public interface DriveParameters {
 	 * @param currentGyro The current gyro heading, if a gyro exists. Nothing should
 	 *                    use this right now, so just pass in 0.0 if you're not
 	 *                    sure.
+	 *                    
+	 * @throws WrongDriveTypeException
 	 */
 	void drive(MecanumDrive driveTrain, double currentGyro) throws WrongDriveTypeException;
 }
