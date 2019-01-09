@@ -1,6 +1,7 @@
 package org.hyperonline.hyperlib.driving;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 /**
  * A class which represents arcade drive. Arcade drive uses two values: move and
@@ -23,18 +24,15 @@ public class ArcadeDriveParams implements DriveParameters {
     private final boolean m_squareInputs;
 
     /**
-     * Construct a new {@link ArcadeDriveParams}.
-     * 
-     * @param move
-     *            The amount to move forwards or backwards
-     * @param rotate
-     *            The amount to rotate
-     * @param squareInputs
-     *            Whether to square the inputs. This is desirable if the input
-     *            is coming from a joystick, as it creates a "soft deadzone". If
-     *            coming from another source, like a PID controller, this should
-     *            be <code>false</code>.
-     */
+	 * Construct a new {@link ArcadeDriveParams}.
+	 * 
+	 * @param move         The amount to move forwards or backwards
+	 * @param rotate       The amount to rotate
+	 * @param squareInputs Whether to square the inputs. This is desirable if the
+	 *                     input is coming from a joystick, as it creates a "soft
+	 *                     deadzone". If coming from another source, like a PID
+	 *                     controller, this should be <code>false</code>.
+	 */
     public ArcadeDriveParams(double move, double rotate, boolean squareInputs) {
         m_move = move;
         m_rotate = rotate;
@@ -47,6 +45,14 @@ public class ArcadeDriveParams implements DriveParameters {
     @Override
     public void drive(DifferentialDrive driveTrain, double currentGyro) {
         driveTrain.arcadeDrive(m_move, m_rotate, m_squareInputs);
+    }
+
+	/**
+	 * {@inheritDoc}
+	 */
+    @Override
+    public void drive(MecanumDrive driveTrain, double currentGyro) throws WrongDriveTypeException {
+    	throw new WrongDriveTypeException("using Arcade with MecanumDrive");
     }
 
     /**
