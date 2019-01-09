@@ -1,9 +1,0 @@
-edu.wpi.first.wpilibj.command
-org.hyperonline.hyperlib
-org.hyperonline.hyperlib.auto
-org.hyperonline.hyperlib.driving
-org.hyperonline.hyperlib.oi
-org.hyperonline.hyperlib.pid
-org.hyperonline.hyperlib.port
-org.hyperonline.hyperlib.pref
-org.hyperonline.hyperlib.vision
