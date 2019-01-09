@@ -42,9 +42,9 @@ public class PolarDriveParams implements DriveParameters {
 	/**
 	 * Construct a new {@link PolarDriveParams}.
 	 * 
-	 * @param magnitude
-	 * @param angle
-	 * @param rotate
+	 * @param magnitude 	the amount to move
+	 * @param angle 		the angle to move at
+	 * @param rotate 		the rotation to apply
 	 */
 	public PolarDriveParams(double magnitude, double angle, double rotate) {
 		m_magnitude = magnitude;

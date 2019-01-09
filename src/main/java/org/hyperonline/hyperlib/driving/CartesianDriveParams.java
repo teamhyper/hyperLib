@@ -51,10 +51,10 @@ public class CartesianDriveParams implements DriveParameters {
 	/**
 	 * Construct a new {@link CartesianDriveParams}.
 	 * 
-	 * @param ySpeed
-	 * @param xSpeed
-	 * @param zRotate
-	 * @param gyroAngle
+	 * @param ySpeed		the speed to move in the y-axis
+	 * @param xSpeed		the speed to move in the x-axis
+	 * @param zRotate		the rotation to apply in the z-axis
+	 * @param gyroAngle		the gyroAngle to use
 	 */
 	public CartesianDriveParams(double ySpeed, double xSpeed, double zRotate, double gyroAngle) {
 		m_ySpeed = ySpeed;
