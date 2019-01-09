@@ -35,7 +35,7 @@ public interface DriveParameters {
 	 *                    use this right now, so just pass in 0.0 if you're not
 	 *                    sure.
 	 *                    
-	 * @throws WrongDriveTypeException
+	 * @throws WrongDriveTypeException if an incompatible Drive type is used
 	 */
 	void drive(DifferentialDrive driveTrain, double currentGyro) throws WrongDriveTypeException;
 
@@ -50,7 +50,7 @@ public interface DriveParameters {
 	 *                    use this right now, so just pass in 0.0 if you're not
 	 *                    sure.
 	 *                    
-	 * @throws WrongDriveTypeException
+	 * @throws WrongDriveTypeException if an incompatible Drive type is used
 	 */
 	void drive(MecanumDrive driveTrain, double currentGyro) throws WrongDriveTypeException;
 }
