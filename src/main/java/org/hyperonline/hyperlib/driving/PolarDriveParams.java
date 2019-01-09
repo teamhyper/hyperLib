@@ -15,7 +15,7 @@ public class PolarDriveParams implements DriveParameters {
 	/**
 	 * get the magnitude
 	 * 
-	 * @return
+	 * @return the magnitude
 	 */
 	public double magnitude() {
 		return m_magnitude;
@@ -24,7 +24,7 @@ public class PolarDriveParams implements DriveParameters {
 	/**
 	 * get the angle
 	 * 
-	 * @return
+	 * @return the angle
 	 */
 	public double angle() {
 		return m_angle;
@@ -33,7 +33,7 @@ public class PolarDriveParams implements DriveParameters {
 	/**
 	 * get the rotation
 	 * 
-	 * @return
+	 * @return the z-axis rotation
 	 */
 	public double rotate() {
 		return m_zRotation;

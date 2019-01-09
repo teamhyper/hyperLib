@@ -15,7 +15,7 @@ public class CartesianDriveParams implements DriveParameters {
 	/**
 	 * get the speed on the y-axis
 	 * 
-	 * @return
+	 * @return the y-axis speed
 	 */
 	public double ySpeed() {
 		return m_ySpeed;
@@ -24,7 +24,7 @@ public class CartesianDriveParams implements DriveParameters {
 	/**
 	 * get the speed on the x-axis
 	 * 
-	 * @return
+	 * @return the x-axis speed
 	 */
 	public double xSpeed() {
 		return m_xSpeed;
@@ -33,7 +33,7 @@ public class CartesianDriveParams implements DriveParameters {
 	/**
 	 * get the rotation from the z-axis
 	 * 
-	 * @return
+	 * @return the z-axis rotation
 	 */
 	public double zRotate() {
 		return m_zRotate;
@@ -42,7 +42,7 @@ public class CartesianDriveParams implements DriveParameters {
 	/**
 	 * get the gyro angle
 	 * 
-	 * @return
+	 * @return the gyro angle
 	 */
 	public double gyroAngle() {
 		return m_gyroAngle;
