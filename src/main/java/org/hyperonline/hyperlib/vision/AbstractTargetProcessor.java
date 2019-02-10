@@ -31,7 +31,7 @@ public abstract class AbstractTargetProcessor<T extends VisionResult> implements
 
     /**
      *
-     * @param targets
+     * @param targets The list of targets found.
      */
     @Override
     public final void process(List<Rect> targets) {

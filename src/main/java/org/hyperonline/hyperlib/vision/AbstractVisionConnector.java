@@ -117,11 +117,11 @@ public abstract class AbstractVisionConnector<T extends VisionResult> implements
     /**
      * evaluate and process the results in NetworkTables to my lastResult
      *
-     * @param table
-     * @param key
-     * @param entry
-     * @param value
-     * @param flags
+     * @param table NetworkTable to get values from
+     * @param key Key of the entry that triggered the Listener
+     * @param entry Entry that was updated
+     * @param value the new Value
+     * @param flags Listener flags (created, updated, removed, etc)
      */
     protected abstract void next(NetworkTable table, String key, NetworkTableEntry entry,
                                  NetworkTableValue value, int flags);

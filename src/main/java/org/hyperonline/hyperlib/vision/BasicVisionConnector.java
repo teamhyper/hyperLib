@@ -22,11 +22,7 @@ public class BasicVisionConnector extends AbstractVisionConnector<VisionResult> 
     }
 
     /**
-     * @param table
-     * @param key
-     * @param entry
-     * @param value
-     * @param flags
+     * {@inheritDoc}
      */
     @Override
     protected void next(NetworkTable table, String key, NetworkTableEntry entry, NetworkTableValue value, int flags) {
