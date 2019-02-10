@@ -21,7 +21,7 @@ allprojects {
     }
 }
 
-def WPILIB_VER = '2019.1.1'
+def WPILIB_VER = '2019.2.1'
 def NTCORE_VER = WPILIB_VER
 def OPENCV_VER = '3.4.4-4'
 def WPIUTIL_VER = WPILIB_VER

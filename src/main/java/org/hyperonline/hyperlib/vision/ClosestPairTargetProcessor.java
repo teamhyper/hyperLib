@@ -1,52 +1,47 @@
 package org.hyperonline.hyperlib.vision;
 
+import edu.wpi.first.wpilibj.PIDSource;
+import org.hyperonline.hyperlib.pid.DisplacementPIDSource;
+import org.hyperonline.hyperlib.pref.IntPreference;
+import org.opencv.core.*;
+import org.opencv.imgproc.Imgproc;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.IntSupplier;
-
-import org.hyperonline.hyperlib.pid.DisplacementPIDSource;
-import org.hyperonline.hyperlib.pref.IntPreference;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Point3;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
-
-import edu.wpi.first.wpilibj.PIDSource;
 
 /**
  * Target processor which finds the closest two targets to the crosshairs, and
  * averages their position. This is the algorithm that was used to track the
  * boiler in the 2017 steamworks game. It can more generally be applied to
  * anything that's two pieces of tape.
- * 
+ * <p>
  * This processor uses the height of the targets to measure distance. However,
  * it computes x, y, and height all as simple averages, rather than weighting by
  * depth. This is a good approximation as long as one target is not
  * significantly closer than the other, meaning the camera is not viewing the
  * target from a steep angle.
- * 
- * @author James Hagborg
  *
+ * @author James Hagborg
  */
 public class ClosestPairTargetProcessor
         extends AbstractTargetProcessor<TargetWithHeightResult> {
 
+    private static final Scalar MARKER_COLOR = new Scalar(0, 0, 255);
+    private static final double MARKER_WIDTH = 6;
     private final IntSupplier m_xCrosshairs, m_yCrosshairs;
 
     /**
      * Construct a new target processor with the given fixed crosshairs
      * position.
-     * 
-     * @param xCrosshairs
-     *            X coordinate for the crosshairs
-     * @param yCrosshairs
-     *            Y coordinate for the crosshairs
+     *
+     * @param connector VisionConnector for retreiving/publishing the result
+     * @param xCrosshairs X coordinate for the crosshairs
+     * @param yCrosshairs Y coordinate for the crosshairs
      */
-    public ClosestPairTargetProcessor(int xCrosshairs, int yCrosshairs) {
-        this(() -> xCrosshairs, () -> yCrosshairs);
+    public ClosestPairTargetProcessor(TargetWithHeightConnector connector, int xCrosshairs, int yCrosshairs) {
+        this(connector, () -> xCrosshairs, () -> yCrosshairs);
     }
 
     /**
@@ -56,14 +51,14 @@ public class ClosestPairTargetProcessor
      * the vision thread, so it should not reference the internals of commands,
      * subsystems, or other robot code. Note that preferences are safe to access
      * from any thread.
-     * 
-     * @param xCrosshairs
-     *            X coordinate for the crosshairs
-     * @param yCrosshairs
-     *            Y coordinate for the crosshairs
+     *
+     * @param connector VisionConnector for retreiving/publishing the result
+     * @param xCrosshairs X coordinate for the crosshairs
+     * @param yCrosshairs Y coordinate for the crosshairs
      */
-    public ClosestPairTargetProcessor(IntSupplier xCrosshairs,
-            IntSupplier yCrosshairs) {
+    public ClosestPairTargetProcessor(TargetWithHeightConnector connector, IntSupplier xCrosshairs,
+                                      IntSupplier yCrosshairs) {
+        super(connector);
         m_xCrosshairs = Objects.requireNonNull(xCrosshairs);
         m_yCrosshairs = Objects.requireNonNull(yCrosshairs);
     }
@@ -71,9 +66,8 @@ public class ClosestPairTargetProcessor
     /**
      * Compute the Euclidean distance (actually the distance squared) of a
      * target from the crosshairs.
-     * 
-     * @param result
-     *            The target to check
+     *
+     * @param result The target to check
      * @return The distance from the crosshairs
      */
     private double targetDistance(Point3 result) {
@@ -84,9 +78,8 @@ public class ClosestPairTargetProcessor
 
     /**
      * Find the center of a rectangle.
-     * 
-     * @param rect
-     *            The target rectangle.
+     *
+     * @param rect The target rectangle.
      * @return The point at the center of the rectangle.
      */
     private Point3 targetToPoint(Rect rect) {
@@ -101,9 +94,8 @@ public class ClosestPairTargetProcessor
      * crosshairs. Since this method is only called when the point given is
      * actually the chosen target, this also saves the point for drawing a
      * marker later.
-     * 
-     * @param point
-     *            The point at the center of the target, in absolute pixels.
+     *
+     * @param point The point at the center of the target, in absolute pixels.
      * @return The new VisionResult
      */
     private TargetWithHeightResult pointToResult(Point3 point) {
@@ -115,7 +107,7 @@ public class ClosestPairTargetProcessor
 
     /**
      * Given two Points, find the average of their positions.
-     * 
+     *
      * @param a
      * @param b
      * @return
@@ -133,28 +125,11 @@ public class ClosestPairTargetProcessor
                 .sorted(Comparator.comparingDouble(this::targetDistance))
                 .limit(2).toArray(Point3[]::new);
         if (result.length < 2) {
-            return getDefaultValue();
+            return null;
         } else {
             return pointToResult(averagePoints(result[0], result[1]));
         }
     }
-    
-    /**
-     * Get a PID source that returns the height of the target.
-     * 
-     * @return A PID source returning the height of the target.
-     */
-    public PIDSource heightPID() {
-        return new DisplacementPIDSource() {
-            @Override
-            public double pidGet() {
-                return getLastResult().height();
-            }
-        };
-    }
-
-    private static final Scalar MARKER_COLOR = new Scalar(0, 0, 255);
-    private static final double MARKER_WIDTH = 6;
 
     /**
      * {@inheritDoc}
@@ -174,13 +149,4 @@ public class ClosestPairTargetProcessor
             Imgproc.line(mat, bl, br, MARKER_COLOR);
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public TargetWithHeightResult getDefaultValue() {
-        return new TargetWithHeightResult(0, 0, 0, 0, 0, false);
-    }
-
 }
