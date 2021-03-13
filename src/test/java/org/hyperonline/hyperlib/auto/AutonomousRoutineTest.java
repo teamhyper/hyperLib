@@ -1,14 +1,15 @@
 package org.hyperonline.hyperlib.auto;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
-import org.hyperonline.hyperlib.CommandBuilder;
-import org.hyperonline.hyperlib.auto.AutonomousPreference;
-import org.hyperonline.hyperlib.auto.AutonomousRoutine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
  * {@link AutonomousRoutineTest}
@@ -22,7 +23,8 @@ public class AutonomousRoutineTest {
     
     class Bar extends AutonomousRoutine {
         @Override
-        public void build(CommandBuilder builder) {
+        public Command getCommand() {
+        	return new InstantCommand();
         }
     }
 
@@ -33,7 +35,8 @@ public class AutonomousRoutineTest {
     public AutonomousRoutine makeNewRoutine() {
         return new AutonomousRoutine() {
             @Override
-            public void build(CommandBuilder builder) {   
+            public Command getCommand() {
+            	return new InstantCommand();
             }
         };
     }

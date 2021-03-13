@@ -1,23 +1,23 @@
 package org.hyperonline.hyperlib;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hyperonline.hyperlib.oi.ButtonData;
+import org.hyperonline.hyperlib.oi.ButtonData.Action;
 import org.hyperonline.hyperlib.oi.JoystickData;
 import org.hyperonline.hyperlib.oi.MapJoystick;
+import org.hyperonline.hyperlib.oi.MapJoystick.Role;
+import org.hyperonline.hyperlib.oi.MapJoystick.Type;
 import org.hyperonline.hyperlib.oi.OI;
 import org.hyperonline.hyperlib.oi.WhenPressed;
 import org.hyperonline.hyperlib.oi.WhenReleased;
 import org.hyperonline.hyperlib.oi.WhileHeld;
-import org.hyperonline.hyperlib.oi.ButtonData.Action;
-import org.hyperonline.hyperlib.oi.MapJoystick.Role;
-import org.hyperonline.hyperlib.oi.MapJoystick.Type;
 import org.junit.jupiter.api.Test;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.Command;
 
 public class OIBaseTest {
 

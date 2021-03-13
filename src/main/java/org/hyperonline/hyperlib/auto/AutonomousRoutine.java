@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.hyperonline.hyperlib.CommandBuilder;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * The {@link AutonomousRoutine} class contains all the information needed for a
@@ -65,10 +65,9 @@ public abstract class AutonomousRoutine extends SendableBase {
 	 * this would use the preferences and subroutines that have already been
 	 * declared.
 	 * 
-	 * @param builder
-	 *            The CommandBuilder object to use in building the command.
+	 * @return The command to run.
 	 */
-	public abstract void build(CommandBuilder builder);
+	public abstract Command getCommand();
 
 	/**
 	 * Get a list of the preferences that this routine requires.

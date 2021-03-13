@@ -1,12 +1,13 @@
 package org.hyperonline.hyperlib.auto;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import org.hyperonline.hyperlib.CommandBuilder;
-import org.hyperonline.hyperlib.auto.AutonomousPreference;
-import org.hyperonline.hyperlib.auto.AutonomousRoutine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
  * 
@@ -17,13 +18,15 @@ public class AutonomousPreferenceTest {
 
     class MyRoutine extends AutonomousRoutine {
         @Override
-        public void build(CommandBuilder builder) {
+        public Command getCommand() {
+        	return new InstantCommand();
         }
     }
 
     class OtherRoutine extends AutonomousRoutine {
         @Override
-        public void build(CommandBuilder builder) {
+        public Command getCommand() {
+        	return new InstantCommand();
         }
     }
 

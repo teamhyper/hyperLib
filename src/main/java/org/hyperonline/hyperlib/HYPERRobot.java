@@ -1,8 +1,8 @@
 package org.hyperonline.hyperlib;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * The {@link HYPERRobot} extends {@link TimedRobot} to provide code which
@@ -25,10 +25,11 @@ public abstract class HYPERRobot extends TimedRobot {
      * <li>Commands, including autonomous commands and commands on the OI</li>
      * </ul>
      */
-    @Override
+    @SuppressWarnings("resource")
+	@Override
     public final void robotInit() {
         // Set the WPILib command scheduler to run automatically.
-        PeriodicScheduler.getInstance().addEvent(Scheduler.getInstance()::run);
+        PeriodicScheduler.getInstance().addEvent(CommandScheduler.getInstance()::run);
 
         initOI();
         initSubsystems();
