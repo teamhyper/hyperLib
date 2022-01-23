@@ -1,6 +1,5 @@
 plugins {
     id 'fr.brouillard.oss.gradle.jgitver' version '0.4.1'
-    id 'com.jfrog.bintray' version '1.8.4'
     id 'java'
     id 'checkstyle'
     id 'maven-publish'
@@ -116,18 +115,16 @@ publishing {
             }
         }
     }
-}
 
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publications = ['mavenPublication']
-    pkg {
-        repo = 'maven'
-        name = 'hyperlib'
-        userOrg = 'teamhyper'
-        licenses = ['GPL-3.0']
-        vcsUrl = 'https://github.com/teamhyper.hyperLib'
+    repositories {
+        maven {
+            credentials {
+                username = hyperlibUser
+                password = hyperlibPassword
+            }
+            name = 'hyperonline'
+            url = 'sftp://hyperlib.hyperonline.org:22/home/hyperlib/webapps/hyperlib-repo'
+        }
     }
 }
 
