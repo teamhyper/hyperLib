@@ -119,8 +119,8 @@ publishing {
     repositories {
         maven {
             credentials {
-                username = hyperlibUser
-                password = hyperlibPassword
+                username = project.properties.hyperlibUser
+                password = project.properties.hyperlibPassword
             }
             name = 'hyperonline'
             url = 'sftp://hyperlib.hyperonline.org:22/home/hyperlib/webapps/hyperlib-repo'

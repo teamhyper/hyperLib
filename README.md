@@ -8,6 +8,22 @@ Documentation is available on the [project website](https://teamhyper.github.io/
 
 Also check out the [wiki](https://github.com/teamhyper/hyperlib/wiki).
 
+# Release process
+
+We currently publish to a maven repo at <https://hyperlib.hyperonline.org>,
+using `gradle publish`.  The publishing job infers the version number from the
+most recent *annotated* git tag.  So to do a release (say `2.0.0`), you would
+ensure your work is committed and you have master checked out, then run:
+
+```bash
+git tag -a v2.0.0
+ ./gradlew publish -PhyperlibUser=... -PhyperlibPassword=...
+```
+
+Note that the second line starts with a space, so bash will not save the
+credentials to `~/.bash_history`.  Ask James or Chris for the necessary
+credentials.
+
 # License
 Copyright 2016-2019 James Hagborg, Christopher McGroarty, Timothy Nguyen
 
