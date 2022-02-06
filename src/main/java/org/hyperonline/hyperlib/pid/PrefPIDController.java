@@ -26,12 +26,11 @@ public class PrefPIDController extends PIDController {
     private static final String P_SUF = SEP + "P";
     private static final String I_SUF = SEP + "I";
     private static final String D_SUF = SEP + "D";
-    private static final String F_SUF = SEP + "F";
     private static final String MIN_OUT_SUF = SEP + "MinOut";
     private static final String MAX_OUT_SUF = SEP + "MaxOut";
     private static final String TOLERANCE_SUF = SEP + "Tolerance";
 
-    private double m_defP, m_defI, m_defD, m_defF;
+    private double m_defP, m_defI, m_defD;
     private double m_defTolerance = -1; // -1 indicates no tolerance
     private double m_defMinOutput = -1, m_defMaxOutput = 1;
     
@@ -106,7 +105,6 @@ public class PrefPIDController extends PIDController {
         m_defP = Kp;
         m_defI = Ki;
         m_defD = Kd;
-        m_defF = Kf;
         m_prefString = prefString;
         m_source = source;
 
@@ -116,15 +114,13 @@ public class PrefPIDController extends PIDController {
         PeriodicScheduler.getInstance().addEvent(this::updatePreferences);
     }
 
-    private void createKeysIfEmpty() {;
+    private void createKeysIfEmpty() {
         if (!Preferences.containsKey(m_prefString + P_SUF))
             Preferences.setDouble(m_prefString + P_SUF, m_defP);
         if (!Preferences.containsKey(m_prefString + I_SUF))
             Preferences.setDouble(m_prefString + I_SUF, m_defI);
         if (!Preferences.containsKey(m_prefString + D_SUF))
             Preferences.setDouble(m_prefString + D_SUF, m_defD);
-        if (!Preferences.containsKey(m_prefString + F_SUF))
-            Preferences.setDouble(m_prefString + F_SUF, m_defF);
     }
 
     @Deprecated
@@ -164,7 +160,8 @@ public class PrefPIDController extends PIDController {
      * @param tolerance
      *            The new default value for absolute tolerance.
      */
-    public void setAbsoluteTolerance(double tolerance) {
+    @Override
+    public void setTolerance(double tolerance) {
         m_defTolerance = tolerance;
 
         if (!Preferences.containsKey(m_prefString + TOLERANCE_SUF)) {
@@ -240,7 +237,6 @@ public class PrefPIDController extends PIDController {
         double p = Preferences.getDouble(m_prefString + P_SUF, m_defP);
         double i = Preferences.getDouble(m_prefString + I_SUF, m_defI);
         double d = Preferences.getDouble(m_prefString + D_SUF, m_defD);
-        double f = Preferences.getDouble(m_prefString + F_SUF, m_defF);
         double minOut = Preferences.getDouble(m_prefString + MIN_OUT_SUF,
                 m_defMinOutput);
         double maxOut = Preferences.getDouble(m_prefString + MAX_OUT_SUF,
