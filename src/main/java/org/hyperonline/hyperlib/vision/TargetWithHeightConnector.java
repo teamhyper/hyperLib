@@ -4,8 +4,8 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
-import edu.wpi.first.wpilibj.PIDSource;
-import org.hyperonline.hyperlib.pid.DisplacementPIDSource;
+
+import java.util.function.DoubleSupplier;
 
 /**
  * NetworkTables Connector for an AbstractTargetProcessor of TargetWithHeightResult
@@ -50,13 +50,8 @@ public class TargetWithHeightConnector extends AbstractVisionConnector<TargetWit
      *
      * @return A PID source returning the height of the target.
      */
-    public PIDSource heightPID() {
-        return new DisplacementPIDSource() {
-            @Override
-            public double pidGet() {
-                return getLastResult().height();
-            }
-        };
+    public DoubleSupplier heightPID() {
+        return getLastResult()::height;
     }
 
     /**

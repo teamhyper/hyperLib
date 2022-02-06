@@ -1,7 +1,5 @@
 package org.hyperonline.hyperlib.vision;
 
-import edu.wpi.first.wpilibj.PIDSource;
-import org.hyperonline.hyperlib.pid.DisplacementPIDSource;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;

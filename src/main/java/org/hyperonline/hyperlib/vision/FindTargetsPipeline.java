@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import edu.wpi.first.cscore.CvSource;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 import org.hyperonline.hyperlib.pref.PreferencesSet;
 import org.hyperonline.hyperlib.pref.ScalarPreference;
@@ -12,8 +13,6 @@ import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-
-import edu.wpi.cscore.CvSource;
 import edu.wpi.first.cameraserver.CameraServer;
 
 /**
@@ -79,7 +78,7 @@ public class FindTargetsPipeline implements VisionGUIPipeline {
     
     private void putDebugImage(Mat mat) {
         if (m_debugSource == null) {
-            m_debugSource = CameraServer.getInstance().putVideo(m_name + " debug stream", mat.width(), mat.height());
+            m_debugSource = CameraServer.putVideo(m_name + " debug stream", mat.width(), mat.height());
         }
         m_debugSource.putFrame(mat);
     }

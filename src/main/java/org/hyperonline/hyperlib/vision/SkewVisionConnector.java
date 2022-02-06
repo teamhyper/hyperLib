@@ -4,8 +4,8 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
-import edu.wpi.first.wpilibj.PIDSource;
-import org.hyperonline.hyperlib.pid.DisplacementPIDSource;
+
+import java.util.function.DoubleSupplier;
 
 /**
  * NetworkTables Connector for a AbstractTargetProcessor of SkewVisionResult
@@ -29,13 +29,8 @@ public class SkewVisionConnector extends AbstractVisionConnector<SkewVisionResul
     /**
      * @return A PID source tracking the skew of the target
      */
-    public PIDSource skewPID() {
-        return new DisplacementPIDSource() {
-            @Override
-            public double pidGet() {
-                return getLastResult().skew();
-            }
-        };
+    public DoubleSupplier skewPID() {
+        return getLastResult()::skew;
     }
 
     /**

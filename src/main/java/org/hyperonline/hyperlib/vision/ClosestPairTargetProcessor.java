@@ -1,7 +1,5 @@
 package org.hyperonline.hyperlib.vision;
 
-import edu.wpi.first.wpilibj.PIDSource;
-import org.hyperonline.hyperlib.pid.DisplacementPIDSource;
 import org.hyperonline.hyperlib.pref.IntPreference;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;

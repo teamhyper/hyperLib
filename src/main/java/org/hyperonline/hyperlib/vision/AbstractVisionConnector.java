@@ -1,10 +1,9 @@
 package org.hyperonline.hyperlib.vision;
 
 import edu.wpi.first.networktables.*;
-import edu.wpi.first.wpilibj.PIDSource;
-import org.hyperonline.hyperlib.pid.DisplacementPIDSource;
 
 import java.util.Objects;
+import java.util.function.DoubleSupplier;
 
 /**
  * Base class with common functionality used by VisionConnectors. In particular,
@@ -139,13 +138,8 @@ public abstract class AbstractVisionConnector<T extends VisionResult> implements
      *
      * @return A PID source tracking the x-coordinate of the target.
      */
-    public PIDSource xPID() {
-        return new DisplacementPIDSource() {
-            @Override
-            public double pidGet() {
-                return getLastResult().xError();
-            }
-        };
+    public DoubleSupplier xPID() {
+        return getLastResult()::xError;
     }
 
     /**
@@ -153,12 +147,7 @@ public abstract class AbstractVisionConnector<T extends VisionResult> implements
      *
      * @return A PID source tracking the y-coordinate of the target.
      */
-    public PIDSource yPID() {
-        return new DisplacementPIDSource() {
-            @Override
-            public double pidGet() {
-                return getLastResult().yError();
-            }
-        };
+    public DoubleSupplier yPID() {
+        return getLastResult()::yError;
     }
 }
