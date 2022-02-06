@@ -4,12 +4,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import org.hyperonline.hyperlib.pref.DoublePreference;
-
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SendableBase;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -17,25 +15,26 @@ import edu.wpi.first.wpilibj2.command.Command;
  * particular autonomous routine. It contains the code to build the command, as
  * well as information about what preferences need to be set, and what other
  * routines may be called as subroutines.
- * 
+ *
  * Logic for deciding which routine should be placed in the AutonomousStrategy
  * class.
- * 
+ *
  * @author James Hagborg
  *
  */
-public abstract class AutonomousRoutine extends SendableBase {
+public abstract class AutonomousRoutine implements Sendable {
 	public static final String UNNAMED = "<unnamed routine>";
 
 	private ArrayList<AutonomousPreference> m_prefs = new ArrayList<>();
 	private ArrayList<AutonomousRoutine> m_subroutines = new ArrayList<>();
+
+	private String name;
 
 	/**
 	 * Construct a new AutonomousRoutine.
 	 */
 	public AutonomousRoutine() {
 		// Don't add this to livewindow
-		super(false);
 
 		String name = getClass().getSimpleName();
 		if (name.isEmpty()) {
@@ -64,14 +63,14 @@ public abstract class AutonomousRoutine extends SendableBase {
 	 * Abstract method for implementing the actual logic of the command. Ideally,
 	 * this would use the preferences and subroutines that have already been
 	 * declared.
-	 * 
+	 *
 	 * @return The command to run.
 	 */
 	public abstract Command getCommand();
 
 	/**
 	 * Get a list of the preferences that this routine requires.
-	 * 
+	 *
 	 * @return A list of AutonomousPreference objects
 	 */
 	public List<AutonomousPreference> getSupportedPreferences() {
@@ -81,7 +80,7 @@ public abstract class AutonomousRoutine extends SendableBase {
 
 	/**
 	 * Add a preference of type double to the routine.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the preference
 	 * @return {DoublePreference}
@@ -96,10 +95,10 @@ public abstract class AutonomousRoutine extends SendableBase {
 	 * Indicate that another routine is a subroutine of this one. This does not
 	 * affect the execution of code, but is used to display preferences to the
 	 * driver station. Adding two subroutines with the same name has no effect.
-	 * 
+	 *
 	 * @param routine
 	 *            The subroutine to add.
-	 *            
+	 *
 	 * @return {AutonomousRoutine}
 	 */
 	protected AutonomousRoutine addSubroutine(AutonomousRoutine routine) {
@@ -109,7 +108,7 @@ public abstract class AutonomousRoutine extends SendableBase {
 
 	/**
 	 * Get a list of all routines which are included as subroutines in this routine.
-	 * 
+	 *
 	 * @return A list of AutonomousRoutine objects
 	 */
 	public List<AutonomousRoutine> getSubroutines() {
@@ -138,6 +137,14 @@ public abstract class AutonomousRoutine extends SendableBase {
 
 	String[] getSubroutineNames() {
 		return m_subroutines.stream().map(rtn -> rtn.getName()).toArray(String[]::new);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**

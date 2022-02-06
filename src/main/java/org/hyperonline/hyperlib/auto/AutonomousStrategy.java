@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.util.sendable.SendableBuilder;
 
 /**
  * {@link AutonomousStrategy}

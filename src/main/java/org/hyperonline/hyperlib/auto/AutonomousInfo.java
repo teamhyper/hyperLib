@@ -4,24 +4,28 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.SendableBase;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.util.sendable.SendableRegistry;
 
 /**
  * {@link AutonomousInfo}
  * @author James
  */
-public class AutonomousInfo extends SendableBase {
+public class AutonomousInfo implements Sendable {
     private final HashMap<String, AutonomousRoutine> m_allRoutines;
     private final HashMap<String, AutonomousStrategy> m_allStrategies;
     private final String m_defaultSelection;
     private NetworkTableEntry m_currentSelection;
+
+    private String m_name;
+    private final int m_selectionHandle = SendableRegistry.getDataHandle();
     
-/**
- * {@link Builder}
- * @author James
- *
- */
+    /**
+     * {@link Builder}
+     * @author James
+     *
+     */
     public static class Builder {
         private HashMap<String, AutonomousRoutine> m_allRoutines = new HashMap<>();
         private HashMap<String, AutonomousStrategy> m_allStrategies = new HashMap<>();
@@ -116,7 +120,15 @@ public class AutonomousInfo extends SendableBase {
             strat.initSendable("Strategies/" + strat.getName() + "/", builder);
         }
         builder.addStringProperty("Default", () -> m_defaultSelection, null);
-        m_currentSelection = builder.getEntry("Selection");
+        m_currentSelection = (NetworkTableEntry) SendableRegistry.getData(this, m_selectionHandle);
         System.out.println("In initSendable: the path of the entry is " + m_currentSelection.getInfo().name);
+    }
+
+    public String getName() {
+        return m_name;
+    }
+
+    public void setName(String name) {
+        this.m_name = name;
     }
 }
