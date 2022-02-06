@@ -9,8 +9,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * @author Chris McGroarty
  */
 public abstract class HYPERVision {
-
-    protected CameraServer m_cameraServer;
     protected NetworkTableInstance m_tableInstance;
 
     // override this property to true in a child class that runs on the robot
@@ -21,7 +19,6 @@ public abstract class HYPERVision {
      */
     public final void visionInit() {
         initNetworkTable();
-        initCameraServer();
         initCameras();
         initConnectors();
         initProcessors();
@@ -86,13 +83,6 @@ public abstract class HYPERVision {
      * Start the VisionModules used in this HYPERVision
      */
     protected abstract void startModules();
-
-    /**
-     * Initialize the CameraServer used in this HYPERVision
-     */
-    protected void initCameraServer() {
-        m_cameraServer = CameraServer.getInstance();
-    }
 
     /**
      * Update properties when Preferences have changed

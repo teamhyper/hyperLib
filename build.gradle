@@ -25,6 +25,7 @@ def NTCORE_VER = WPILIB_VER
 def OPENCV_VER = '3.4.7-5'
 def WPIUTIL_VER = WPILIB_VER
 def CSCORE_VER = WPILIB_VER
+def WPIMATH_VER = WPILIB_VER
 def CAMERASERVER_VER = WPILIB_VER
 def JUNIT_VER = '5.3.1'
 def ARCH = 'linuxx86-64'
@@ -37,6 +38,7 @@ dependencies {
     implementation "edu.wpi.first.ntcore:ntcore-java:$NTCORE_VER"
     implementation "edu.wpi.first.wpiutil:wpiutil-java:$WPIUTIL_VER"
     implementation "edu.wpi.first.cscore:cscore-java:$CSCORE_VER"
+    implementation "edu.wpi.first.wpimath:wpimath-java:$WPIMATH_VER"
     implementation "edu.wpi.first.cameraserver:cameraserver-java:$CAMERASERVER_VER"
     implementation "edu.wpi.first.thirdparty.frc2021.opencv:opencv-java:$OPENCV_VER"
 

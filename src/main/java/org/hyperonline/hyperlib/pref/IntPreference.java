@@ -44,7 +44,7 @@ public class IntPreference extends Preference {
      */
     @Override
     protected void putDefaultValue() {
-        Preferences.getInstance().putInt(getName(), m_default);
+        Preferences.setInt(getName(), m_default);
     }
 
     /**
@@ -55,6 +55,6 @@ public class IntPreference extends Preference {
      * @see Preferences#getInt(String, int)
      */
     public int get() {
-        return Preferences.getInstance().getInt(getName(), m_default);
+        return Preferences.getInt(getName(), m_default);
     }
 }

@@ -1,11 +1,11 @@
 package org.hyperonline.hyperlib.pid;
 
-import edu.wpi.first.wpilibj.PIDSource;
+import java.util.function.DoubleSupplier;
 
 /**
  * This class is a {@link PrefPIDController} with no output. This is useful if
  * calculating the PID output is only part of calculating the outputs to
- * actuators. Use {@link #get()} to check the last output value.
+ * actuators.
  * 
  * @author James Hagborg
  *
@@ -14,7 +14,7 @@ public class PassivePIDController extends PrefPIDController {
 
     /**
      * @see PrefPIDController#PrefPIDController(String, double, double, double,
-     *      PIDSource, edu.wpi.first.wpilibj.PIDOutput)
+     *      DoubleSupplier, java.util.function.DoubleConsumer)
      * @param prefString
      *            A string to identify preferences
      * @param Kp
@@ -27,14 +27,13 @@ public class PassivePIDController extends PrefPIDController {
      *            the source of feedback
      */
     public PassivePIDController(String prefString, double Kp, double Ki,
-            double Kd, PIDSource source) {
-        super(prefString, Kp, Ki, Kd, source, (x) -> {
-        });
+            double Kd, DoubleSupplier source) {
+        super(prefString, Kp, Ki, Kd, source, (x) -> {});
     }
 
     /**
      * @see PrefPIDController#PrefPIDController(String, double, double, double,
-     *      PIDSource, edu.wpi.first.wpilibj.PIDOutput, double)
+     *      DoubleSupplier, java.util.function.DoubleConsumer, double)
      * @param prefString
      *            A string to identify preferences
      * @param Kp
@@ -49,14 +48,13 @@ public class PassivePIDController extends PrefPIDController {
      *            the period to run the PID controller at
      */
     public PassivePIDController(String prefString, double Kp, double Ki,
-            double Kd, PIDSource source, double period) {
-        super(prefString, Kp, Ki, Kd, source, (x) -> {
-        }, period);
+            double Kd, DoubleSupplier source, double period) {
+        super(prefString, Kp, Ki, Kd, source, (x) -> {}, period);
     }
 
     /**
      * @see PrefPIDController#PrefPIDController(String, double, double, double,
-     *      double, PIDSource, edu.wpi.first.wpilibj.PIDOutput)
+     *      DoubleSupplier, java.util.function.DoubleConsumer)
      * @param prefString
      *            A string to identify preferences
      * @param Kp
@@ -71,14 +69,13 @@ public class PassivePIDController extends PrefPIDController {
      *            the source of feedback
      */
     public PassivePIDController(String prefString, double Kp, double Ki,
-            double Kd, double Kf, PIDSource source) {
-        super(prefString, Kp, Ki, Kd, Kf, source, (x) -> {
-        });
+            double Kd, double Kf, DoubleSupplier source) {
+        super(prefString, Kp, Ki, Kd, source, (x) -> {});
     }
 
     /**
      * @see PrefPIDController#PrefPIDController(String, double, double, double,
-     *      double, PIDSource, edu.wpi.first.wpilibj.PIDOutput, double)
+     *      double, DoubleSupplier, java.util.function.DoubleConsumer, double)
      * @param prefString
      *            A string to identify preferences
      * @param Kp
@@ -95,9 +92,8 @@ public class PassivePIDController extends PrefPIDController {
      *            the period to run the PID controller at
      */
     public PassivePIDController(String prefString, double Kp, double Ki,
-            double Kd, double Kf, PIDSource source, double period) {
-        super(prefString, Kp, Ki, Kd, Kf, source, (x) -> {
-        }, period);
+            double Kd, double Kf, DoubleSupplier source, double period) {
+        super(prefString, Kp, Ki, Kd, Kf, source, (x) -> {}, period);
     }
 
 }

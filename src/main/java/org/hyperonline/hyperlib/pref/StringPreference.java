@@ -49,7 +49,7 @@ public class StringPreference extends Preference {
      */
     @Override
     public void putDefaultValue() {
-        Preferences.getInstance().putString(getName(), m_default);
+        Preferences.setString(getName(), m_default);
     }
 
     /**
@@ -60,6 +60,6 @@ public class StringPreference extends Preference {
      * @see Preferences#getString(String, String)
      */
     public String get() {
-        return Preferences.getInstance().getString(getName(), m_default);
+        return Preferences.getString(getName(), m_default);
     }
 }

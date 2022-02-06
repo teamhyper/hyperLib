@@ -103,8 +103,8 @@ public class VisionModule {
      */
     private VisionModule(String name, VideoSource source, List<VisionGUIPipeline> pipelines) {
         VideoMode vmode = source.getVideoMode();
-        m_sink = CameraServer.getInstance().getVideo(source);
-        m_source = CameraServer.getInstance().putVideo(name + " (with overlays)", vmode.width, vmode.height);
+        m_sink = CameraServer.getVideo(source);
+        m_source = CameraServer.putVideo(name + " (with overlays)", vmode.width, vmode.height);
         m_pipelines = new ArrayList<>(pipelines);
 
         m_thread = new Thread(this::visionThread);

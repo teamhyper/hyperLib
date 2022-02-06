@@ -44,7 +44,7 @@ public class BooleanPreference extends Preference {
      */
     @Override
     protected void putDefaultValue() {
-        Preferences.getInstance().putBoolean(getName(), m_default);
+        Preferences.setBoolean(getName(), m_default);
     }
 
     /**
@@ -55,6 +55,6 @@ public class BooleanPreference extends Preference {
      * @see Preferences#getBoolean(String, boolean)
      */
     public boolean get() {
-        return Preferences.getInstance().getBoolean(getName(), m_default);
+        return Preferences.getBoolean(getName(), m_default);
     }
 }

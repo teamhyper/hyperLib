@@ -50,7 +50,7 @@ public abstract class Preference {
      * default value.
      */
     public synchronized void putDefaultIfEmpty() {
-        if (!Preferences.getInstance().containsKey(m_name)) {
+        if (!Preferences.containsKey(m_name)) {
             putDefaultValue();
         }
     }

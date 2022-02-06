@@ -44,7 +44,7 @@ public class DoublePreference extends Preference {
      */
     @Override
     protected void putDefaultValue() {
-        Preferences.getInstance().putDouble(getName(), m_default);
+        Preferences.setDouble(getName(), m_default);
     }
 
     /**
@@ -55,6 +55,6 @@ public class DoublePreference extends Preference {
      * @see Preferences#getDouble(String, double)
      */
     public double get() {
-        return Preferences.getInstance().getDouble(getName(), m_default);
+        return Preferences.getDouble(getName(), m_default);
     }
 }
