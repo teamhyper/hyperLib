@@ -24,7 +24,7 @@ public class AutonomousRoutineTest {
     class Bar extends AutonomousRoutine {
         @Override
         public Command getCommand() {
-        	return new InstantCommand();
+            return new InstantCommand();
         }
     }
 
@@ -36,7 +36,7 @@ public class AutonomousRoutineTest {
         return new AutonomousRoutine() {
             @Override
             public Command getCommand() {
-            	return new InstantCommand();
+                return new InstantCommand();
             }
         };
     }

@@ -14,7 +14,7 @@ public class MockCondition implements BooleanSupplier {
     /**
      * 
      * @param startState
-     * 			starting state for condition
+     *          starting state for condition
      */
     public MockCondition(boolean startState) {
         m_cond = startState;
@@ -23,7 +23,7 @@ public class MockCondition implements BooleanSupplier {
     /**
      * 
      * @param state
-     * 			set the condition state
+     *          set the condition state
      */
     public void set(boolean state) {
         m_cond = state;

@@ -2,15 +2,15 @@ package org.hyperonline.hyperlib.driving;
 
 
 /**
- * This exception is thrown when a class implementing DriveParameters is called 
+ * This exception is thrown when a class implementing DriveParameters is called
  * being passed an incompatible Drive type (i.e. PolarDriveParams given a DifferentialDrive)
- * 
+ *
  * @author Chris McGroarty
  *
  */
 @SuppressWarnings("serial")
 public class WrongDriveTypeException extends Exception {
-	 /**
+    /**
      * @see Exception#Exception()
      */
     public WrongDriveTypeException() {

@@ -4,9 +4,9 @@ package org.hyperonline.hyperlib.vision;
  * This class stores the result of running the vision pipeline. This contains
  * the location of the target. If we want to do more advanced stuff (like find
  * many targets, or different types) add some data here.
- * 
+ *
  * This class is immutable. That way it can be safely passed between threads.
- * 
+ *
  * @author James Hagborg
  *
  */
@@ -18,7 +18,7 @@ public class VisionResult {
     private final boolean m_foundTarget;
 
     /**
-     * 
+     *
      * @param xError
      *            error on the x-axis
      * @param yError
