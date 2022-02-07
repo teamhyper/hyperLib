@@ -240,36 +240,36 @@ public class PrefPIDController extends PIDController {
      * @return the tolerance of this PID 
      */
     public double getTolerance() {
-    	return m_defTolerance;
+        return m_defTolerance;
     }
     
     /**
      * Is the system above the given target
      * 
      * @param target
-     * 			setpoint to check if the PID system is above
+     *          setpoint to check if the PID system is above
      * 
      * @param reverse
-     * 			is the system reversed
+     *          is the system reversed
      * 
      * @return is the system above the given target
      */
     public boolean isAbove(double target, boolean reverse) {
-    	return (reverse ? m_source.pidGet() <= target+m_defTolerance : m_source.pidGet() >= target-m_defTolerance);
+        return (reverse ? m_source.pidGet() <= target+m_defTolerance : m_source.pidGet() >= target-m_defTolerance);
     }
     /**
      * Is the system below the given target
      * 
      * @param target
-     * 			setpoint to check if the PID system is below
+     *          setpoint to check if the PID system is below
      * 
      * @param reverse
-     * 			is the system reversed
+     *          is the system reversed
      * 
      * @return is the system below the given target
      */
     public boolean isBelow(double target, boolean reverse) {
-    	return (reverse ? m_source.pidGet() >= target-m_defTolerance : m_source.pidGet() <= target+m_defTolerance);
+        return (reverse ? m_source.pidGet() >= target-m_defTolerance : m_source.pidGet() <= target+m_defTolerance);
     }
     
 

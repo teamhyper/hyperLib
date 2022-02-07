@@ -30,7 +30,7 @@ public class AutonomousInfo extends SendableBase {
         /**
          * 
          * @param strat
-         * 			strategy to add
+         *          strategy to add
          * @return {Builder}
          */
         public Builder addStrategy(AutonomousStrategy strat) {
@@ -52,7 +52,7 @@ public class AutonomousInfo extends SendableBase {
         /**
          * 
          * @param strat
-         * 			strategy to set as the default
+         *          strategy to set as the default
          * @return {Builder}
          */
         public Builder addDefault(AutonomousStrategy strat) {

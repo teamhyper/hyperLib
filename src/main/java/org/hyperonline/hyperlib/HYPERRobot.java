@@ -26,7 +26,7 @@ public abstract class HYPERRobot extends TimedRobot {
      * </ul>
      */
     @SuppressWarnings("resource")
-	@Override
+    @Override
     public final void robotInit() {
         // Set the WPILib command scheduler to run automatically.
         PeriodicScheduler.getInstance().addEvent(CommandScheduler.getInstance()::run);

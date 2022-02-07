@@ -15,11 +15,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  */
 public class AutonomousStrategy {
 
-	/**
-	 * {@link Builder}
-	 * @author James
-	 *
-	 */
+    /**
+     * {@link Builder}
+     * @author James
+     *
+     */
     public static class Builder {
         private final HashMap<String, AutonomousRoutine> m_map = new HashMap<>();
         private AutonomousRoutine m_default;
@@ -28,7 +28,7 @@ public class AutonomousStrategy {
         /**
          * 
          * @param name
-         * 		the strategy's name
+         *      the strategy's name
          */
         public Builder(String name) {
             m_name = Objects.requireNonNull(name);
@@ -36,9 +36,9 @@ public class AutonomousStrategy {
         /**
          * 
          * @param input
-         * 			value of the scenario to match
+         *          value of the scenario to match
          * @param rtn
-         * 			routine to be run in this scenario
+         *          routine to be run in this scenario
          * @return {Builder}
          */
         public Builder addScenario(String input, AutonomousRoutine rtn) {
@@ -51,7 +51,7 @@ public class AutonomousStrategy {
         /**
          * 
          * @param rtn
-         * 			routine to set as the default for this AutonomousStrategy
+         *          routine to set as the default for this AutonomousStrategy
          * @return {Builder}
          */
         public Builder addDefault(AutonomousRoutine rtn) {
@@ -87,7 +87,7 @@ public class AutonomousStrategy {
     /**
      * 
      * @param input
-     * 			value of scenario to get the routine for
+     *          value of scenario to get the routine for
      * @return {AutonomousRoutine}
      */
     public AutonomousRoutine getRoutineForScenario(String input) {

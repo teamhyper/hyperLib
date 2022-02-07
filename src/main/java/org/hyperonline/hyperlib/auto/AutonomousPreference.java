@@ -28,9 +28,9 @@ public class AutonomousPreference {
     /**
      * 
      * @param routine
-     * 			the routine to tie the preference to
+     *          the routine to tie the preference to
      * @param name
-     * 			the name of the preference
+     *          the name of the preference
      */
     public AutonomousPreference(AutonomousRoutine routine, String name) {
         m_name = Objects.requireNonNull(name);

@@ -19,14 +19,14 @@ public class AutonomousPreferenceTest {
     class MyRoutine extends AutonomousRoutine {
         @Override
         public Command getCommand() {
-        	return new InstantCommand();
+            return new InstantCommand();
         }
     }
 
     class OtherRoutine extends AutonomousRoutine {
         @Override
         public Command getCommand() {
-        	return new InstantCommand();
+            return new InstantCommand();
         }
     }
 

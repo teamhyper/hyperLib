@@ -195,12 +195,12 @@ public class PreferencesSet {
     /**
      * 
      * @param name
-     * 			name of the ScalarPreference
+     *          name of the ScalarPreference
      * @param components
-	 *            A sequence of letters indicating the components. For example,
-	 *            "RGB", "HSV", "XYZ", etc. It may be any length.
+     *            A sequence of letters indicating the components. For example,
+     *            "RGB", "HSV", "XYZ", etc. It may be any length.
      * @param value
-     * 			Array of values to assign to components
+     *          Array of values to assign to components
      * @return {ScalarPreference}
      */
     public synchronized ScalarPreference addScalar(String name, String components, double... value) {
