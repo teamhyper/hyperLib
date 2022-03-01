@@ -5,28 +5,35 @@ plugins {
     id 'maven-publish'
 }
 
-//sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 jgitver {
-  mavenLike = true
+    mavenLike = true
 }
 
 allprojects {
     repositories {
+        mavenLocal()
         mavenCentral()
         maven {
             url 'https://frcmaven.wpi.edu/artifactory/release'
         }
+        maven {
+            url 'https://maven.ctr-electronics.com/release/'
+        }
+        maven {
+            url 'https://maven.revrobotics.com/'
+        }
     }
 }
 
-def WPILIB_VER = '2021.2.2'
+def WPILIB_VER = '2022.4.1'
 def NTCORE_VER = WPILIB_VER
-def OPENCV_VER = '3.4.7-5'
 def WPIUTIL_VER = WPILIB_VER
-def CSCORE_VER = WPILIB_VER
-def CAMERASERVER_VER = WPILIB_VER
-def JUNIT_VER = '5.3.1'
+def OPENCV_VER = '4.5.2-1'
+def PHOENIX_VER = '5.21.1'
+def REV_VERSION = '2022.1.1'
+def JUNIT_VER = '5.8.2'
 def ARCH = 'linuxx86-64'
 
 dependencies {
@@ -36,16 +43,17 @@ dependencies {
     implementation "edu.wpi.first.wpilibNewCommands:wpilibNewCommands-java:$WPILIB_VER"
     implementation "edu.wpi.first.ntcore:ntcore-java:$NTCORE_VER"
     implementation "edu.wpi.first.wpiutil:wpiutil-java:$WPIUTIL_VER"
-    implementation "edu.wpi.first.cscore:cscore-java:$CSCORE_VER"
-    implementation "edu.wpi.first.cameraserver:cameraserver-java:$CAMERASERVER_VER"
-    implementation "edu.wpi.first.thirdparty.frc2021.opencv:opencv-java:$OPENCV_VER"
+    implementation "edu.wpi.first.wpimath:wpimath-java:$WPIUTIL_VER"
+    implementation "edu.wpi.first.thirdparty.frc2022.opencv:opencv-java:$OPENCV_VER"
+    implementation "com.revrobotics.frc:REVLib-java:$REV_VERSION"
+    implementation "com.ctre.phoenix:api-java:$PHOENIX_VER"
+    implementation "com.ctre.phoenix:wpiapi-java:$PHOENIX_VER"
 
     // Do not require these as runtime dependencies, since WPILib doesn't.
     // The user can figure out what version they need (RIO vs. desktop).
-    testRuntime "edu.wpi.first.ntcore:ntcore-jni:$NTCORE_VER:$ARCH"
-    testRuntime "edu.wpi.first.cscore:cscore-jni:$CSCORE_VER:$ARCH"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VER"
-    
+    testRuntimeOnly "edu.wpi.first.ntcore:ntcore-jni:$NTCORE_VER:$ARCH"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VER"
+
     testImplementation "org.junit.jupiter:junit-jupiter-api:$JUNIT_VER"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$JUNIT_VER"
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
@@ -69,13 +77,13 @@ javadoc {
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     description 'Builds a jar file full of sources.'
-    classifier = 'sources'
+    archiveClassifier = 'sources'
     from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     description 'Builds a jar file full of javadocs.'
-    classifier = 'javadoc'
+    archiveClassifier = 'javadoc'
     from javadoc.destinationDir
 }
 
@@ -94,10 +102,10 @@ publishing {
             artifact javadocJar {
                 classifier 'javadoc'
             }
-            
+
             groupId 'org.hyperonline'
             artifactId 'hyperlib'
-            
+
             pom {
                 name = 'hyperLib'
                 description = 'Enhancements to WPILib'
@@ -131,10 +139,12 @@ publishing {
 // By default, checkstyle wants to look at tests
 // we override to only look at the main code
 checkstyle {
-    toolVersion = '6.11.2'
+    toolVersion = '9.3'
+    configFile file("config/checkstyle/checkstyle.xml")
     sourceSets = [project.sourceSets.main]
 }
 
+
 wrapper {
-    gradleVersion = '6.8.3'
+    gradleVersion = '7.1'
 }
