@@ -11,8 +11,13 @@ import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxAnalogSensor;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxLimitSwitch;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxRelativeEncoder;
 
+import java.util.function.DoubleConsumer;
+
 /** make the CANSparkMax sendable for use with shuffleboard. */
 public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorController {
+
+  public DoubleConsumer consumeSpeed = speed -> this.set(speed);
+
   /**
    * Create a new object to control a SPARK MAX motor Controller.
    *

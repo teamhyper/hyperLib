@@ -3,9 +3,13 @@ package org.hyperonline.hyperlib.controller;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
+import java.util.function.DoubleConsumer;
+
 public class HYPER_TalonSRX extends WPI_TalonSRX implements SendableMotorController {
 
   private final boolean m_useSensor;
+
+  public DoubleConsumer consumeSpeed = speed -> this.set(speed);
 
   /**
    * Constructor for motor controller
