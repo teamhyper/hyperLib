@@ -36,6 +36,7 @@ public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorContr
     builder.setSafeState(this::stopMotor);
     builder.addDoubleProperty("Value", this::get, this::set);
     builder.addDoubleProperty("Current", this::getOutputCurrent, null);
+    builder.addDoubleProperty("Applied Output", this::getAppliedOutput, null);
   }
 
   /**
