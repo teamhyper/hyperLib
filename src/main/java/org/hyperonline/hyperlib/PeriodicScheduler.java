@@ -25,6 +25,7 @@ public class PeriodicScheduler {
    * @return The single instance of {@link PeriodicScheduler}
    */
   public static synchronized PeriodicScheduler getInstance() {
+    // TODO: investigate if a refactor to static methods instead of getInstance() to match wpilib is worth it
     if (theInstance == null) {
       theInstance = new PeriodicScheduler();
     }

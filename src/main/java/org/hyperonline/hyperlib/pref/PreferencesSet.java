@@ -1,7 +1,5 @@
 package org.hyperonline.hyperlib.pref;
 
-import org.hyperonline.hyperlib.PeriodicScheduler;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -25,7 +23,6 @@ public class PreferencesSet {
   private final PreferencesListener m_listener;
   private final ArrayList<Preference> m_preferences = new ArrayList<>();
   private final HashSet<String> m_prefNames = new HashSet<>();
-
   /**
    * Construct a new {@link PreferencesSet} object with the given name and {@link
    * PreferencesListener}. Each time a preference in the set is updated, the listener will be
@@ -47,7 +44,7 @@ public class PreferencesSet {
     m_name = name;
     m_listener = listener;
 
-    PeriodicScheduler.getInstance().addEvent(this::checkForUpdates);
+    PreferencesUpdater.addUpdateChecker(this::checkForUpdates);
   }
 
   /**
