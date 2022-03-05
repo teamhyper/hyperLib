@@ -8,9 +8,12 @@ plugins {
 sourceCompatibility = 11
 
 jgitver {
-    strategy 'MAVEN'
+    strategy 'CONFIGURABLE'
     policy 'NEAREST'
     regexVersionTag 'v?([0-9]+(?:\\.[0-9]+){0,2}(?:-[a-zA-Z0-9\\-_\\.]+)?)'
+    autoIncrementPatch false
+    useDistance true
+
 }
 
 allprojects {

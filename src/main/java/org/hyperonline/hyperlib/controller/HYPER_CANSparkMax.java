@@ -13,7 +13,20 @@ import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxRelativeEncoder;
 
 import java.util.function.DoubleConsumer;
 
-/** make the CANSparkMax sendable for use with shuffleboard. */
+/**
+ * wrapper for added behavior on the {@link CANSparkMax}.
+ *
+ * <strong>added behavior</strong>
+ * <ul>
+ *     <li>make the CANSparkMax sendable for use with shuffleboard</li>
+ *     <li>add DoubleConsumer that sets speed for us in active RIO PIDs</li>
+ *     <li>shim for setNeutralMode over setIdleMode to match CTRE methods</li>
+ *     <li>automatically add datapoints to LiveWindow</li>
+ *     <li>add methods to get Sendable sensors from CAN ({@link HYPER_SparkMaxRelativeEncoder}, {@link HYPER_SparkMaxAnalogSensor}, {@link HYPER_SparkMaxLimitSwitch})</li>
+ * </ul>
+ *
+ * @author Chris McGroarty
+ */
 public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorController {
 
   public DoubleConsumer consumeSpeed = speed -> this.set(speed);

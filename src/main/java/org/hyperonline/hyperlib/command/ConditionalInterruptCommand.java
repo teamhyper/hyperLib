@@ -5,6 +5,15 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 
 import java.util.function.BooleanSupplier;
 
+
+/**
+ * extend {@link ConditionalCommand} so it interrupts its running command when the boolean value changes
+ * a normal ConditionalCommand provided with continuous running commands does not re-revaluate the BooleanSupplier when it changes
+ * so an active running ConditionalCommand will continue executing the chosen command (based on the initial BooleanSupplier value)
+ * this allows us to automatically switch running command when the BooleanSupplier value changes
+ *
+ * @author Chris McGroarty
+ */
 public class ConditionalInterruptCommand extends ConditionalCommand {
 
   /**

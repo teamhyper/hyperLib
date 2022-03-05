@@ -91,7 +91,7 @@ public class SparkMaxPID extends PrefPIDController {
   }
 
   /**
-   * @param tolerance
+   * @param tolerance allowable error from the target setpoint to be considered on target
    * @deprecated not needed, as the tolerance is a pref that updates itself
    */
   @Deprecated

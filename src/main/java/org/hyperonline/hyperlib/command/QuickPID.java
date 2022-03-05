@@ -101,7 +101,7 @@ public class QuickPID {
    * @param req The subsystem to require
    * @param pid The PID controller to use
    * @param setPoint The point to move the PID controller to
-   * @param setPoint Whether or not to continue running the PID loop after the target setpoint is
+   * @param pause Whether or not to continue running the PID loop after the target setpoint is
    *     reached
    * @return The newly created {@link Command}
    */

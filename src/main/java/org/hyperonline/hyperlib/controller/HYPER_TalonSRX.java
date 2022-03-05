@@ -5,6 +5,16 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 
 import java.util.function.DoubleConsumer;
 
+/**
+ * wrapper for added behavior on the {@link WPI_TalonSRX}
+ *
+ * <strong>added behavior</strong> *
+ * <ul>
+ *   <li>automatically add datapoints to LiveWindow</li>
+ * </ul>
+ *
+ * @author Chris McGroarty
+ */
 public class HYPER_TalonSRX extends WPI_TalonSRX implements SendableMotorController {
 
   private final boolean m_useSensor;
@@ -15,6 +25,7 @@ public class HYPER_TalonSRX extends WPI_TalonSRX implements SendableMotorControl
    * Constructor for motor controller
    *
    * @param deviceNumber device ID of motor controller
+   * @param useSensor should the sensor values be pushed to LiveWindow
    */
   public HYPER_TalonSRX(int deviceNumber, boolean useSensor) {
     super(deviceNumber);

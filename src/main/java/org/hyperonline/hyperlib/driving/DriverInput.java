@@ -2,6 +2,11 @@ package org.hyperonline.hyperlib.driving;
 
 import java.util.function.DoubleSupplier;
 
+/**
+ * helpers for modifying joystick input from drivers
+ *
+ * @author Chris McGroarty
+ */
 public class DriverInput {
 
   /**

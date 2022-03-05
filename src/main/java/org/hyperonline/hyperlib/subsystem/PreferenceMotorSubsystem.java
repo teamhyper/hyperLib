@@ -28,27 +28,24 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   }
 
   /**
-   * continuous command to move the motor forward (positive voltage)
    *
-   * @return
+   * @return continuous {@link Command} to move the motor forward (positive voltage)
    */
   public Command forwardCmd() {
     return new RunCommand(this::forward, this);
   }
 
   /**
-   * continuous command to move the motor backward (negative voltage)
    *
-   * @return
+   * @return continuous {@link Command} to move the motor backward (negative voltage)
    */
   public Command backwardCmd() {
     return new RunCommand(this::backward, this);
   }
 
   /**
-   * continuous command stopping the motor (speed 0)
    *
-   * @return
+   * @return continuous {@link Command} stopping the motor (speed 0)
    */
   public Command stopCmd() {
     return new RunCommand(this::stop, this);
@@ -57,8 +54,8 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   /**
    * move forward only if the given condition is satisfied, else stop the motor
    *
-   * @param condition
-   * @return
+   * @param condition should the motor be driven forwards or stopped
+   * @return {@link Command} that moves the motor at its configured (preference) forward speed if the condition is true
    */
   public Command conditionalForwardCmd(BooleanSupplier condition) {
     return new ConditionalInterruptCommand(forwardCmd(), stopCmd(), condition);
@@ -67,8 +64,8 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   /**
    * move backward only if the given condition is satisfied, else stop the motor
    *
-   * @param condition
-   * @return
+   * @param condition should the motor be driven backwards or stopped
+   * @return {@link Command} that moves the motor at its configured (preference) backward speed if the condition is true
    */
   public Command conditionalBackwardCmd(BooleanSupplier condition) {
     return new ConditionalInterruptCommand(backwardCmd(), stopCmd(), condition);
@@ -77,8 +74,8 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   /**
    * continuous command that moves the motor at the supplied speed
    *
-   * @param speed
-   * @return
+   * @param speed -1.0 to 1.0 speed the motor should move at (0-100% forward and reverse)
+   * @return {@link Command} that moves the motor at the given speed
    */
   public Command moveCmd(DoubleSupplier speed) {
     return new RunCommand(() -> this.move(speed), this);
@@ -87,9 +84,9 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   /**
    * move the motor at the supplied speed, if the supplied condition is met, else stop
    *
-   * @param speed
-   * @param canMove
-   * @return
+   * @param speed -1.0 to 1.0 speed the motor should move at (0-100% forward and reverse)
+   * @param canMove should the motor be allowed to move (at hardstop/sensor)
+   * @return {@link Command} that moves the motor at the given speed if the condition is true
    */
   public Command conditionalMoveCmd(DoubleSupplier speed, BooleanSupplier canMove) {
     return new ConditionalInterruptCommand(moveCmd(speed), stopCmd(), canMove);
@@ -99,9 +96,10 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
    * move the motor at the supplied speed with a peak output, if the supplied condition is met, else
    * stop
    *
-   * @param speed
-   * @param canMove
-   * @return
+   * @param speed -1.0 to 1.0 speed the motor should move at (0-100% forward and reverse)
+   * @param peakOutput maxmimum absolute value speed to allow
+   * @param canMove should the motor be allowed to move (at hardstop/sensor)
+   * @return {@link Command} that moves the motor at the given or max speed if the condition is true
    */
   public Command conditionalMoveWithSpeedLimitCmd(
       DoubleSupplier speed, double peakOutput, BooleanSupplier canMove) {
@@ -112,9 +110,9 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   /**
    * cap the peak output of the motor when moving
    *
-   * @param speed
-   * @param peakOutput
-   * @return
+   * @param speed -1.0 to 1.0 speed the motor should move at (0-100% forward and reverse)
+   * @param peakOutput maxmimum absolute value speed to allow
+   * @return {@link Command} that moves the motor at the given speed or max allowed speed if it is over
    */
   public Command moveWithSpeedLimitCmd(DoubleSupplier speed, double peakOutput) {
     return new RunCommand(
@@ -140,7 +138,7 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   /**
    * move the motor at the given speed
    *
-   * @param speed
+   * @param speed -1.0 to 1.0 speed the motor should move at (0-100% forward and reverse)
    */
   public void move(double speed) {
     m_motor.set(speed);
@@ -149,7 +147,7 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   /**
    * move the motor at the supplied speed.
    *
-   * @param speed speed that the motor should be moved at
+   * @param speed -1.0 to 1.0 speed the motor should move at (0-100% forward and reverse)
    */
   public void move(DoubleSupplier speed) {
     m_motor.set(speed.getAsDouble());

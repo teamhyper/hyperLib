@@ -53,7 +53,7 @@ public abstract class PhoenixPID extends PrefPIDController {
 
   /**
    * @deprecated not needed, as the tolerance is a pref that updates itself
-   * @param tolerance
+   * @param tolerance allowable error from the target setpoint to be considered on target
    */
   @Deprecated
   @Override
