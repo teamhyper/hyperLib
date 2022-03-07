@@ -6,8 +6,6 @@ import org.hyperonline.hyperlib.controller.sensor.HYPER_CANSensorSendable;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 import org.hyperonline.hyperlib.pref.IntPreference;
 
-import java.util.function.DoubleSupplier;
-
 public class SparkMaxPID extends PrefPIDController {
 
   private HYPER_CANSparkMax m_motor;

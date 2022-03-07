@@ -10,7 +10,7 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
   protected PreferencesSet m_prefs;
   protected DoublePreference m_P_pref, m_I_pref, m_D_pref, m_tolerance_pref;
   protected boolean m_enabled = false;
-  protected double m_nativeRatio = 1;
+  protected double m_conversionFactor = 1;
 
   public PrefPIDController(String name, double Kp, double Ki, double Kd, double tolerance) {
     m_prefs = new PreferencesSet(name + " PID", this);
@@ -19,7 +19,8 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
     m_D_pref = m_prefs.addDouble("D", Kd);
     m_tolerance_pref = m_prefs.addDouble("Tolerance", tolerance);
 
-    // TODO: determine if we need this or if the PreferencesUpdater can trigger this and have it grab the data
+    // TODO: determine if we need this or if the PreferencesUpdater can trigger this and have it
+    // grab the data
     this.onPreferencesUpdated();
   }
 
@@ -28,20 +29,20 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
     m_enabled = true;
   }
 
-  public void setRatio(double ratio) {
-    if (ratio != 0) {
-      m_nativeRatio = ratio;
+  public void setConversionFactor(double factor) {
+    if (factor != 0) {
+      m_conversionFactor = factor;
     } else {
-      throw new IllegalArgumentException ("ratio value is used as a divisor and cannot be zero");
+      throw new IllegalArgumentException("factor is used as a divisor and cannot be zero");
     }
   }
 
   public double nativeToFriendly(double nativeUnits) {
-    return nativeUnits / m_nativeRatio;
+    return nativeUnits * m_conversionFactor;
   }
 
   public double friendlyToNative(double friendlyUnits) {
-    return friendlyUnits * m_nativeRatio;
+    return friendlyUnits / m_conversionFactor;
   }
 
   @Override
