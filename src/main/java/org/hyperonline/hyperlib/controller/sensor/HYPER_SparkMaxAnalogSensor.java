@@ -15,7 +15,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
  *
  * @author Chris McGroarty
  */
-public class HYPER_SparkMaxAnalogSensor implements Sendable {
+public class HYPER_SparkMaxAnalogSensor implements Sendable, HYPER_CANSensorSendable {
   public final com.revrobotics.SparkMaxAnalogSensor analog;
 
   public HYPER_SparkMaxAnalogSensor(SparkMaxAnalogSensor analog) {
@@ -28,5 +28,9 @@ public class HYPER_SparkMaxAnalogSensor implements Sendable {
     builder.addDoubleProperty("Position", analog::getPosition, null);
     builder.addDoubleProperty("Velocity", analog::getVelocity, null);
     builder.addDoubleProperty("Voltage", analog::getVoltage, null);
+  }
+
+  public HYPER_CANSensor getSensor() {
+    return (HYPER_CANSensor) analog;
   }
 }

@@ -15,7 +15,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
  *
  * @author Chris McGroarty
  */
-public class HYPER_SparkMaxRelativeEncoder implements Sendable {
+public class HYPER_SparkMaxRelativeEncoder implements Sendable, HYPER_CANSensorSendable {
   public final RelativeEncoder encoder;
 
   public HYPER_SparkMaxRelativeEncoder(RelativeEncoder encoder) {
@@ -27,5 +27,9 @@ public class HYPER_SparkMaxRelativeEncoder implements Sendable {
     builder.setSmartDashboardType("SparkMaxRelativeEncoder");
     builder.addDoubleProperty("Position", encoder::getPosition, null);
     builder.addDoubleProperty("Velocity", encoder::getVelocity, null);
+  }
+
+  public HYPER_CANSensor getSensor() {
+    return (HYPER_CANSensor) encoder;
   }
 }

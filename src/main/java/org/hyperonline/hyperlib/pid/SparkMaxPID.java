@@ -2,9 +2,11 @@ package org.hyperonline.hyperlib.pid;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import org.hyperonline.hyperlib.controller.HYPER_CANSparkMax;
-import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxRelativeEncoder;
+import org.hyperonline.hyperlib.controller.sensor.HYPER_CANSensorSendable;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 import org.hyperonline.hyperlib.pref.IntPreference;
+
+import java.util.function.DoubleSupplier;
 
 public class SparkMaxPID extends PrefPIDController {
 
@@ -13,7 +15,7 @@ public class SparkMaxPID extends PrefPIDController {
   private DoublePreference m_maxVelocityUnits, m_minOut_pref, m_maxOut_pref;
   private double m_setPoint;
   private com.revrobotics.CANSparkMax.ControlType m_controlType;
-  private HYPER_SparkMaxRelativeEncoder m_encoder;
+  private HYPER_CANSensorSendable m_sensor;
   private com.revrobotics.SparkMaxPIDController m_pidController;
   private int m_pidSlot;
 
@@ -29,13 +31,14 @@ public class SparkMaxPID extends PrefPIDController {
       double minOut,
       double maxOut,
       double fNatural,
-      boolean useAlternate,
+      HYPER_CANSensorSendable sensorToUse,
       int slotID) {
     super(name, Kp, Ki, Kd, tolerance);
     m_pidSlot = slotID;
     m_motor = motor;
-    m_encoder = useAlternate ? m_motor.getAlternateEncoderSendable() : m_motor.getEncoderSendable();
+    m_sensor = sensorToUse;
     m_pidController = m_motor.getPIDController();
+    m_pidController.setFeedbackDevice(m_sensor.getSensor());
     m_controlType = controlType;
     m_IZone = m_prefs.addInt("IZone", kIZone);
     m_maxVelocityUnits = m_prefs.addDouble("F Natural", fNatural);
@@ -62,9 +65,9 @@ public class SparkMaxPID extends PrefPIDController {
   public double getFromSource() {
     switch (m_controlType) {
       case kVelocity:
-        return m_encoder.encoder.getVelocity();
+        return m_sensor.getSensor().getVelocity();
       case kPosition:
-        return m_encoder.encoder.getPosition();
+        return m_sensor.getSensor().getPosition();
       default:
         return 0.0;
     }
