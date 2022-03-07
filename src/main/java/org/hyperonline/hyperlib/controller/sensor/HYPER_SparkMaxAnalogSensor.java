@@ -1,5 +1,7 @@
 package org.hyperonline.hyperlib.controller.sensor;
 
+import com.revrobotics.MotorFeedbackSensor;
+import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxAnalogSensor;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -15,7 +17,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
  *
  * @author Chris McGroarty
  */
-public class HYPER_SparkMaxAnalogSensor implements Sendable, HYPER_CANSensorSendable {
+public class HYPER_SparkMaxAnalogSensor implements HYPER_CANSensorSendable {
   public final com.revrobotics.SparkMaxAnalogSensor analog;
 
   public HYPER_SparkMaxAnalogSensor(SparkMaxAnalogSensor analog) {
@@ -25,12 +27,56 @@ public class HYPER_SparkMaxAnalogSensor implements Sendable, HYPER_CANSensorSend
   @Override
   public void initSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("SparkMaxAnalogSensor");
-    builder.addDoubleProperty("Position", analog::getPosition, null);
-    builder.addDoubleProperty("Velocity", analog::getVelocity, null);
-    builder.addDoubleProperty("Voltage", analog::getVoltage, null);
+    builder.addDoubleProperty("Position", this::getPosition, null);
+    builder.addDoubleProperty("Velocity", this::getVelocity, null);
+    builder.addDoubleProperty("Voltage", this::getVoltage, null);
   }
 
-  public HYPER_CANSensor getSensor() {
-    return (HYPER_CANSensor) analog;
+  public MotorFeedbackSensor getSensor() {
+    return analog;
+  }
+
+  @Override
+  public double getPosition() {
+    return analog.getPosition();
+  }
+
+  @Override
+  public double getVelocity() {
+    return analog.getVelocity();
+  }
+
+  public double getVoltage() {
+    return analog.getVoltage();
+  }
+
+  @Override
+  public REVLibError setPositionConversionFactor(double factor) {
+    return analog.setPositionConversionFactor(factor);
+  }
+
+  @Override
+  public REVLibError setVelocityConversionFactor(double factor) {
+    return analog.setVelocityConversionFactor(factor);
+  }
+
+  @Override
+  public double getPositionConversionFactor() {
+    return analog.getPositionConversionFactor();
+  }
+
+  @Override
+  public double getVelocityConversionFactor() {
+    return analog.getVelocityConversionFactor();
+  }
+
+  @Override
+  public REVLibError setInverted(boolean inverted) {
+    return analog.setInverted(inverted);
+  }
+
+  @Override
+  public boolean getInverted() {
+    return analog.getInverted();
   }
 }

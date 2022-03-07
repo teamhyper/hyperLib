@@ -67,9 +67,9 @@ public class SparkMaxPID extends PrefPIDController {
   public double getFromSource() {
     switch (m_controlType) {
       case kVelocity:
-        return m_sensor.getSensor().getVelocity();
+        return m_sensor.getVelocity();
       case kPosition:
-        return m_sensor.getSensor().getPosition();
+        return m_sensor.getPosition();
       default:
         return 0.0;
     }
