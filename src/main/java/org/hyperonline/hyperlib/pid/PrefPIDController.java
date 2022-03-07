@@ -18,10 +18,6 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
     m_I_pref = m_prefs.addDouble("I", Ki);
     m_D_pref = m_prefs.addDouble("D", Kd);
     m_tolerance_pref = m_prefs.addDouble("Tolerance", tolerance);
-
-    // TODO: determine if we need this or if the PreferencesUpdater can trigger this and have it
-    // grab the data
-    this.onPreferencesUpdated();
   }
 
   @Override

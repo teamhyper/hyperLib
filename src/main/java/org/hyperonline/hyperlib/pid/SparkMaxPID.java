@@ -42,6 +42,10 @@ public class SparkMaxPID extends PrefPIDController {
     m_maxVelocityUnits = m_prefs.addDouble("F Natural", fNatural);
     m_minOut_pref = m_prefs.addDouble("Min Output", minOut);
     m_maxOut_pref = m_prefs.addDouble("Max Output", maxOut);
+
+    // TODO: determine if we need this or if the PreferencesUpdater can trigger this and have it
+    // grab the data
+    this.onPreferencesUpdated();
   }
 
   public void setSetpoint(double setpoint) {
