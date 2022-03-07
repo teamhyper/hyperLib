@@ -18,6 +18,9 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
     m_I_pref = m_prefs.addDouble("I", Ki);
     m_D_pref = m_prefs.addDouble("D", Kd);
     m_tolerance_pref = m_prefs.addDouble("Tolerance", tolerance);
+
+    // TODO: determine if we need this or if the PreferencesUpdater can trigger this and have it grab the data
+    this.onPreferencesUpdated();
   }
 
   @Override
@@ -26,8 +29,11 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
   }
 
   public void setRatio(double ratio) {
-    // we cannot divide by zero, so if we are given 0, use 1 instead
-    m_nativeRatio = ratio == 0 ? 1 : ratio;
+    if (ratio != 0) {
+      m_nativeRatio = ratio;
+    } else {
+      throw new IllegalArgumentException ("ratio value is used as a divisor and cannot be zero");
+    }
   }
 
   public double nativeToFriendly(double nativeUnits) {
