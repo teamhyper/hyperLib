@@ -38,7 +38,7 @@ public abstract class PhoenixPID extends PrefPIDController {
   @Override
   public void disable() {
     super.disable();
-    m_motor.set(ControlMode.PercentOutput, 0);
+    m_motor.stopMotor();
   }
 
   @Override

@@ -53,14 +53,18 @@ public class SparkMaxPID extends PrefPIDController {
   }
 
   @Override
-  public void execute() {
+  public void execute() {}
+
+  @Override
+  public void enable() {
+    super.enable();
     m_pidController.setReference(m_setPoint, m_controlType, m_pidSlot);
   }
 
   @Override
   public void disable() {
     super.disable();
-    m_motor.set(0);
+    m_motor.stopMotor();
   }
 
   @Override

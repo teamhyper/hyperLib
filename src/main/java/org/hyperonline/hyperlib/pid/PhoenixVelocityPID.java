@@ -24,7 +24,8 @@ public class PhoenixVelocityPID extends PhoenixPID {
   }
 
   @Override
-  public void execute() {
+  public void enable() {
+    super.enable();
     m_motor.set(ControlMode.Velocity, m_setPoint);
   }
 
