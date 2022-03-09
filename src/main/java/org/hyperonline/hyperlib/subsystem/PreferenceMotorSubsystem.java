@@ -1,34 +1,74 @@
 package org.hyperonline.hyperlib.subsystem;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import org.hyperonline.hyperlib.command.ConditionalInterruptCommand;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
 import org.hyperonline.hyperlib.driving.DriverInput;
 import org.hyperonline.hyperlib.pref.DoublePreference;
+
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+/**
+ * @param <MotorType> {@link org.hyperonline.hyperlib.controller.SendableMotorController} type to
+ *     use in this {@link edu.wpi.first.wpilibj2.command.Subsystem}
+ * @author Chris McGroarty
+ */
 public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorController>
     extends PreferenceSubsystem {
   protected MotorType m_motor;
-  protected DoublePreference m_forwardSpeed, m_backwardSpeed;
+  protected DoublePreference m_forwardSpeed, m_backwardSpeed, m_rampRate;
+  protected SlewRateLimiter m_rateLimiter;
+  protected boolean useRampRate = false;
 
-  protected PreferenceMotorSubsystem(String name, MotorType motor) {
-    super(name);
+  /**
+   * @param motor the motor to use in the subsystem
+   */
+  protected PreferenceMotorSubsystem(MotorType motor) {
+    super();
     m_motor = motor;
     this.addChild("Motor", m_motor);
     this.setDefaultCommand(this.stopCmd());
   }
 
+  /**
+   * @deprecated SubsystemBase uses class.getSimpleName as default name
+   * {@inheritDoc}
+   */
+  @Deprecated
+  protected PreferenceMotorSubsystem(String name, MotorType motor) {
+    this(motor);
+  }
+
+  /**
+   * initialize the subsystem's forward/backward speed preferences
+   *
+   * @param forward default positive speed for motor
+   * @param backward default negative speed for motor
+   */
   protected void initMotorSpeedPreference(double forward, double backward) {
     m_forwardSpeed = m_prefs.addDouble("Forward Speed", forward);
     m_backwardSpeed = m_prefs.addDouble("Backward Speed", backward);
   }
 
   /**
+   * set if the subsystem should use a ramp rate limiter or not
    *
+   * @param rampRate ramp rate (in number of seconds) to limit the motor to go from 0 to full throttle
+   */
+  protected void initRampRatePreference(double rampRate) {
+    this.useRampRate = true;
+    m_rampRate = m_prefs.addDouble("Seconds to Full Throttle", rampRate);
+    m_rateLimiter = new SlewRateLimiter(1.0 / m_rampRate.get());
+  }
+
+  @Override
+  public void initPreferences() {}
+
+  /**
    * @return continuous {@link Command} to move the motor forward (positive voltage)
    */
   public Command forwardCmd() {
@@ -36,7 +76,6 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   }
 
   /**
-   *
    * @return continuous {@link Command} to move the motor backward (negative voltage)
    */
   public Command backwardCmd() {
@@ -44,7 +83,6 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   }
 
   /**
-   *
    * @return continuous {@link Command} stopping the motor (speed 0)
    */
   public Command stopCmd() {
@@ -55,7 +93,8 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
    * move forward only if the given condition is satisfied, else stop the motor
    *
    * @param condition should the motor be driven forwards or stopped
-   * @return {@link Command} that moves the motor at its configured (preference) forward speed if the condition is true
+   * @return {@link Command} that moves the motor at its configured (preference) forward speed if
+   *     the condition is true
    */
   public Command conditionalForwardCmd(BooleanSupplier condition) {
     return new ConditionalInterruptCommand(forwardCmd(), stopCmd(), condition);
@@ -65,7 +104,8 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
    * move backward only if the given condition is satisfied, else stop the motor
    *
    * @param condition should the motor be driven backwards or stopped
-   * @return {@link Command} that moves the motor at its configured (preference) backward speed if the condition is true
+   * @return {@link Command} that moves the motor at its configured (preference) backward speed if
+   *     the condition is true
    */
   public Command conditionalBackwardCmd(BooleanSupplier condition) {
     return new ConditionalInterruptCommand(backwardCmd(), stopCmd(), condition);
@@ -112,7 +152,8 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
    *
    * @param speed -1.0 to 1.0 speed the motor should move at (0-100% forward and reverse)
    * @param peakOutput maxmimum absolute value speed to allow
-   * @return {@link Command} that moves the motor at the given speed or max allowed speed if it is over
+   * @return {@link Command} that moves the motor at the given speed or max allowed speed if it is
+   *     over
    */
   public Command moveWithSpeedLimitCmd(DoubleSupplier speed, double peakOutput) {
     return new RunCommand(
@@ -121,19 +162,32 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
 
   /** move the motor forward (positive voltage) at the speed set in preference */
   public void forward() {
-    m_motor.set(m_forwardSpeed.get());
+    m_motor.set(calculateSpeed(m_forwardSpeed.get()));
   }
 
   /** move the motor backward (negative voltage) at the speed set in preference */
   public void backward() {
-    m_motor.set(m_backwardSpeed.get());
+    m_motor.set(calculateSpeed(m_backwardSpeed.get()));
   }
 
   /** stop the motor */
   public void stop() {
     m_motor.set(0);
+    m_rateLimiter.reset(0);
   }
-  ;
+
+  /**
+   * calculate the speed the motor should move at, based on if we're rate limiting or not
+   *
+   * @param speed the motor speed to rate limit or use
+   * @return the calculated motor speed for this subsystem
+   */
+  protected double calculateSpeed(double speed) {
+    if (useRampRate) {
+      return DriverInput.filterAllowZero(speed, m_rateLimiter);
+    }
+    return speed;
+  }
 
   /**
    * move the motor at the given speed
@@ -141,7 +195,7 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
    * @param speed -1.0 to 1.0 speed the motor should move at (0-100% forward and reverse)
    */
   public void move(double speed) {
-    m_motor.set(speed);
+    m_motor.set(calculateSpeed(speed));
   }
 
   /**
@@ -150,7 +204,7 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
    * @param speed -1.0 to 1.0 speed the motor should move at (0-100% forward and reverse)
    */
   public void move(DoubleSupplier speed) {
-    m_motor.set(speed.getAsDouble());
+    move(speed.getAsDouble());
   }
 
   /**

@@ -2,7 +2,9 @@ package org.hyperonline.hyperlib.subsystem;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
-
+/**
+ * @author Chris McGroarty
+ */
 public abstract class PrefMotorSlaveSubsystem<
         MasterMotorType extends SendableMotorController,
         SlaveMotorType extends SendableMotorController>
@@ -10,17 +12,53 @@ public abstract class PrefMotorSlaveSubsystem<
   protected SlaveMotorType m_slaveMotor;
   protected boolean m_invertedSlave;
 
+  /**
+   *
+   * @param masterMotor the motor to use in the subsystem
+   * @param slaveMotor the motor to follow the master motor in the subsystem
+   * @param inverted is the slaveMotor inverted compared to the masterMotor
+   */
   protected PrefMotorSlaveSubsystem(
-      String name, MasterMotorType masterMotor, SlaveMotorType slaveMotor) {
-    this(name, masterMotor, slaveMotor, false);
-  }
-
-  protected PrefMotorSlaveSubsystem(
-      String name, MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
-    super(name, masterMotor);
+          MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
+    super(masterMotor);
     m_slaveMotor = slaveMotor;
     this.addChild("Slave Motor", m_slaveMotor);
     m_invertedSlave = inverted;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  protected PrefMotorSlaveSubsystem(MasterMotorType masterMotor, SlaveMotorType slaveMotor) {
+    this(masterMotor, slaveMotor, false);
+  }
+
+
+
+  /**
+   * @deprecated SubsystemBase uses class.getSimpleName as default name
+   * @param name string to use as the Subsystem's name
+   * @param masterMotor the motor to use in the subsystem
+   * @param slaveMotor the motor to follow the master motor in the subsystem
+   * @param inverted is the slaveMotor inverted compared to the masterMotor
+   *
+   */
+  @Deprecated
+  protected PrefMotorSlaveSubsystem(
+      String name, MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
+    this(masterMotor, slaveMotor, inverted);
+  }
+
+  /**
+   * @deprecated SubsystemBase uses class.getSimpleName as default name
+   * @param name string to use as the Subsystem's name
+   * @param masterMotor the motor to use in the subsystem
+   * @param slaveMotor the motor to follow the master motor in the subsystem
+   */
+  @Deprecated
+  protected PrefMotorSlaveSubsystem(
+      String name, MasterMotorType masterMotor, SlaveMotorType slaveMotor) {
+    this(masterMotor, slaveMotor);
   }
 
   protected abstract void setFollowing(boolean inverted);
