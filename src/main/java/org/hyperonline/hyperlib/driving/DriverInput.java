@@ -1,5 +1,8 @@
 package org.hyperonline.hyperlib.driving;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+
 import java.util.function.DoubleSupplier;
 
 /**
@@ -15,7 +18,7 @@ public class DriverInput {
    * @return the speed or 0 if it is too small
    */
   public static double deadband(double input, double deadband) {
-    return (Math.abs(input) > deadband ? input : 0);
+    return MathUtil.applyDeadband(input, deadband);
   }
 
   /**
@@ -24,13 +27,11 @@ public class DriverInput {
    * @return speed limited input
    */
   public static double governor(double input, double speedlimit) {
-    double sign = DriverInput.getSign(input);
-    return (Math.abs(input) < speedlimit ? input : sign * speedlimit);
+    return MathUtil.clamp(input, -speedlimit, speedlimit);
   }
 
   public static double governor(DoubleSupplier input, double speedlimit) {
-    double sign = DriverInput.getSign(input.getAsDouble());
-    return (Math.abs(input.getAsDouble()) < speedlimit ? input.getAsDouble() : sign * speedlimit);
+    return governor(input.getAsDouble(), speedlimit);
   }
 
   /**
@@ -59,6 +60,22 @@ public class DriverInput {
   public static double reduceInput(double input, double reduction) {
     double sign = DriverInput.getSign(input);
     return sign * Math.abs(input) - Math.abs(reduction);
+  }
+
+  /**
+   * helper that resets a SlewRateLimiter if the target speed is zero,
+   * allowing the drivetrain or mechanism to stop instead of decelerating at the given rate
+   *
+   * @param speed target speed
+   * @param filter SlewRateLimiter to reset if speed is 0 or the calculate value from
+   * @return rate limited value or 0
+   */
+  public static double filterAllowZero(double speed, SlewRateLimiter filter) {
+    if (speed == 0) {
+      filter.reset(speed);
+    }
+
+    return filter.calculate(speed);
   }
 
   /**
