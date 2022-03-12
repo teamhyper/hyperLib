@@ -76,4 +76,14 @@ public abstract class PhoenixPID extends PrefPIDController {
     super.initSendable(builder);
     builder.addDoubleProperty("Setpoint", () -> nativeToFriendly(m_setPoint), null);
   }
+
+  @Override
+  public double getMaxOutput() {
+    return m_PeakOutput.get();
+  }
+
+  @Override
+  public double getMinOutput() {
+    return m_PeakOutput.get();
+  }
 }

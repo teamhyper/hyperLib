@@ -8,7 +8,8 @@ import org.hyperonline.hyperlib.pref.PreferencesSet;
 
 public abstract class PrefPIDController implements PIDControlled, PreferencesListener, Sendable {
   protected PreferencesSet m_prefs;
-  protected DoublePreference m_P_pref, m_I_pref, m_D_pref, m_tolerance_pref;
+  protected DoublePreference m_P_pref, m_I_pref, m_D_pref, m_tolerance_pref, m_minOut_pref, m_maxOut_pref;
+  protected double m_minOut = -1, m_maxOut = 1;
   protected boolean m_enabled = false;
   protected double m_conversionFactor = 1;
 
@@ -25,12 +26,40 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
     m_enabled = true;
   }
 
+  public double getMaxOutput() {
+    return m_maxOut;
+  }
+
+  public double getMinOutput() {
+    return m_minOut;
+  }
+
+  private void updateOutputRange() {
+    if (m_minOut_pref != null && m_minOut_pref.get() >= -1) {
+      m_minOut = m_minOut_pref.get();
+    } else {
+      m_minOut = -1;
+    }
+
+    if (m_maxOut_pref != null && m_maxOut_pref.get() <= 1) {
+      m_maxOut = m_maxOut_pref.get();
+    } else {
+      m_maxOut = 1;
+    }
+  }
+
   public void setConversionFactor(double factor) {
     if (factor != 0) {
       m_conversionFactor = factor;
     } else {
       throw new IllegalArgumentException("factor is used as a divisor and cannot be zero");
     }
+  }
+
+  public void setOutputRange(double minOut, double maxOut) {
+    m_minOut_pref = m_prefs.addDouble("MinOut", minOut);
+    m_maxOut_pref = m_prefs.addDouble("MaxOut", maxOut);
+    this.updateOutputRange();
   }
 
   public double nativeToFriendly(double nativeUnits) {
@@ -55,6 +84,7 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
   public void onPreferencesUpdated() {
     this.setPID(m_P_pref.get(), m_I_pref.get(), m_D_pref.get());
     this.setTolerance(m_tolerance_pref.get());
+    this.updateOutputRange();
   }
 
   protected abstract void setPID(double Kp, double Ki, double Kd);

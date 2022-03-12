@@ -11,9 +11,6 @@ public class RioPassivePID extends PrefPIDController {
   protected DoubleSupplier m_source;
   protected PIDController m_pid;
 
-  protected DoublePreference m_minOut_pref, m_maxOut_pref;
-  protected double m_minOut = -1, m_maxOut = 1;
-
   public RioPassivePID(
       String name, DoubleSupplier source, double Kp, double Ki, double Kd, double tolerance) {
     super(name, Kp, Ki, Kd, tolerance);
@@ -74,12 +71,6 @@ public class RioPassivePID extends PrefPIDController {
     m_pid.setSetpoint(friendlyToNative(setpoint));
   }
 
-  public void setOutputRange(double minOut, double maxOut) {
-    m_minOut_pref = m_prefs.addDouble("MinOut", minOut);
-    m_maxOut_pref = m_prefs.addDouble("MaxOut", maxOut);
-    this.updateOutputRange();
-  }
-
   public void setInputRange(double minIn, double maxIn) {
     m_pid.enableContinuousInput(minIn, maxIn);
   }
@@ -87,20 +78,7 @@ public class RioPassivePID extends PrefPIDController {
   @Override
   public void onPreferencesUpdated() {
     super.onPreferencesUpdated();
-    this.updateOutputRange();
   }
 
-  private void updateOutputRange() {
-    if (m_minOut_pref != null) {
-      m_minOut = m_minOut_pref.get();
-    } else {
-      m_minOut = -1;
-    }
 
-    if (m_maxOut_pref != null) {
-      m_maxOut = m_maxOut_pref.get();
-    } else {
-      m_maxOut = 1;
-    }
-  }
 }

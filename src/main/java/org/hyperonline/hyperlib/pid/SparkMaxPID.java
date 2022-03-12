@@ -10,7 +10,7 @@ public class SparkMaxPID extends PrefPIDController {
 
   private HYPER_CANSparkMax m_motor;
   private IntPreference m_IZone;
-  private DoublePreference m_maxVelocityUnits, m_minOut_pref, m_maxOut_pref;
+  private DoublePreference m_maxVelocityUnits;
   private double m_setPoint;
   private com.revrobotics.CANSparkMax.ControlType m_controlType;
   private HYPER_CANSensorSendable m_sensor;
@@ -26,8 +26,6 @@ public class SparkMaxPID extends PrefPIDController {
       double Kd,
       int kIZone,
       double tolerance,
-      double minOut,
-      double maxOut,
       double fNatural,
       HYPER_CANSensorSendable sensorToUse,
       int slotID) {
@@ -40,8 +38,6 @@ public class SparkMaxPID extends PrefPIDController {
     m_controlType = controlType;
     m_IZone = m_prefs.addInt("IZone", kIZone);
     m_maxVelocityUnits = m_prefs.addDouble("F Natural", fNatural);
-    m_minOut_pref = m_prefs.addDouble("Min Output", minOut);
-    m_maxOut_pref = m_prefs.addDouble("Max Output", maxOut);
 
     // TODO: determine if we need this or if the PreferencesUpdater can trigger this and have it
     // grab the data
@@ -89,7 +85,7 @@ public class SparkMaxPID extends PrefPIDController {
     super.onPreferencesUpdated();
     m_pidController.setIZone(m_IZone.get(), m_pidSlot);
     m_pidController.setFF(1 / m_maxVelocityUnits.get(), m_pidSlot);
-    m_pidController.setOutputRange(m_minOut_pref.get(), m_maxOut_pref.get(), m_pidSlot);
+    m_pidController.setOutputRange(m_minOut, m_maxOut, m_pidSlot);
   }
 
   @Override
