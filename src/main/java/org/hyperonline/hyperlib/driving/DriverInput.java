@@ -67,11 +67,12 @@ public class DriverInput {
    * allowing the drivetrain or mechanism to stop instead of decelerating at the given rate
    *
    * @param speed target speed
-   * @param filter SlewRateLimiter to reset if speed is 0 or the calculate value from
+   * @param filter SlewRateLimiter to calculate value from
+   * @param reset should the SlewRateLimiter be reset before calculating
    * @return rate limited value or 0
    */
-  public static double filterAllowZero(double speed, SlewRateLimiter filter) {
-    if (speed == 0) {
+  public static double filterAllowZero(double speed, SlewRateLimiter filter, boolean reset) {
+    if (reset) {
       filter.reset(speed);
     }
 

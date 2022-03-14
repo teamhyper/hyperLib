@@ -184,7 +184,7 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
    */
   protected double calculateSpeed(double speed) {
     if (useRampRate) {
-      return DriverInput.filterAllowZero(speed, m_rateLimiter);
+      return DriverInput.filterAllowZero(speed, m_rateLimiter, speed == 0);
     }
     return speed;
   }
