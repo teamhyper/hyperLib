@@ -13,12 +13,14 @@ public class SparkMaxPID extends PrefPIDController {
 
   private HYPER_CANSparkMax m_motor;
   private IntPreference m_IZone;
-  private DoublePreference m_maxVelocityUnits;
+  private DoublePreference m_maxVelocityUnits, m_smartMaxVel, m_smartMinVel, m_smartMaxAccel;
   private double m_setPoint;
   private CANSparkMax.ControlType m_controlType;
   private HYPER_CANSensorSendable m_sensor;
   private SparkMaxPIDController m_pidController;
   private int m_pidSlot;
+
+  private boolean useSmartMotion = false;
 
   public SparkMaxPID(
       String name,
@@ -60,10 +62,16 @@ public class SparkMaxPID extends PrefPIDController {
       SparkMaxPIDController.AccelStrategy accelStrategy) {
     if (m_controlType == CANSparkMax.ControlType.kSmartMotion) {
       if (accelStrategy == SparkMaxPIDController.AccelStrategy.kTrapezoidal) {
+        useSmartMotion = true;
+
+        m_smartMinVel = m_prefs.addDouble("SmartMotion Min Velocity", minVel);
+        m_smartMaxVel = m_prefs.addDouble("SmartMotion Max Velocity", maxVel);
+        m_smartMaxAccel = m_prefs.addDouble("SmartMotion Max Acceleration", maxAcc);
+
         m_pidController.setSmartMotionAccelStrategy(accelStrategy, m_pidSlot);
-        m_pidController.setSmartMotionMaxVelocity(maxVel, m_pidSlot);
-        m_pidController.setSmartMotionMinOutputVelocity(minVel, m_pidSlot);
-        m_pidController.setSmartMotionMaxAccel(maxAcc, m_pidSlot);
+        m_pidController.setSmartMotionMaxVelocity(m_smartMaxVel.get(), m_pidSlot);
+        m_pidController.setSmartMotionMinOutputVelocity(m_smartMinVel.get(), m_pidSlot);
+        m_pidController.setSmartMotionMaxAccel(m_smartMaxAccel.get(), m_pidSlot);
         m_pidController.setSmartMotionAllowedClosedLoopError(m_tolerance_pref.get(), m_pidSlot);
       } else {
         throw new IllegalArgumentException(
@@ -125,6 +133,13 @@ public class SparkMaxPID extends PrefPIDController {
     super.onPreferencesUpdated();
     m_pidController.setIZone(m_IZone.get(), m_pidSlot);
     m_pidController.setFF(1 / m_maxVelocityUnits.get(), m_pidSlot);
+
+    if(useSmartMotion) {
+      m_pidController.setSmartMotionMaxVelocity(m_smartMaxVel.get(), m_pidSlot);
+      m_pidController.setSmartMotionMinOutputVelocity(m_smartMinVel.get(), m_pidSlot);
+      m_pidController.setSmartMotionMaxAccel(m_smartMaxAccel.get(), m_pidSlot);
+      m_pidController.setSmartMotionAllowedClosedLoopError(m_tolerance_pref.get(), m_pidSlot);
+    }
   }
 
   @Override
@@ -140,12 +155,8 @@ public class SparkMaxPID extends PrefPIDController {
     m_pidController.setD(Kd, m_pidSlot);
   }
 
-  @Override
-  protected void setTolerance(double tolerance) {
-    if(m_controlType == CANSparkMax.ControlType.kSmartMotion) {
-      m_pidController.setSmartMotionAllowedClosedLoopError(tolerance, m_pidSlot);
-    }
-  }
+  @Deprecated
+  protected void setTolerance(double tolerance) {}
 
   @Override
   public void initSendable(SendableBuilder builder) {
