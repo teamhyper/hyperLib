@@ -71,8 +71,23 @@ public class RioPassivePID extends PrefPIDController {
     m_pid.setSetpoint(friendlyToNative(setpoint));
   }
 
-  public void setInputRange(double minIn, double maxIn) {
+  /**
+   * enable and set continuous input for this pid/sensor.
+   * for example, a mechanism that rotates 360deg would have an input range of 0 to 360, so that going under 0 instead reads as 359 instead of -1
+   *
+   * @param minIn input to switch to maximum input when going under
+   * @param maxIn input to switch to minimum input when going over
+   */
+  public void enableContinuousInput(double minIn, double maxIn) {
     m_pid.enableContinuousInput(minIn, maxIn);
+  }
+
+  /**
+   * disable continuous input for this pid/sensor.
+   * the sensor will count in either direction infinitely (or until the sensor has a hardstop like a pot)
+   */
+  public void disableContinuousInput() {
+    m_pid.disableContinuousInput();
   }
 
   @Override
