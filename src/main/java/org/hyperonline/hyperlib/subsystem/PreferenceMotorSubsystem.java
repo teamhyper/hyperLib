@@ -35,8 +35,7 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   }
 
   /**
-   * @deprecated SubsystemBase uses class.getSimpleName as default name
-   * {@inheritDoc}
+   * @deprecated SubsystemBase uses class.getSimpleName as default name {@inheritDoc}
    */
   @Deprecated
   protected PreferenceMotorSubsystem(String name, MotorType motor) {
@@ -57,7 +56,8 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   /**
    * set if the subsystem should use a ramp rate limiter or not
    *
-   * @param rampRate ramp rate (in number of seconds) to limit the motor to go from 0 to full throttle
+   * @param rampRate ramp rate (in number of seconds) to limit the motor to go from 0 to full
+   *     throttle
    */
   protected void initRampRatePreference(double rampRate) {
     this.useRampRate = true;
@@ -74,12 +74,27 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   public Command forwardCmd() {
     return new RunCommand(this::forward, this);
   }
+  /**
+   * @param multiplier how to modify the preference speed
+   * @return continuous {@link Command} to move the motor forward (positive voltage) modified by the given multiplier
+   */
+  public Command modifiedForwardCmd(double multiplier) {
+    return new RunCommand(() -> this.forward(multiplier), this);
+  }
 
   /**
    * @return continuous {@link Command} to move the motor backward (negative voltage)
    */
   public Command backwardCmd() {
     return new RunCommand(this::backward, this);
+  }
+
+  /**
+   * @param multiplier how to modify the preference speed
+   * @return continuous {@link Command} to move the motor backward (negative voltage) modified by the given multiplier
+   */
+  public Command modifiedBackwardCmd(double multiplier) {
+    return new RunCommand(() -> this.backward(multiplier), this);
   }
 
   /**
@@ -160,14 +175,25 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
         () -> this.move(() -> DriverInput.governor(speed.getAsDouble(), peakOutput)), this);
   }
 
-  /** move the motor forward (positive voltage) at the speed set in preference */
   public void forward() {
-    m_motor.set(calculateSpeed(m_forwardSpeed.get()));
+    forward(1);
   }
 
-  /** move the motor backward (negative voltage) at the speed set in preference */
+  /** move the motor forward (positive voltage) at the speed set in preference
+   * @param multiplier how to modify the preference speed
+   */
+  public void forward(double multiplier) {
+    m_motor.set(calculateSpeed(m_forwardSpeed.get() * multiplier));
+  }
+
   public void backward() {
-    m_motor.set(calculateSpeed(m_backwardSpeed.get()));
+    backward(1);
+  }
+  /** move the motor backward (negative voltage) at the speed set in preference
+   * @param multiplier how to modify the preference speed
+   * */
+  public void backward(double multiplier) {
+    m_motor.set(calculateSpeed(m_backwardSpeed.get() * multiplier));
   }
 
   /** stop the motor */

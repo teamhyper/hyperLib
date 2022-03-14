@@ -125,6 +125,11 @@ public class SparkMaxPID extends PrefPIDController {
     super.onPreferencesUpdated();
     m_pidController.setIZone(m_IZone.get(), m_pidSlot);
     m_pidController.setFF(1 / m_maxVelocityUnits.get(), m_pidSlot);
+  }
+
+  @Override
+  protected void updateOutputRange() {
+    super.updateOutputRange();
     m_pidController.setOutputRange(m_minOut, m_maxOut, m_pidSlot);
   }
 
@@ -135,13 +140,12 @@ public class SparkMaxPID extends PrefPIDController {
     m_pidController.setD(Kd, m_pidSlot);
   }
 
-  /**
-   * @param tolerance allowable error from the target setpoint to be considered on target
-   * @deprecated not needed, as the tolerance is a pref that updates itself
-   */
-  @Deprecated
   @Override
-  protected void setTolerance(double tolerance) {}
+  protected void setTolerance(double tolerance) {
+    if(m_controlType == CANSparkMax.ControlType.kSmartMotion) {
+      m_pidController.setSmartMotionAllowedClosedLoopError(tolerance, m_pidSlot);
+    }
+  }
 
   @Override
   public void initSendable(SendableBuilder builder) {

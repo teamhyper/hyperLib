@@ -35,7 +35,7 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
     return m_minOut;
   }
 
-  private void updateOutputRange() {
+  protected void updateOutputRange() {
     if (m_minOut_pref != null && m_minOut_pref.get() >= -1) {
       m_minOut = m_minOut_pref.get();
     } else {
