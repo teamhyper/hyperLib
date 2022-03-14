@@ -1,5 +1,7 @@
 package org.hyperonline.hyperlib.pid;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import org.hyperonline.hyperlib.controller.HYPER_CANSparkMax;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_CANSensorSendable;
@@ -12,15 +14,15 @@ public class SparkMaxPID extends PrefPIDController {
   private IntPreference m_IZone;
   private DoublePreference m_maxVelocityUnits;
   private double m_setPoint;
-  private com.revrobotics.CANSparkMax.ControlType m_controlType;
+  private CANSparkMax.ControlType m_controlType;
   private HYPER_CANSensorSendable m_sensor;
-  private com.revrobotics.SparkMaxPIDController m_pidController;
+  private SparkMaxPIDController m_pidController;
   private int m_pidSlot;
 
   public SparkMaxPID(
       String name,
       HYPER_CANSparkMax motor,
-      com.revrobotics.CANSparkMax.ControlType controlType,
+      CANSparkMax.ControlType controlType,
       double Kp,
       double Ki,
       double Kd,
@@ -42,6 +44,41 @@ public class SparkMaxPID extends PrefPIDController {
     // TODO: determine if we need this or if the PreferencesUpdater can trigger this and have it
     // grab the data
     this.onPreferencesUpdated();
+  }
+
+  /**
+   * @param maxVel limit the velocity in RPM of the pid controller
+   * @param minVel lower bound in RPM of the pid controller
+   * @param maxAcc will limit the acceleration in RPM^2
+   * @param accelStrategy acceleration strategy to use for the generated motion profile
+   */
+  public void initSmartMotionProfile(
+      double maxVel,
+      double minVel,
+      double maxAcc,
+      SparkMaxPIDController.AccelStrategy accelStrategy) {
+    if (m_controlType == CANSparkMax.ControlType.kSmartMotion) {
+      if (accelStrategy == SparkMaxPIDController.AccelStrategy.kTrapezoidal) {
+        m_pidController.setSmartMotionAccelStrategy(accelStrategy, m_pidSlot);
+        m_pidController.setSmartMotionMaxVelocity(maxVel, m_pidSlot);
+        m_pidController.setSmartMotionMinOutputVelocity(minVel, m_pidSlot);
+        m_pidController.setSmartMotionMaxAccel(maxAcc, m_pidSlot);
+        m_pidController.setSmartMotionAllowedClosedLoopError(m_tolerance_pref.get(), m_pidSlot);
+      } else {
+        throw new IllegalArgumentException(
+            "As of the 2022 FRC season, SparkMax firmware only supports the trapezoidal motion profiling acceleration strategy");
+      }
+    } else {
+      throw new IllegalStateException(
+          "SparkMaxPID is not using SmartMotion ControlType, cannot set Smart Motion Profile");
+    }
+  }
+
+  /** {@inheritDoc} */
+  public void initSmartMotionProfile(
+      double maxVel, double minVel, double maxAcc) {
+    initSmartMotionProfile(
+        maxVel, minVel, maxAcc, SparkMaxPIDController.AccelStrategy.kTrapezoidal);
   }
 
   public void setSetpoint(double setpoint) {
@@ -67,8 +104,10 @@ public class SparkMaxPID extends PrefPIDController {
   public double getFromSource() {
     switch (m_controlType) {
       case kVelocity:
+      case kSmartVelocity:
         return m_sensor.getVelocity();
       case kPosition:
+      case kSmartMotion:
         return m_sensor.getPosition();
       default:
         return 0.0;
