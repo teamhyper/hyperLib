@@ -1,4 +1,4 @@
-package org.hyperonline.hyperlib.pid;
+package org.hyperonline.hyperlib.pid.rio;
 
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;

@@ -1,7 +1,9 @@
-package org.hyperonline.hyperlib.pid;
+package org.hyperonline.hyperlib.pid.rio;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import org.hyperonline.hyperlib.pid.IPIDController;
+import org.hyperonline.hyperlib.pid.PrefPIDController;
 
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;

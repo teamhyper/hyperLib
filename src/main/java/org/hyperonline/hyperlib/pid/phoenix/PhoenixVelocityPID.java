@@ -1,4 +1,4 @@
-package org.hyperonline.hyperlib.pid;
+package org.hyperonline.hyperlib.pid.phoenix;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;

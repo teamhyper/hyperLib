@@ -5,7 +5,7 @@ import edu.wpi.first.util.sendable.Sendable;
 /**
  * work-around to give {@link edu.wpi.first.math.controller.PIDController} and {@link
  * edu.wpi.first.math.controller.ProfiledPIDController} a common ancestor, as they share a lot of
- * common functionality. So we can have an genericized {@link BaseRioPID}
+ * common functionality. So we can have an genericized {@link org.hyperonline.hyperlib.pid.rio.BaseRioPID}
  */
 public interface IPIDController extends Sendable {
   void setPID(double kp, double ki, double kd);

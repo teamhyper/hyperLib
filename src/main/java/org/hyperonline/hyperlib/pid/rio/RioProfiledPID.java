@@ -1,7 +1,8 @@
-package org.hyperonline.hyperlib.pid;
+package org.hyperonline.hyperlib.pid.rio;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import org.hyperonline.hyperlib.pid.ProfiledPIDController;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 
 import java.util.function.DoubleConsumer;

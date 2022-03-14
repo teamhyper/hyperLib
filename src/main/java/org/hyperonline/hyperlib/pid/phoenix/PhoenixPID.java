@@ -1,8 +1,9 @@
-package org.hyperonline.hyperlib.pid;
+package org.hyperonline.hyperlib.pid.phoenix;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import org.hyperonline.hyperlib.pid.PrefPIDController;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 import org.hyperonline.hyperlib.pref.IntPreference;
 

@@ -1,10 +1,11 @@
-package org.hyperonline.hyperlib.pid;
+package org.hyperonline.hyperlib.pid.rev;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import org.hyperonline.hyperlib.controller.HYPER_CANSparkMax;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_CANSensorSendable;
+import org.hyperonline.hyperlib.pid.PrefPIDController;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 import org.hyperonline.hyperlib.pref.IntPreference;
 
