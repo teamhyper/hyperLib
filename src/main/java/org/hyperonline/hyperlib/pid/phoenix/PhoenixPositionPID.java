@@ -25,12 +25,12 @@ public class PhoenixPositionPID extends PhoenixPID {
   @Override
   public void enable() {
     super.enable();
-    m_motor.set(ControlMode.Position, m_setPoint);
+    m_motor.set(ControlMode.Position, friendlyToNative(m_setPoint));
   }
 
   @Override
   public double getFromSource() {
-    return m_motor.getSelectedSensorPosition(m_pidSlot);
+    return nativeToFriendly(m_motor.getSelectedSensorPosition(m_pidSlot));
   }
 
   @Override

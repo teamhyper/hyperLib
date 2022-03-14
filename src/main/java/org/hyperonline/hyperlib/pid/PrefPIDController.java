@@ -92,17 +92,17 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
 
   @Override
   public boolean onTarget(double target) {
-    return Math.abs(nativeToFriendly(getFromSource()) - target) <= m_tolerance_pref.get();
+    return Math.abs(getFromSource() - target) <= m_tolerance_pref.get();
   }
 
   @Override
   public boolean isAbove(double target) {
-    return nativeToFriendly(getFromSource()) >= target;
+    return getFromSource() >= target;
   }
 
   @Override
   public boolean isBelow(double target) {
-    return nativeToFriendly(getFromSource()) <= target;
+    return getFromSource() <= target;
   }
 
   public double getTolerance() {
@@ -116,7 +116,8 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
     setSmartDashboardType(builder);
     builder.addBooleanProperty("Enabled", this::isEnabled, null);
     builder.addBooleanProperty("On Target", this::onTarget, null);
-    builder.addDoubleProperty("Friendly Value", () -> nativeToFriendly(getFromSource()), null);
+    builder.addDoubleProperty("Friendly Value", this::getFromSource, null);
+    builder.addDoubleProperty("Native Value", () -> friendlyToNative(this.getFromSource()), null);
   }
 
   protected abstract void setSmartDashboardType(SendableBuilder builder);

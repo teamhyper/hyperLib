@@ -83,7 +83,7 @@ public class SparkMaxPID extends PrefPIDController {
   }
 
   public void setSetpoint(double setpoint) {
-    m_setPoint = friendlyToNative(setpoint);
+    m_setPoint = setpoint;
   }
 
   @Override
@@ -92,7 +92,7 @@ public class SparkMaxPID extends PrefPIDController {
   @Override
   public void enable() {
     super.enable();
-    m_pidController.setReference(m_setPoint, m_controlType, m_pidSlot);
+    m_pidController.setReference(friendlyToNative(m_setPoint), m_controlType, m_pidSlot);
   }
 
   @Override
@@ -106,10 +106,10 @@ public class SparkMaxPID extends PrefPIDController {
     switch (m_controlType) {
       case kVelocity:
       case kSmartVelocity:
-        return m_sensor.getVelocity();
+        return nativeToFriendly(m_sensor.getVelocity());
       case kPosition:
       case kSmartMotion:
-        return m_sensor.getPosition();
+        return nativeToFriendly(m_sensor.getPosition());
       default:
         return 0.0;
     }
@@ -117,7 +117,7 @@ public class SparkMaxPID extends PrefPIDController {
 
   @Override
   public boolean onTarget() {
-    return onTarget(nativeToFriendly(m_setPoint));
+    return onTarget(m_setPoint);
   }
 
   @Override
@@ -150,7 +150,7 @@ public class SparkMaxPID extends PrefPIDController {
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
-    builder.addDoubleProperty("Setpoint", () -> nativeToFriendly(m_setPoint), null);
+    builder.addDoubleProperty("Setpoint", () -> m_setPoint, null);
   }
 
   @Override

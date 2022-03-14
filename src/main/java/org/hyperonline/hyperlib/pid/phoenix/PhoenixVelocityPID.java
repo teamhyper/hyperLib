@@ -26,7 +26,7 @@ public class PhoenixVelocityPID extends PhoenixPID {
   @Override
   public void enable() {
     super.enable();
-    m_motor.set(ControlMode.Velocity, m_setPoint);
+    m_motor.set(ControlMode.Velocity, friendlyToNative(m_setPoint));
   }
 
   public void setP(double Kp) {
@@ -48,6 +48,6 @@ public class PhoenixVelocityPID extends PhoenixPID {
 
   @Override
   public double getFromSource() {
-    return m_motor.getSelectedSensorVelocity(m_pidSlot);
+    return nativeToFriendly(m_motor.getSelectedSensorVelocity(m_pidSlot));
   }
 }

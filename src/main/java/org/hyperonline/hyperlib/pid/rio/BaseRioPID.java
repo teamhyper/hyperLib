@@ -54,7 +54,7 @@ public abstract class BaseRioPID<ControllerType extends IPIDController> extends 
 
     @Override
     protected void setTolerance(double tolerance) {
-        m_pid.setTolerance(friendlyToNative(tolerance));
+        m_pid.setTolerance(tolerance);
     }
 
     @Override
@@ -87,7 +87,7 @@ public abstract class BaseRioPID<ControllerType extends IPIDController> extends 
 
     @Override
     public double getFromSource() {
-        return m_source.getAsDouble();
+        return nativeToFriendly(m_source.getAsDouble());
     }
 
     @Override

@@ -34,6 +34,12 @@ public class RioPID extends BaseRioPID<PIDController> {
 
   @Override
   public void setSetpoint(double setpoint) {
-    m_pid.setSetpoint(friendlyToNative(setpoint));
+    m_pid.setSetpoint(setpoint);
+  }
+
+  @Override
+  public void enable() {
+    super.enable();
+    m_pid.reset();
   }
 }
