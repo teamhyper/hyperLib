@@ -1,6 +1,7 @@
 package org.hyperonline.hyperlib.pid.rio;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.util.sendable.SendableRegistry;
 import org.hyperonline.hyperlib.pid.PIDController;
 
 import java.util.function.DoubleConsumer;
@@ -24,6 +25,8 @@ public class RioPID extends BaseRioPID<PIDController> {
     super(name, source, output, Kp, Ki, Kd, tolerance);
 
     m_pid = new PIDController(m_P_pref.get(), m_I_pref.get(), m_D_pref.get());
+    // the parent is added, so we don't need this floating in LW
+    SendableRegistry.remove(m_pid);
     onPreferencesUpdated();
   }
 

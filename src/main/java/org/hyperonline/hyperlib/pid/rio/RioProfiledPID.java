@@ -2,6 +2,7 @@ package org.hyperonline.hyperlib.pid.rio;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.util.sendable.SendableRegistry;
 import org.hyperonline.hyperlib.pid.ProfiledPIDController;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 
@@ -43,6 +44,8 @@ public class RioProfiledPID extends BaseRioPID<ProfiledPIDController> {
             m_I_pref.get(),
             m_D_pref.get(),
             new TrapezoidProfile.Constraints(m_maxVelocity.get(), m_maxAcceleration.get()));
+    // the parent is added, so we don't need this floating in LW
+    SendableRegistry.remove(m_pid);
     onPreferencesUpdated();
   }
 
