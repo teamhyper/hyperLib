@@ -8,7 +8,8 @@ import org.hyperonline.hyperlib.pref.PreferencesSet;
 
 public abstract class PrefPIDController implements PIDControlled, PreferencesListener, Sendable {
   protected PreferencesSet m_prefs;
-  protected DoublePreference m_P_pref, m_I_pref, m_D_pref, m_tolerance_pref, m_minOut_pref, m_maxOut_pref;
+  protected final DoublePreference m_P_pref, m_I_pref, m_D_pref, m_tolerance_pref;
+  protected DoublePreference m_minOut_pref, m_maxOut_pref;
   protected double m_minOut = -1, m_maxOut = 1;
   protected boolean m_enabled = false;
   protected double m_conversionFactor = 1;

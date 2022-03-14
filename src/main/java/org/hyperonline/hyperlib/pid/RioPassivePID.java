@@ -1,99 +1,18 @@
 package org.hyperonline.hyperlib.pid;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.util.sendable.SendableBuilder;
-import org.hyperonline.hyperlib.pref.DoublePreference;
-
+import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 
-public class RioPassivePID extends PrefPIDController {
-  protected DoubleSupplier m_source;
-  protected PIDController m_pid;
+/**
+ * @deprecated use {@link RioPID} without an output instead
+ */
+@Deprecated
+public class RioPassivePID extends RioPID {
+    public RioPassivePID(String name, DoubleSupplier source, double Kp, double Ki, double Kd, double tolerance) {
+        super(name, source, Kp, Ki, Kd, tolerance);
+    }
 
-  public RioPassivePID(
-      String name, DoubleSupplier source, double Kp, double Ki, double Kd, double tolerance) {
-    super(name, Kp, Ki, Kd, tolerance);
-    m_source = source;
-    m_pid = new PIDController(m_P_pref.get(), m_I_pref.get(), m_D_pref.get());
-    onPreferencesUpdated();
-  }
-
-  @Override
-  protected void setPID(double Kp, double Ki, double Kd) {
-    m_pid.setPID(Kp, Ki, Kd);
-  }
-
-  @Override
-  protected void setTolerance(double tolerance) {
-    m_pid.setTolerance(friendlyToNative(tolerance));
-  }
-
-  @Override
-  protected void setSmartDashboardType(SendableBuilder builder) {
-    builder.setSmartDashboardType("RIO Passive PID");
-  }
-
-  @Override
-  public void execute() {
-    // passive pid doesn't do anything
-  }
-
-  public double calculate(double next) {
-    return MathUtil.clamp(m_pid.calculate(next), m_minOut, m_maxOut);
-  }
-
-  public double calculate() {
-    return calculate(getFromSource());
-  }
-
-  @Override
-  public void disable() {
-    super.disable();
-  }
-
-  public PIDController getController() {
-    return m_pid;
-  }
-
-  @Override
-  public double getFromSource() {
-    return m_source.getAsDouble();
-  }
-
-  @Override
-  public boolean onTarget() {
-    return m_pid.atSetpoint();
-  }
-
-  @Override
-  public void setSetpoint(double setpoint) {
-    m_pid.setSetpoint(friendlyToNative(setpoint));
-  }
-
-  /**
-   * enable and set continuous input for this pid/sensor.
-   * for example, a mechanism that rotates 360deg would have an input range of 0 to 360, so that going under 0 instead reads as 359 instead of -1
-   *
-   * @param minIn input to switch to maximum input when going under
-   * @param maxIn input to switch to minimum input when going over
-   */
-  public void enableContinuousInput(double minIn, double maxIn) {
-    m_pid.enableContinuousInput(minIn, maxIn);
-  }
-
-  /**
-   * disable continuous input for this pid/sensor.
-   * the sensor will count in either direction infinitely (or until the sensor has a hardstop like a pot)
-   */
-  public void disableContinuousInput() {
-    m_pid.disableContinuousInput();
-  }
-
-  @Override
-  public void onPreferencesUpdated() {
-    super.onPreferencesUpdated();
-  }
-
-
+    public RioPassivePID(String name, DoubleSupplier source, DoubleConsumer output, double Kp, double Ki, double Kd, double tolerance) {
+        super(name, source, output, Kp, Ki, Kd, tolerance);
+    }
 }
