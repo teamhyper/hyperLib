@@ -42,7 +42,8 @@ public class RioProfiledPID extends BaseRioPID<ProfiledPIDController> {
             m_P_pref.get(),
             m_I_pref.get(),
             m_D_pref.get(),
-            new TrapezoidProfile.Constraints(m_maxVelocity.get(), m_maxAcceleration.get()));
+            new TrapezoidProfile.Constraints(
+                friendlyToNative(m_maxVelocity.get()), friendlyToNative(m_maxAcceleration.get())));
     onPreferencesUpdated();
   }
 
@@ -61,7 +62,7 @@ public class RioProfiledPID extends BaseRioPID<ProfiledPIDController> {
     setGoal(setpoint);
   }
 
-  public double calculate(double measurement, TrapezoidProfile.State goal){
+  public double calculate(double measurement, TrapezoidProfile.State goal) {
     return m_pid.calculate(measurement, goal);
   }
 
@@ -70,7 +71,7 @@ public class RioProfiledPID extends BaseRioPID<ProfiledPIDController> {
   }
 
   public double calculate(
-          double measurement, TrapezoidProfile.State goal, TrapezoidProfile.Constraints constraints) {
+      double measurement, TrapezoidProfile.State goal, TrapezoidProfile.Constraints constraints) {
     return m_pid.calculate(measurement, goal, constraints);
   }
 
@@ -90,6 +91,7 @@ public class RioProfiledPID extends BaseRioPID<ProfiledPIDController> {
   public void onPreferencesUpdated() {
     super.onPreferencesUpdated();
     m_pid.setConstraints(
-        new TrapezoidProfile.Constraints(m_maxVelocity.get(), m_maxAcceleration.get()));
+        new TrapezoidProfile.Constraints(
+            friendlyToNative(m_maxVelocity.get()), friendlyToNative(m_maxAcceleration.get())));
   }
 }
