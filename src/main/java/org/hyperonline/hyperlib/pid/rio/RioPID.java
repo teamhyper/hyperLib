@@ -45,4 +45,10 @@ public class RioPID extends BaseRioPID<PIDController> {
     super.enable();
     m_pid.reset();
   }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    super.initSendable(builder);
+    builder.addDoubleProperty("Setpoint", m_pid::getSetpoint, null);
+  }
 }

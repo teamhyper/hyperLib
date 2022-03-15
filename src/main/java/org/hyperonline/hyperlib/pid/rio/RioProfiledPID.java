@@ -101,4 +101,10 @@ public class RioProfiledPID extends BaseRioPID<ProfiledPIDController> {
     super.enable();
     m_pid.reset(getFromSource());
   }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    super.initSendable(builder);
+    builder.addDoubleProperty("Setpoint", () -> m_pid.getGoal().position, null);
+  }
 }
