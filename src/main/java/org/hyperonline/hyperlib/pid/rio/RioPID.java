@@ -50,6 +50,8 @@ public class RioPID extends BaseRioPID<PIDController> {
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
     builder.addDoubleProperty("Setpoint", m_pid::getSetpoint, null);
+    builder.addDoubleProperty("Tolerance", m_tolerance_pref::get, null);
+    builder.addDoubleProperty("Tolerance Calculation", () -> Math.abs(getFromSource() - m_pid.getSetpoint()), null);
   }
 
   @Override
