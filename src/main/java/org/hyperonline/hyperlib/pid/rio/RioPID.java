@@ -51,4 +51,14 @@ public class RioPID extends BaseRioPID<PIDController> {
     super.initSendable(builder);
     builder.addDoubleProperty("Setpoint", m_pid::getSetpoint, null);
   }
+
+  @Override
+  public boolean onTarget() {
+    return onTarget(m_pid.getSetpoint());
+  }
+
+  @Override
+  public boolean onTarget(double target) {
+    return Math.abs(getFromSource() - target) <= m_tolerance_pref.get();
+  }
 }
