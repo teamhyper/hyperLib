@@ -68,12 +68,18 @@ public abstract class BaseRioPID<ControllerType extends IPIDController> extends 
         }
     }
 
-    public double calculate(double nextInput) {
-        return MathUtil.clamp(m_pid.calculate(nextInput), m_minOut, m_maxOut);
+    public double calculate(double measurement) {
+        return MathUtil.clamp(m_pid.calculate(measurement), m_minOut, m_maxOut);
     }
 
     public double calculate() {
         return calculate(getFromSource());
+    }
+
+    public double calculate(double measurement, double setpoint) {
+        // Set setpoint to provided value
+        setSetpoint(setpoint);
+        return calculate(measurement);
     }
 
     @Override
