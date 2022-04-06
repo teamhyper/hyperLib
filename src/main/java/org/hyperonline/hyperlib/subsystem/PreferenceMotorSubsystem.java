@@ -3,8 +3,8 @@ package org.hyperonline.hyperlib.subsystem;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import org.hyperonline.hyperlib.command.ConditionalInterruptCommand;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
 import org.hyperonline.hyperlib.driving.DriverInput;
 import org.hyperonline.hyperlib.pref.DoublePreference;
@@ -76,9 +76,10 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   }
   /**
    * @param multiplier how to modify the preference speed
-   * @return continuous {@link Command} to move the motor forward (positive voltage) modified by the given multiplier
+   * @return continuous {@link Command} to move the motor forward (positive voltage) modified by the
+   *     given multiplier
    */
-  public Command modifiedForwardCmd(double multiplier) {
+  public Command forwardCmd(double multiplier) {
     return new RunCommand(() -> this.forward(multiplier), this);
   }
 
@@ -91,9 +92,10 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
 
   /**
    * @param multiplier how to modify the preference speed
-   * @return continuous {@link Command} to move the motor backward (negative voltage) modified by the given multiplier
+   * @return continuous {@link Command} to move the motor backward (negative voltage) modified by
+   *     the given multiplier
    */
-  public Command modifiedBackwardCmd(double multiplier) {
+  public Command backwardCmd(double multiplier) {
     return new RunCommand(() -> this.backward(multiplier), this);
   }
 
@@ -112,7 +114,30 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
    *     the condition is true
    */
   public Command conditionalForwardCmd(BooleanSupplier condition) {
-    return new ConditionalInterruptCommand(forwardCmd(), stopCmd(), condition);
+    return conditionalForwardCmd(0.0, condition);
+  }
+
+  /**
+   * move forward only if the given condition is satisfied, else stop the motor
+   *
+   * @param multipler how to modify the preference speed
+   * @param condition should the motor be driven forwards at pref speed or modified speed
+   * @return {@link Command} that moves the motor at its configured (preference) forward speed if
+   *     the condition is true
+   */
+  public Command conditionalForwardCmd(double multipler, BooleanSupplier condition) {
+    return new FunctionalCommand(
+        () -> {},
+        () -> {
+          if (condition.getAsBoolean()) {
+            forward();
+          } else {
+            forward(multipler);
+          }
+        },
+        interrupted -> stop(),
+        () -> false,
+        this);
   }
 
   /**
@@ -123,7 +148,28 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
    *     the condition is true
    */
   public Command conditionalBackwardCmd(BooleanSupplier condition) {
-    return new ConditionalInterruptCommand(backwardCmd(), stopCmd(), condition);
+    return conditionalBackwardCmd(0.0, condition);
+  }
+
+  /**
+   *
+   * @param multipler how to modify the preference speed
+   * @param condition should the motor be driven backwards at pref speed or modified speed
+   * @return
+   */
+  public Command conditionalBackwardCmd(double multipler, BooleanSupplier condition) {
+    return new FunctionalCommand(
+        () -> {},
+        () -> {
+          if (condition.getAsBoolean()) {
+            backward();
+          } else {
+            backward(multipler);
+          }
+        },
+        interrupted -> stop(),
+        () -> false,
+        this);
   }
 
   /**
@@ -144,7 +190,18 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
    * @return {@link Command} that moves the motor at the given speed if the condition is true
    */
   public Command conditionalMoveCmd(DoubleSupplier speed, BooleanSupplier canMove) {
-    return new ConditionalInterruptCommand(moveCmd(speed), stopCmd(), canMove);
+    return new FunctionalCommand(
+        () -> {},
+        () -> {
+          if (canMove.getAsBoolean()) {
+            move(speed);
+          } else {
+            stop();
+          }
+        },
+        interrupted -> stop(),
+        () -> false,
+        this);
   }
 
   /**
@@ -158,8 +215,18 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
    */
   public Command conditionalMoveWithSpeedLimitCmd(
       DoubleSupplier speed, double peakOutput, BooleanSupplier canMove) {
-    return new ConditionalInterruptCommand(
-        moveWithSpeedLimitCmd(speed, peakOutput), stopCmd(), canMove);
+    return new FunctionalCommand(
+        () -> {},
+        () -> {
+          if (canMove.getAsBoolean()) {
+            move(() -> DriverInput.governor(speed.getAsDouble(), peakOutput));
+          } else {
+            stop();
+          }
+        },
+        interrupted -> stop(),
+        () -> false,
+        this);
   }
 
   /**
@@ -179,7 +246,9 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
     forward(1);
   }
 
-  /** move the motor forward (positive voltage) at the speed set in preference
+  /**
+   * move the motor forward (positive voltage) at the speed set in preference
+   *
    * @param multiplier how to modify the preference speed
    */
   public void forward(double multiplier) {
@@ -189,9 +258,11 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   public void backward() {
     backward(1);
   }
-  /** move the motor backward (negative voltage) at the speed set in preference
+  /**
+   * move the motor backward (negative voltage) at the speed set in preference
+   *
    * @param multiplier how to modify the preference speed
-   * */
+   */
   public void backward(double multiplier) {
     m_motor.set(calculateSpeed(m_backwardSpeed.get() * multiplier));
   }
