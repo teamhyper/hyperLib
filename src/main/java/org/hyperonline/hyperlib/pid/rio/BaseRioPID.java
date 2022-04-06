@@ -98,6 +98,10 @@ public abstract class BaseRioPID<ControllerType extends IPIDController> extends 
 
     @Override
     public boolean onTarget() {
+        return onTargetPID();
+    }
+
+    public boolean onTargetPID() {
         return m_pid.atSetpoint();
     }
 
