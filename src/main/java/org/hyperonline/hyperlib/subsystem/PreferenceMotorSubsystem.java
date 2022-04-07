@@ -2,6 +2,7 @@ package org.hyperonline.hyperlib.subsystem;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -11,6 +12,7 @@ import org.hyperonline.hyperlib.pref.DoublePreference;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+import java.util.stream.Stream;
 
 /**
  * @param <MotorType> {@link org.hyperonline.hyperlib.controller.SendableMotorController} type to
@@ -118,7 +120,8 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   }
 
   /**
-   * move forward only if the given condition is satisfied, else stop the motor
+   * * move forward at the full preference speed only if the given condition is satisfied, else
+   * move at the speed times the multiplier
    *
    * @param multipler how to modify the preference speed
    * @param condition should the motor be driven forwards at pref speed or modified speed
@@ -152,10 +155,12 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   }
 
   /**
+   * move backward at the full preference speed only if the given condition is satisfied, else move at the speed times the multiplier
    *
    * @param multipler how to modify the preference speed
    * @param condition should the motor be driven backwards at pref speed or modified speed
-   * @return
+   * @return {@link Command} that moves the motor at its configured (preference) backward speed if *
+   *     the condition is true
    */
   public Command conditionalBackwardCmd(double multipler, BooleanSupplier condition) {
     return new FunctionalCommand(
@@ -319,4 +324,10 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
 
   /** helper for organizing PID configuration */
   protected void configPID() {}
+
+  @Override
+  protected Stream<Sendable> getSendables() {
+    return Stream.concat(
+            super.getSendables(), Stream.of(m_motor));
+  }
 }

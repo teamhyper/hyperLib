@@ -1,7 +1,11 @@
 package org.hyperonline.hyperlib.subsystem;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.util.sendable.Sendable;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
+
+import java.util.stream.Stream;
+
 /**
  * @author Chris McGroarty
  */
@@ -73,5 +77,11 @@ public abstract class PrefMotorSlaveSubsystem<
   protected void configMotor() {
     super.configMotor();
     this.setFollowing(m_invertedSlave);
+  }
+
+  @Override
+  protected Stream<Sendable> getSendables() {
+    return Stream.concat(
+            super.getSendables(), Stream.of(m_slaveMotor));
   }
 }
