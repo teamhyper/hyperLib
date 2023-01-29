@@ -31,12 +31,12 @@ allprojects {
     }
 }
 
-def WPILIB_VER = '2022.4.1'
+def WPILIB_VER = '2023.2.1'
 def NTCORE_VER = WPILIB_VER
 def WPIUTIL_VER = WPILIB_VER
 def OPENCV_VER = '4.5.2-1'
 def PHOENIX_VER = '5.21.1'
-def REV_VERSION = '2022.1.1'
+def REV_VERSION = '2023.1.2'
 def JUNIT_VER = '5.8.2'
 def ARCH = 'linuxx86-64'
 
