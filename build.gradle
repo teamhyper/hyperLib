@@ -34,10 +34,10 @@ allprojects {
 def WPILIB_VER = '2023.2.1'
 def NTCORE_VER = WPILIB_VER
 def WPIUTIL_VER = WPILIB_VER
-def OPENCV_VER = '4.5.2-1'
-def PHOENIX_VER = '5.21.1'
+def OPENCV_VER = '4.6.0-4'
+def PHOENIX_VER = '5.30.4'
 def REV_VERSION = '2023.1.2'
-def JUNIT_VER = '5.8.2'
+def JUNIT_VER = '5.9.2'
 def ARCH = 'linuxx86-64'
 
 dependencies {
@@ -48,7 +48,7 @@ dependencies {
     implementation "edu.wpi.first.ntcore:ntcore-java:$NTCORE_VER"
     implementation "edu.wpi.first.wpiutil:wpiutil-java:$WPIUTIL_VER"
     implementation "edu.wpi.first.wpimath:wpimath-java:$WPIUTIL_VER"
-    implementation "edu.wpi.first.thirdparty.frc2022.opencv:opencv-java:$OPENCV_VER"
+    implementation "edu.wpi.first.thirdparty.frc2023.opencv:opencv-java:$OPENCV_VER"
     implementation "com.revrobotics.frc:REVLib-java:$REV_VERSION"
     implementation "com.ctre.phoenix:api-java:$PHOENIX_VER"
     implementation "com.ctre.phoenix:wpiapi-java:$PHOENIX_VER"
