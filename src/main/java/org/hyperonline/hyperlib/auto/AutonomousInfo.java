@@ -37,7 +37,7 @@ public class AutonomousInfo implements NTSendable {
     System.out.println("Entering getSelection");
     if (m_currentSelection != null) {
       System.out.println("m_currentSelection is not null, so I'm picking");
-      System.out.println("Full path of entry: " + m_currentSelection.getInfo().name);
+      System.out.println("Full path of entry: " + m_currentSelection.getName());
       if (!m_currentSelection.exists()) {
         System.out.println("Entry does not exist.  That's an issue.");
       }
@@ -66,9 +66,9 @@ public class AutonomousInfo implements NTSendable {
       strat.initSendable("Strategies/" + strat.getName() + "/", builder);
     }
     builder.addStringProperty("Default", () -> m_defaultSelection, null);
-    m_currentSelection = builder.getEntry("Selection");
+    m_currentSelection = builder.getTable().getEntry("Selection");
     System.out.println(
-        "In initSendable: the path of the entry is " + m_currentSelection.getInfo().name);
+        "In initSendable: the path of the entry is " + m_currentSelection.getName());
   }
 
   /**
