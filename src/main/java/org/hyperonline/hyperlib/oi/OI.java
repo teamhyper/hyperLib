@@ -296,13 +296,13 @@ public class OI {
 
         switch (btnData.action()) {
           case WHEN_PRESSED:
-            button.whenPressed(command);
+            button.onTrue(command);
             break;
           case WHEN_RELEASED:
-            button.whenReleased(command);
+            button.onFalse(command);
             break;
           case WHILE_HELD:
-            button.whileHeld(command);
+            button.whileTrue(command);
             break;
         }
       }
