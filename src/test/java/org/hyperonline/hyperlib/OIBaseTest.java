@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.hyperonline.hyperlib.oi.ButtonData;
 import org.hyperonline.hyperlib.oi.ButtonData.Action;
-import org.hyperonline.hyperlib.oi.JoystickData;
-import org.hyperonline.hyperlib.oi.MapJoystick;
-import org.hyperonline.hyperlib.oi.MapJoystick.Role;
-import org.hyperonline.hyperlib.oi.MapJoystick.Type;
+import org.hyperonline.hyperlib.oi.ControllerData;
+import org.hyperonline.hyperlib.oi.MapController;
+import org.hyperonline.hyperlib.oi.MapController.Role;
+import org.hyperonline.hyperlib.oi.MapController.Type;
 import org.hyperonline.hyperlib.oi.OI;
 import org.hyperonline.hyperlib.oi.WhenPressed;
 import org.hyperonline.hyperlib.oi.WhenReleased;
@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class OIBaseTest {
 
     public static class SingleJoystickMap {
-        @MapJoystick(port = 0, role = Role.LEFT_DRIVER, type = Type.LOGITECH_2_AXIS)
+        @MapController(port = 0, role = Role.LEFT_DRIVER, type = Type.LOGITECH_2_AXIS)
         public static class LeftDriver {
             @WhenPressed(0) public final Command foo = null;
             @WhenPressed(4) public final Command bar = null;
@@ -33,13 +33,13 @@ public class OIBaseTest {
     
     
     public static class DoubleJoystickMap {
-        @MapJoystick(port = 0, role = Role.LEFT_DRIVER, type = Type.LOGITECH_2_AXIS)
+        @MapController(port = 0, role = Role.LEFT_DRIVER, type = Type.LOGITECH_2_AXIS)
         public static class LeftDriver {
             @WhenPressed(0) public final Command foo = null;
             @WhenPressed(1) public final Command bar = null;
         }
         
-        @MapJoystick(port = 1, role = Role.RIGHT_DRIVER, type = Type.LOGITECH_3_AXIS)
+        @MapController(port = 1, role = Role.RIGHT_DRIVER, type = Type.LOGITECH_3_AXIS)
         public static class RightDriver {
             @WhileHeld(0) public final Command baz = null;
             @WhenReleased(1) public final Command buzz = null;
@@ -52,10 +52,10 @@ public class OIBaseTest {
     public void testSingleJoystick() {
         OI oi = new OI(SingleJoystickMap.class, false);
         
-        ArrayList<JoystickData> joysticks = oi.getJoystickData();
+        ArrayList<ControllerData> joysticks = oi.getControllerData();
         assertEquals(1, joysticks.size());
         
-        JoystickData js = joysticks.get(0);
+        ControllerData js = joysticks.get(0);
         assertEquals(0, js.port());
         assertEquals("LeftDriver", js.name());
         assertEquals(Role.LEFT_DRIVER, js.role());
@@ -68,16 +68,16 @@ public class OIBaseTest {
     public void testTwoJoysticks() {
         OI oi = new OI(DoubleJoystickMap.class, false);
         
-        ArrayList<JoystickData> joysticks = oi.getJoystickData();
+        ArrayList<ControllerData> joysticks = oi.getControllerData();
         assertEquals(2, joysticks.size());
         
-        JoystickData js1 = joysticks.get(0);
+        ControllerData js1 = joysticks.get(0);
         assertEquals(0, js1.port());
         assertEquals("LeftDriver", js1.name());
         assertEquals(Role.LEFT_DRIVER, js1.role());
         assertEquals(Type.LOGITECH_2_AXIS, js1.type());
         
-        JoystickData js2 = joysticks.get(1);
+        ControllerData js2 = joysticks.get(1);
         assertEquals(1, js2.port());
         assertEquals("RightDriver", js2.name());
         assertEquals(Role.RIGHT_DRIVER, js2.role());
@@ -89,7 +89,7 @@ public class OIBaseTest {
     @Test
     public void testButtonsSingleJoystick() {
         OI oi = new OI(SingleJoystickMap.class, false);
-        JoystickData js = oi.getJoystickData().get(0);
+        ControllerData js = oi.getControllerData().get(0);
         List<ButtonData> buttons = js.buttons();
         
         assertEquals(4, buttons.size());
@@ -117,7 +117,7 @@ public class OIBaseTest {
     @Test
     public void testButtonsDoubleJoystick() {
         OI oi = new OI(DoubleJoystickMap.class, false);
-        List<JoystickData> joysticks = oi.getJoystickData();
+        List<ControllerData> joysticks = oi.getControllerData();
         List<ButtonData> buttons = joysticks.get(0).buttons();
         assertEquals(2, buttons.size());
         

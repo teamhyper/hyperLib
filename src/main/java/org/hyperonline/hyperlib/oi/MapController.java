@@ -24,7 +24,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Retention(RUNTIME)
 @Target(TYPE)
-public @interface MapJoystick {
+public @interface MapController {
   /**
    * The port the joystick is connected to.
    *
@@ -54,7 +54,7 @@ public @interface MapJoystick {
   /**
    * The role of a joystick determines how it is accessed in {@link OI}. If the joystick layout does
    * not conform to left/right driver/operator, then use OTHER and access joysticks using {@link
-   * OI#getJoystick(int)}.
+   * OI#getControllers(int)}.
    *
    * @author James Hagborg
    */
@@ -74,6 +74,8 @@ public @interface MapJoystick {
    */
   public enum Type {
     LOGITECH_3_AXIS,
-    LOGITECH_2_AXIS
+    LOGITECH_2_AXIS,
+    XBOX,
+    PS4
   }
 }
