@@ -1,5 +1,23 @@
 apply plugin: 'maven-publish'
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    description 'Builds a jar file full of sources.'
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    description 'Builds a jar file full of javadocs.'
+    archiveClassifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+
 publishing {
     publications {
         hyperLib(MavenPublication) {
@@ -23,6 +41,11 @@ publishing {
                         id = 'blucoat'
                         name = 'James Hagborg'
                         email = 'jameshagborg@gmail.com'
+                    }
+                    developer {
+                        id = 'cmcgroarty'
+                        name = 'Chris McGroarty'
+                        email = 'cmcgroarty@hyperalumni.org'
                     }
                 }
                 scm {
