@@ -97,49 +97,7 @@ artifacts {
     archives javadocJar
 }
 
-publishing {
-    publications {
-        mavenPublication(MavenPublication) {
-            from components.java
-            artifact sourcesJar {
-                classifier 'sources'
-            }
-            artifact javadocJar {
-                classifier 'javadoc'
-            }
-
-            groupId 'org.hyperonline'
-            artifactId 'hyperlib'
-
-            pom {
-                name = 'hyperLib'
-                description = 'Enhancements to WPILib'
-                url = 'https://teamhyper.github.io/hyperLib'
-                developers {
-                    developer {
-                        id = 'blucoat'
-                        name = 'James Hagborg'
-                        email = 'jameshagborg@gmail.com'
-                    }
-                }
-                scm {
-                    url = 'https://github.com/teamhyper/hyperLib'
-                }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            credentials {
-                username = project.properties.hyperlibUser
-                password = project.properties.hyperlibPassword
-            }
-            name = 'hyperonline'
-            url = 'sftp://hyperlib.hyperonline.org:22/home/hyperlib/webapps/hyperlib-repo'
-        }
-    }
-}
+apply from: 'publish.gradle'
 
 // By default, checkstyle wants to look at tests
 // we override to only look at the main code
