@@ -1,18 +1,25 @@
 plugins {
-    id 'fr.brouillard.oss.gradle.jgitver' version '0.9.1'
+    id 'me.qoomon.git-versioning' version '6.3.8'
     id 'java'
+    id 'java-library'
     id 'checkstyle'
     id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
-jgitver {
-    strategy 'CONFIGURABLE'
-    policy 'NEAREST'
-    regexVersionTag 'v?([0-9]+(?:\\.[0-9]+){0,2}(?:-[a-zA-Z0-9\\-_\\.]+)?)'
-    autoIncrementPatch false
-    useDistance true
+gitVersioning.apply {
+    // see configuration documentation below
+
+    refs {
+        branch('master'){
+            describeTagPattern  = 'v?(?<release>[0-9]{4}(?:\\.[0-9]+){0,2})(?<prerelease>(?:\\-?[a-zA-Z_]+)?\\-?(?:[0-9]+)?)'
+            version = '${describe.tag.release}${describe.tag.prerelease}'
+        }
+    }
 }
 
 allprojects {
@@ -61,7 +68,7 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:$JUNIT_VER"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$JUNIT_VER"
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
-    testImplementation 'com.google.guava:guava:19.0'
+    testImplementation 'com.google.guava:guava:31.1-jre'
 }
 
 compileJava {
@@ -79,66 +86,7 @@ javadoc {
     options.addBooleanOption('html5', true)
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    description 'Builds a jar file full of sources.'
-    archiveClassifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    description 'Builds a jar file full of javadocs.'
-    archiveClassifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
-
-publishing {
-    publications {
-        mavenPublication(MavenPublication) {
-            from components.java
-            artifact sourcesJar {
-                classifier 'sources'
-            }
-            artifact javadocJar {
-                classifier 'javadoc'
-            }
-
-            groupId 'org.hyperonline'
-            artifactId 'hyperlib'
-
-            pom {
-                name = 'hyperLib'
-                description = 'Enhancements to WPILib'
-                url = 'https://teamhyper.github.io/hyperLib'
-                developers {
-                    developer {
-                        id = 'blucoat'
-                        name = 'James Hagborg'
-                        email = 'jameshagborg@gmail.com'
-                    }
-                }
-                scm {
-                    url = 'https://github.com/teamhyper/hyperLib'
-                }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            credentials {
-                username = project.properties.hyperlibUser
-                password = project.properties.hyperlibPassword
-            }
-            name = 'hyperonline'
-            url = 'sftp://hyperlib.hyperonline.org:22/home/hyperlib/webapps/hyperlib-repo'
-        }
-    }
-}
+apply from: 'publish.gradle'
 
 // By default, checkstyle wants to look at tests
 // we override to only look at the main code
@@ -150,6 +98,5 @@ checkstyle {
 
 
 wrapper {
-    gradleVersion = '7.3.3'
+    gradleVersion = '7.6'
 }
-targetCompatibility = JavaVersion.VERSION_14

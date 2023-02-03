@@ -1,0 +1,68 @@
+apply plugin: 'maven-publish'
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    description 'Builds a jar file full of sources.'
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    description 'Builds a jar file full of javadocs.'
+    archiveClassifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+
+publishing {
+    publications {
+        hyperLib(MavenPublication) {
+            from components.java
+            artifact sourcesJar {
+                classifier 'sources'
+            }
+            artifact javadocJar {
+                classifier 'javadoc'
+            }
+
+            groupId 'org.hyperonline'
+            artifactId 'hyperlib'
+
+            pom {
+                name = 'hyperLib'
+                description = 'Enhancements to WPILib'
+                url = 'https://teamhyper.github.io/hyperLib'
+                developers {
+                    developer {
+                        id = 'blucoat'
+                        name = 'James Hagborg'
+                        email = 'jameshagborg@gmail.com'
+                    }
+                    developer {
+                        id = 'cmcgroarty'
+                        name = 'Chris McGroarty'
+                        email = 'cmcgroarty@hyperalumni.org'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/teamhyper/hyperLib'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            credentials {
+                username = project.properties.hyperlibUser
+                password = project.properties.hyperlibPassword
+            }
+            name = 'hyperonline'
+            url = 'sftp://hyperlib.hyperonline.org:1234/home/hyperlib/webapps/hyperlib-repo'
+        }
+    }
+}

@@ -25,8 +25,8 @@ public class ConditionalInterruptCommand extends ConditionalCommand {
    */
   public ConditionalInterruptCommand(Command onTrue, Command onFalse, BooleanSupplier condition) {
     super(
-        onTrue.withInterrupt(() -> !condition.getAsBoolean()),
-        onFalse.withInterrupt(condition),
+        onTrue.until(() -> !condition.getAsBoolean()),
+        onFalse.until(condition),
         condition);
   }
 }

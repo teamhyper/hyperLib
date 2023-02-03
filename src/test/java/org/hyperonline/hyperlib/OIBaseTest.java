@@ -1,23 +1,20 @@
 package org.hyperonline.hyperlib;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hyperonline.hyperlib.oi.ButtonData;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.XboxController;
+import org.hyperonline.hyperlib.oi.*;
 import org.hyperonline.hyperlib.oi.ButtonData.Action;
-import org.hyperonline.hyperlib.oi.ControllerData;
-import org.hyperonline.hyperlib.oi.MapController;
 import org.hyperonline.hyperlib.oi.MapController.Role;
 import org.hyperonline.hyperlib.oi.MapController.Type;
-import org.hyperonline.hyperlib.oi.OI;
-import org.hyperonline.hyperlib.oi.WhenPressed;
-import org.hyperonline.hyperlib.oi.WhenReleased;
-import org.hyperonline.hyperlib.oi.WhileHeld;
 import org.junit.jupiter.api.Test;
 
 import edu.wpi.first.wpilibj2.command.Command;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class OIBaseTest {
 
@@ -45,12 +42,39 @@ public class OIBaseTest {
             @WhenReleased(1) public final Command buzz = null;
         }
     }
+
+    public static class ControllerJoystickMap {
+        @MapController(port = 0, role = Role.LEFT_DRIVER, type = Type.XBOX)
+        public static class LeftDriver {
+            @WhenPressed(0) public final Command foo = null;
+            @WhenReleased(1) public final Command bar = null;
+        }
+
+        @MapController(port = 1, role = Role.RIGHT_DRIVER, type = Type.PS4)
+        public static class RightDriver {
+            @WhenPressed(0) public final Command foo = null;
+            @WhenReleased(1) public final Command bar = null;
+        }
+
+        @MapController(port = 2, role = Role.LEFT_OPERATOR, type = Type.LOGITECH_2_AXIS)
+        public static class LeftOperator {
+            @WhenPressed(0) public final Command foo = null;
+            @WhenReleased(1) public final Command bar = null;
+        }
+
+        @MapController(port = 3, role = Role.RIGHT_OPERATOR, type = Type.LOGITECH_3_AXIS)
+        public static class RightOperator {
+            @WhenPressed(0) public final Command foo = null;
+            @WhenReleased(1) public final Command bar = null;
+        }
+    }
+
     /**
      * Test mapping a single joystick
      */
     @Test
-    public void testSingleJoystick() {
-        OI oi = new OI(SingleJoystickMap.class, false);
+    public void testSingleJoystick() throws BadOIMapException {
+        OI<Joystick, ?, ?, ?> oi = new OI<>(SingleJoystickMap.class, false);
         
         ArrayList<ControllerData> joysticks = oi.getControllerData();
         assertEquals(1, joysticks.size());
@@ -65,8 +89,8 @@ public class OIBaseTest {
      * Test mapping with two joysticks
      */
     @Test
-    public void testTwoJoysticks() {
-        OI oi = new OI(DoubleJoystickMap.class, false);
+    public void testTwoJoysticks() throws BadOIMapException {
+        OI<Joystick, Joystick, ?, ?> oi = new OI<>(DoubleJoystickMap.class, false);
         
         ArrayList<ControllerData> joysticks = oi.getControllerData();
         assertEquals(2, joysticks.size());
@@ -87,8 +111,8 @@ public class OIBaseTest {
      * Test buttons on a single joystick
      */
     @Test
-    public void testButtonsSingleJoystick() {
-        OI oi = new OI(SingleJoystickMap.class, false);
+    public void testButtonsSingleJoystick() throws BadOIMapException {
+        OI<Joystick, ?, ?, ?> oi = new OI<>(SingleJoystickMap.class, false);
         ControllerData js = oi.getControllerData().get(0);
         List<ButtonData> buttons = js.buttons();
         
@@ -115,8 +139,8 @@ public class OIBaseTest {
      * Test buttons with double joysticks
      */
     @Test
-    public void testButtonsDoubleJoystick() {
-        OI oi = new OI(DoubleJoystickMap.class, false);
+    public void testButtonsDoubleJoystick() throws BadOIMapException {
+        OI<Joystick, Joystick, ?, ?> oi = new OI<>(DoubleJoystickMap.class, false);
         List<ControllerData> joysticks = oi.getControllerData();
         List<ButtonData> buttons = joysticks.get(0).buttons();
         assertEquals(2, buttons.size());
@@ -139,5 +163,16 @@ public class OIBaseTest {
         assertEquals(1, buttons.get(1).port());
         assertEquals(Action.WHEN_RELEASED, buttons.get(1).action());
         assertEquals("buzz", buttons.get(1).name());
+    }
+
+    @Test
+    public void testControllers() throws BadOIMapException {
+        OI<XboxController, PS4Controller, Joystick, Joystick> oi = new OI<>(ControllerJoystickMap.class, false);
+
+        assertInstanceOf(XboxController.class, oi.leftDriver());
+        assertInstanceOf(PS4Controller.class, oi.rightDriver());
+        assertInstanceOf(Joystick.class, oi.leftOperator());
+        assertInstanceOf(Joystick.class, oi.rightOperator());
+        fail();
     }
 }

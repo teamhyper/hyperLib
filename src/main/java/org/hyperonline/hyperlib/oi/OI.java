@@ -22,7 +22,7 @@ import java.util.HashMap;
  *
  * @author James Hagborg
  */
-public class OI<LO extends GenericHID, RO extends GenericHID, LD extends GenericHID, RD extends GenericHID> {
+public class OI<LD extends GenericHID, RD extends GenericHID, LO extends GenericHID, RO extends GenericHID> {
   private Class<?> m_mapClass;
 
   private boolean m_onRobot;
@@ -113,7 +113,7 @@ public class OI<LO extends GenericHID, RO extends GenericHID, LD extends Generic
    * @return A list of {@link ControllerData} objects holding data parsed from the OI map
    */
   public ArrayList<ControllerData> getControllerData() {
-    ArrayList<ControllerData> result = new ArrayList<ControllerData>();
+    ArrayList<ControllerData> result = new ArrayList<>();
     for (ControllerWithData jsData : m_joysticks.values()) {
       result.add(jsData.data);
     }
