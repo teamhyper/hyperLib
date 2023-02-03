@@ -76,6 +76,7 @@ public @interface MapController {
     LOGITECH_3_AXIS,
     LOGITECH_2_AXIS,
     XBOX,
-    PS4
+    PS4,
+    OTHER
   }
 }
