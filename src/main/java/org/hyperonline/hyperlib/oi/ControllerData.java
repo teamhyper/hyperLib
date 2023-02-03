@@ -1,7 +1,7 @@
 package org.hyperonline.hyperlib.oi;
 
-import org.hyperonline.hyperlib.oi.MapJoystick.Role;
-import org.hyperonline.hyperlib.oi.MapJoystick.Type;
+import org.hyperonline.hyperlib.oi.MapController.Role;
+import org.hyperonline.hyperlib.oi.MapController.Type;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author James Hagborg
  */
-public class JoystickData {
+public class ControllerData {
   private int m_port;
   private Role m_role;
   private Type m_type;
@@ -29,7 +29,7 @@ public class JoystickData {
    * @param buttons a list of buttons which are part of the joystick. This object makes an immutable
    *     reference to the list passed in.
    */
-  public JoystickData(int port, Role role, Type type, Class<?> mapClass, List<ButtonData> buttons) {
+  public ControllerData(int port, Role role, Type type, Class<?> mapClass, List<ButtonData> buttons) {
     m_port = port;
     m_role = role;
     m_type = type;
@@ -76,7 +76,7 @@ public class JoystickData {
 
   /**
    * Get the class used to declare the joystick. This should be a public static class in the oi map
-   * which had a {@link MapJoystick} annotation
+   * which had a {@link MapController} annotation
    *
    * @return The class of the joystick
    */

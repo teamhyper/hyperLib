@@ -14,10 +14,10 @@ public class Validator {
   /**
    * Validate the OI according to a list of rules
    *
-   * @param oi A list of {@link JoystickData} objects to validate
+   * @param oi A list of {@link ControllerData} objects to validate
    * @throws BadOIMapException if validation fails
    */
-  public static void validate(List<JoystickData> oi) throws BadOIMapException {
+  public static void validate(List<ControllerData> oi) throws BadOIMapException {
     checkButtonsInRange();
     checkJoysticksInRange();
     checkSyntax();
