@@ -1,5 +1,5 @@
 plugins {
-    id 'fr.brouillard.oss.gradle.jgitver' version '0.9.1'
+    id 'me.qoomon.git-versioning' version '6.3.8'
     id 'java'
     id 'java-library'
     id 'checkstyle'
@@ -8,12 +8,15 @@ plugins {
 
 sourceCompatibility = JavaVersion.VERSION_17
 
-jgitver {
-    strategy 'CONFIGURABLE'
-    policy 'NEAREST'
-    regexVersionTag 'v?([0-9]+(?:\\.[0-9]+){0,2}(?:-[a-zA-Z0-9\\-_\\.]+)?)'
-    autoIncrementPatch false
-    useDistance true
+gitVersioning.apply {
+    // see configuration documentation below
+
+    refs {
+        branch('master'){
+            describeTagPattern  = 'v?(?<release>[0-9]{4}(?:\\.[0-9]+){0,2})(?<prerelease>(?:\\-?[a-zA-Z_]+)?\\-?(?:[0-9]+)?)'
+            version = '${describe.tag.release}${describe.tag.prerelease}'
+        }
+    }
 }
 
 allprojects {
