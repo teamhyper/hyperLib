@@ -2,7 +2,7 @@ apply plugin: 'maven-publish'
 
 publishing {
     publications {
-        mavenPublication(MavenPublication) {
+        hyperLib(MavenPublication) {
             from components.java
             artifact sourcesJar {
                 classifier 'sources'
@@ -39,7 +39,7 @@ publishing {
                 password = project.properties.hyperlibPassword
             }
             name = 'hyperonline'
-            url = 'sftp://hyperlib.hyperonline.org:22/home/hyperlib/webapps/hyperlib-repo'
+            url = 'sftp://hyperlib.hyperonline.org:1234/home/hyperlib/webapps/hyperlib-repo'
         }
     }
 }
