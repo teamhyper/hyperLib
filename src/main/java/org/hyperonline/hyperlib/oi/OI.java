@@ -20,6 +20,9 @@ import java.util.HashMap;
  * to buttons, and stores controllers to check their values. Off the robot, it can still parse the map
  * class, validate it, and draw diagrams of the controls.
  *
+ * <p>The generics on this class are used to describe the types of controllers used. If a controller is
+ * unused, <code>?</code> could be passed as the generic type (will be internally treated as {@link GenericHID}.
+ *
  * @author James Hagborg
  */
 public class OI<LD extends GenericHID, RD extends GenericHID, LO extends GenericHID, RO extends GenericHID> {
