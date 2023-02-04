@@ -1,5 +1,8 @@
 package org.hyperonline.hyperlib.oi;
 
+import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.XboxController;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 

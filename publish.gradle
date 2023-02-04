@@ -28,7 +28,6 @@ publishing {
             artifact javadocJar {
                 classifier 'javadoc'
             }
-
             groupId 'org.hyperonline'
             artifactId 'hyperlib'
 

@@ -46,8 +46,8 @@ public class OIBaseTest {
     public static class ControllerJoystickMap {
         @MapController(port = 0, role = Role.LEFT_DRIVER, type = Type.XBOX)
         public static class LeftDriver {
-            @WhenPressed(0) public final Command foo = null;
-            @WhenReleased(1) public final Command bar = null;
+            @WhenPressed(1) public final Command foo = null;
+            @WhenReleased(2) public final Command bar = null;
         }
 
         @MapController(port = 1, role = Role.RIGHT_DRIVER, type = Type.PS4)
