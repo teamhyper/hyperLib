@@ -11,36 +11,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-gitVersioning.apply {
-    // see configuration documentation below
-
-    refs {
-        branch('master'){
-            describeTagPattern  = 'v?(?<release>[0-9]{4}(?:\\.[0-9]+){0,2})(?<prerelease>(?:\\-?[a-zA-Z_]+)?\\-?(?:[0-9]+)?)'
-            version = '${describe.tag.release}${describe.tag.prerelease}'
-        }
-        branch('.*'){
-            version = 'dev-${ref.slug}-${commit.short}'
-        }
-    }
-}
-
-allprojects {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven {
-            url 'https://frcmaven.wpi.edu/artifactory/release'
-        }
-        maven {
-            url 'https://maven.ctr-electronics.com/release/'
-        }
-        maven {
-            url 'https://maven.revrobotics.com/'
-        }
-    }
-}
-
 def WPILIB_VER = '2023.2.1'
 def NTCORE_VER = WPILIB_VER
 def WPIUTIL_VER = WPILIB_VER
@@ -74,6 +44,20 @@ dependencies {
     testImplementation 'com.google.guava:guava:31.1-jre'
 }
 
+apply from: 'repositories.gradle'
+
+allprojects {
+    repositories {
+        repositories.add(rootProject.repositories.getByName('frcHome'))
+        mavenLocal()
+        mavenCentral()
+        repositories.add(rootProject.repositories.getByName('frc-wpi'))
+        repositories.add(rootProject.repositories.getByName('phoenix-ctr'))
+        repositories.add(rootProject.repositories.getByName('revrobotics'))
+
+    }
+}
+
 compileJava {
     options.deprecation = true
 }
@@ -89,7 +73,23 @@ javadoc {
     options.addBooleanOption('html5', true)
 }
 
-apply from: 'publish.gradle'
+wrapper {
+    gradleVersion = '7.6'
+}
+
+gitVersioning.apply {
+    // see configuration documentation below
+
+    refs {
+        branch('master'){
+            describeTagPattern  = 'v?(?<release>[0-9]{4}(?:\\.[0-9]+){0,2})(?<prerelease>(?:\\-?[a-zA-Z_]+)?\\-?(?:[0-9]+)?)'
+            version = '${describe.tag.release}${describe.tag.prerelease}'
+        }
+        branch('.*'){
+            version = 'dev-${ref.slug}-${commit.short}'
+        }
+    }
+}
 
 // By default, checkstyle wants to look at tests
 // we override to only look at the main code
@@ -99,7 +99,10 @@ checkstyle {
     sourceSets = [project.sourceSets.main]
 }
 
+apply from: 'publish.gradle'
 
-wrapper {
-    gradleVersion = '7.6'
-}
+
+
+
+
+
