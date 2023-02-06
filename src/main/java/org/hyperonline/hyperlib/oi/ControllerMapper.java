@@ -8,24 +8,24 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * The {@link JoystickMapper} class generates diagrams from the operator interface.
+ * The {@link ControllerMapper} class generates diagrams from the operator interface.
  *
  * @author James Hagborg
  */
-public class JoystickMapper {
+public class ControllerMapper {
   /**
    * Draws diagrams for a list of joysticks, and saves them to file.
    *
-   * @param data A list of {@link JoystickData} objects describing the oi
+   * @param data A list of {@link ControllerData} objects describing the oi
    * @throws IOException If there is an error reading or writing the diagrams
    */
-  public static void drawMap(List<JoystickData> data) throws IOException {
-    for (JoystickData js : data) {
+  public static void drawMap(List<ControllerData> data) throws IOException {
+    for (ControllerData js : data) {
       drawSubMap(js);
     }
   }
 
-  private static void drawSubMap(JoystickData joystick) throws IOException {
+  private static void drawSubMap(ControllerData joystick) throws IOException {
     BufferedImage img = null;
 
     switch (joystick.type()) {
@@ -49,16 +49,16 @@ public class JoystickMapper {
     }
   }
 
-  private static void drawInfo(Graphics g, JoystickData js) {
+  private static void drawInfo(Graphics g, ControllerData js) {
     String s = String.format("Joystick #%d: %s", js.port(), js.name());
     final int w = g.getFontMetrics().stringWidth(s);
     g.drawString(s, 50, 50);
     g.drawRect(45, 30, w + 10, 25);
   }
 
-  private static BufferedImage draw2Axis(JoystickData js) throws IOException {
+  private static BufferedImage draw2Axis(ControllerData js) throws IOException {
     BufferedImage img =
-        ImageIO.read(JoystickMapper.class.getResource("sc_mapping_helper_2_axis.jpg"));
+        ImageIO.read(ControllerMapper.class.getResource("sc_mapping_helper_2_axis.jpg"));
     Graphics g = img.createGraphics();
     g.setColor(Color.BLACK);
 
@@ -81,8 +81,8 @@ public class JoystickMapper {
     return img;
   }
 
-  private static BufferedImage draw3Axis(JoystickData js) throws IOException {
-    BufferedImage img = ImageIO.read(JoystickMapper.class.getResource("sc_mapping_helper.jpg"));
+  private static BufferedImage draw3Axis(ControllerData js) throws IOException {
+    BufferedImage img = ImageIO.read(ControllerMapper.class.getResource("sc_mapping_helper.jpg"));
     Graphics g = img.createGraphics();
     g.setColor(Color.BLACK);
 

@@ -1,7 +1,6 @@
 package org.hyperonline.hyperlib.oi;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import org.hyperonline.hyperlib.oi.ButtonData.Action;
@@ -14,26 +13,29 @@ import java.util.HashMap;
 
 /**
  * The {@link OI} class represents the operator interface. This class reads the OI layout from
- * another class, called the "oi map class", and sets up the necessary joysticks, buttons, and
+ * another class, called the "oi map class", and sets up the necessary controllers, buttons, and
  * commands.
  *
  * <p>This class can be used in two ways: on the robot, it actually creates commands and binds them
- * to buttons, and stores joysticks to check their values. Off the robot, it can still parse the map
+ * to buttons, and stores controllers to check their values. Off the robot, it can still parse the map
  * class, validate it, and draw diagrams of the controls.
+ *
+ * <p>The generics on this class are used to describe the types of controllers used. If a controller is
+ * unused, <code>?</code> could be passed as the generic type (will be internally treated as {@link GenericHID}.
  *
  * @author James Hagborg
  */
-public class OI {
+public class OI<LD extends GenericHID, RD extends GenericHID, LO extends GenericHID, RO extends GenericHID> {
   private Class<?> m_mapClass;
 
   private boolean m_onRobot;
   private boolean m_commandsInitialized = false;
   private BadOIMapException m_lastException;
-  private HashMap<Integer, JSWithData> m_joysticks = new HashMap<Integer, JSWithData>();
-  private Joystick m_leftOperator;
-  private Joystick m_rightOperator;
-  private Joystick m_leftDriver;
-  private Joystick m_rightDriver;
+  private HashMap<Integer, ControllerWithData> m_controllers = new HashMap<>();
+  private LO m_leftOperator;
+  private RO m_rightOperator;
+  private LD m_leftDriver;
+  private RD m_rightDriver;
   /**
    * Construct a new OI instance. Note that after being constructed, the commands are not yet
    * initialized. You must call {@link #initCommands()}
@@ -41,82 +43,82 @@ public class OI {
    * @param oiMap A class to use as the map of the OI. Look at the examples for the format of this
    *     class.
    * @param onRobot Whether we are running this on the robot, as opposed to on a PC. If we are on a
-   *     PC then we won't actually construct WPILib joysticks and commands, only the map of the
+   *     PC then we won't actually construct WPILib controllers and commands, only the map of the
    *     controls.
    */
-  public OI(Class<?> oiMap, boolean onRobot) {
+  public OI(Class<?> oiMap, boolean onRobot) throws BadOIMapException {
     if (oiMap == null) {
       throw new NullPointerException();
     }
 
     m_onRobot = onRobot;
     m_mapClass = oiMap;
-    mapJoysticks();
+    mapControllers();
   }
 
   /**
-   * Get the left operator joystick. This is the stick specified by the {@link
-   * MapJoystick.Role#LEFT_OPERATOR} role.
+   * Get the left operator controller. This is the stick specified by the {@link
+   * MapController.Role#LEFT_OPERATOR} role.
    *
-   * @return The left operator {@link Joystick}
+   * @return The left operator
    */
-  public Joystick leftOperator() {
-    return getJoystick(m_leftOperator);
+  public LO leftOperator() {
+    return getControllers(m_leftOperator);
   }
 
   /**
-   * Get the right operator joystick. This is the stick specified by the {@link
-   * MapJoystick.Role#RIGHT_OPERATOR} role.
+   * Get the right operator controller. This is the stick specified by the {@link
+   * MapController.Role#RIGHT_OPERATOR} role.
    *
-   * @return The left operator {@link Joystick}
+   * @return The left operator
    */
-  public Joystick rightOperator() {
-    return getJoystick(m_rightOperator);
+  public RO rightOperator() {
+    return getControllers(m_rightOperator);
   }
 
   /**
-   * Get the left driver joystick. This is the stick specified by the {@link
-   * MapJoystick.Role#LEFT_DRIVER} role.
+   * Get the left driver controller. This is the stick specified by the {@link
+   * MapController.Role#LEFT_DRIVER} role.
    *
-   * @return The left operator {@link Joystick}
+   * @return The left operator
    */
-  public Joystick leftDriver() {
-    return getJoystick(m_leftDriver);
+  public LD leftDriver() {
+    return getControllers(m_leftDriver);
   }
 
   /**
-   * Get the right driver joystick. This is the stick specified by the {@link
-   * MapJoystick.Role#RIGHT_DRIVER} role.
+   * Get the right driver controller. This is the stick specified by the {@link
+   * MapController.Role#RIGHT_DRIVER} role.
    *
-   * @return The left operator {@link Joystick}
+   * @return The left operator
    */
-  public Joystick rightDriver() {
-    return getJoystick(m_rightDriver);
+  public RD rightDriver() {
+    return getControllers(m_rightDriver);
   }
 
   /**
-   * Get the joystick on the given port. This is useful if you have a joystick which does not fall
-   * into the driver/operator category.
+   * Get the controller on the given port. This is useful if you have a controller which does not fall
+   * into the driver/operator category (and as such there is no stored type information for it).
    *
-   * @param port The port the joystick was created on
-   * @return The {@link Joystick} object
+   * @param port The port the controller was created on
+   * @return The {@link GenericHID} object
    */
-  public Joystick getJoystick(int port) {
-    JSWithData jsData = m_joysticks.get(port);
-    return getJoystick(jsData == null ? null : jsData.js);
+  public GenericHID getControllers(int port) {
+    ControllerWithData controllerData = m_controllers.get(port);
+    return getControllers(controllerData == null ? null : controllerData.controller);
   }
 
   /**
-   * Get a list of {@link JoystickData} objects describing the layout of the OI. This list is a
+   * Get a list of {@link ControllerData} objects describing the layout of the OI. This list is a
    * copy, so you are free to modify it. This method is used by the OI mapper, but you may use it if
    * you want your application to be aware of the OI map.
    *
-   * @return A list of {@link JoystickData} objects holding data parsed from the OI map
+   * @return A list of {@link ControllerData} objects holding data parsed from the OI map
    */
-  public ArrayList<JoystickData> getJoystickData() {
-    ArrayList<JoystickData> result = new ArrayList<JoystickData>();
-    for (JSWithData jsData : m_joysticks.values()) {
-      result.add(jsData.data);
+  public ArrayList<ControllerData> getControllerData() {
+    ArrayList<ControllerData> result = new ArrayList<>();
+    for (ControllerWithData data : m_controllers.values()) {
+      result.add(data.data);
     }
     return result;
   }
@@ -134,66 +136,66 @@ public class OI {
       throw m_lastException;
     }
 
-    Validator.validate(getJoystickData());
+    Validator.validate(getControllerData());
   }
 
   /**
-   * Draw diagrams of the OI using {@link JoystickMapper#drawMap(java.util.List)}
+   * Draw diagrams of the OI using {@link ControllerMapper#drawMap(java.util.List)}
    *
    * @throws IOException if there is an error reading or writing the diagrams
-   * @see JoystickMapper#drawMap(java.util.List)
+   * @see ControllerMapper#drawMap(java.util.List)
    */
   public void drawMaps() throws IOException {
-    JoystickMapper.drawMap(getJoystickData());
+    ControllerMapper.drawMap(getControllerData());
   }
 
-  private void checkJoysticksExist() {
+  private void checkControllersExist() {
     if (!m_onRobot) {
-      throw new UnsupportedOperationException("Cannot get joysticks when not on the robot");
+      throw new UnsupportedOperationException("Cannot get controllers when not on the robot");
     }
   }
 
-  private Joystick getJoystick(Joystick js) {
-    checkJoysticksExist();
+  private <T extends GenericHID> T getControllers(T js) {
+    checkControllersExist();
     if (js == null) {
-      throw new IllegalStateException("The given joystick does not exist");
+      throw new IllegalStateException("The given controller does not exist");
     }
     return js;
   }
 
-  private void mapJoysticks() {
-    for (Class<?> jsClass : m_mapClass.getClasses()) {
-      MapJoystick jsAnnotation = jsClass.getAnnotation(MapJoystick.class);
-      if (jsAnnotation == null) {
+  private void mapControllers() throws BadOIMapException {
+    for (Class<?> controllerClass : m_mapClass.getClasses()) {
+      MapController annotation = controllerClass.getAnnotation(MapController.class);
+      if (annotation == null) {
         String msg =
-            "%s does not havae a @MapJoystick annotation. If "
-                + "this class is meant to describe a joystick, you "
+            "%s does not have a @MapController annotation. If "
+                + "this class is meant to describe a controller, you "
                 + "must add one.";
-        reportWarning(String.format(msg, jsClass.getSimpleName()));
+        reportWarning(String.format(msg, controllerClass.getSimpleName()));
         continue;
       }
 
-      JSWithData jsData = new JSWithData();
-      jsData.data = createDataFromMap(jsAnnotation, jsClass);
+      ControllerWithData data = new ControllerWithData();
+      data.data = createDataFromMap(annotation, controllerClass);
       if (m_onRobot) {
-        jsData.js = createJoystickFromMap(jsAnnotation);
+        data.controller = createControllerFromMap(annotation);
       }
 
-      int port = jsAnnotation.port();
-      if (m_joysticks.containsKey(port)) {
+      int port = annotation.port();
+      if (m_controllers.containsKey(port)) {
         m_lastException =
             new BadOIMapException(
                 String.format(
                     "Both %s and %s are assigned to port %d.",
-                    m_joysticks.get(port).data.name(), jsData.data.name()));
+                    m_controllers.get(port).data.name(), data.data.name(), annotation.port()));
       }
-      m_joysticks.put(jsAnnotation.port(), jsData);
+      m_controllers.put(annotation.port(), data);
     }
   }
 
-  private JoystickData createDataFromMap(MapJoystick jsAnnotation, Class<?> jsClass) {
+  private ControllerData createDataFromMap(MapController annotation, Class<?> cls) {
     ArrayList<ButtonData> buttons = new ArrayList<ButtonData>();
-    for (Field f : jsClass.getFields()) {
+    for (Field f : cls.getFields()) {
       WhenPressed wp = f.getAnnotation(WhenPressed.class);
       WhenReleased wr = f.getAnnotation(WhenReleased.class);
       WhileHeld wh = f.getAnnotation(WhileHeld.class);
@@ -209,36 +211,46 @@ public class OI {
       }
     }
 
-    JoystickData jsData =
-        new JoystickData(
-            jsAnnotation.port(), jsAnnotation.role(), jsAnnotation.type(), jsClass, buttons);
-    return jsData;
+    return new ControllerData(
+        annotation.port(), annotation.role(), annotation.type(), cls, buttons);
   }
 
-  private Joystick createJoystickFromMap(MapJoystick jsAnnotation) {
-    Joystick js = new Joystick(jsAnnotation.port());
+  private GenericHID createControllerFromMap(MapController jsAnnotation) throws BadOIMapException {
+    var cls = switch (jsAnnotation.type()) {
+      case LOGITECH_2_AXIS, LOGITECH_3_AXIS -> Joystick.class;
+      case XBOX -> XboxController.class;
+      case PS4 -> PS4Controller.class;
+      case OTHER -> GenericHID.class;
+    };
+    var controller = instantiateHID(cls, jsAnnotation.port());
 
+    // I'm not aware of any way to do it without casting, hence the controller type being in two different places
     switch (jsAnnotation.role()) {
-      case LEFT_DRIVER:
-        m_leftDriver = js;
-        break;
-      case RIGHT_DRIVER:
-        m_rightDriver = js;
-        break;
-      case LEFT_OPERATOR:
-        m_leftOperator = js;
-        break;
-      case RIGHT_OPERATOR:
-        m_rightOperator = js;
-        break;
-      default:
+      case LEFT_DRIVER -> m_leftDriver = (LD) controller;
+      case RIGHT_DRIVER ->  m_rightDriver = (RD) controller;
+      case LEFT_OPERATOR -> m_leftOperator = (LO) controller;
+      case RIGHT_OPERATOR -> m_rightOperator = (RO) controller;
     }
 
-    return js;
+    return controller;
+  }
+
+  private <T extends GenericHID> T instantiateHID(Class<T> cls, int port) throws BadOIMapException {
+    try {
+      // All WPILib GenericHID subclasses take an (int) constructor
+      return cls.getConstructor(int.class).newInstance(port);
+    } catch (NoSuchMethodException
+            | InstantiationException
+            | IllegalAccessException
+            | InvocationTargetException e) {
+      var err = new BadOIMapException(e);
+      reportError(err.getMessage());
+      throw err;
+    }
   }
 
   /**
-   * Initialize the commands. This creates instances of the classes corresponding to each joystick,
+   * Initialize the commands. This creates instances of the classes corresponding to each controller,
    * and binds the commands in each to buttons. This should be run after all subsystems have been
    * initialized.
    */
@@ -252,11 +264,11 @@ public class OI {
 
     m_commandsInitialized = true;
 
-    for (JSWithData jsWithData : m_joysticks.values()) {
-      Class<?> jsClass = jsWithData.data.mapClass();
-      Object jsClsInstance;
+    for (ControllerWithData controllerWithData : m_controllers.values()) {
+      Class<?> cls = controllerWithData.data.mapClass();
+      Object instance;
       try {
-        jsClsInstance = jsClass.getConstructor().newInstance();
+        instance = cls.getConstructor().newInstance();
       } catch (SecurityException
           | InstantiationException
           | IllegalAccessException
@@ -265,45 +277,38 @@ public class OI {
           | NoSuchMethodException e) {
         reportError(
             String.format(
-                "OI: Could not instantiate %s: %s", jsClass.getSimpleName(), e.getMessage()));
+                "OI: Could not instantiate %s: %s", cls.getSimpleName(), e.getMessage()));
         continue;
       }
 
-      for (ButtonData btnData : jsWithData.data.buttons()) {
+      for (ButtonData btnData : controllerWithData.data.buttons()) {
         // If for some reason someone were to create and remove the OI multiple times, it
         // would clog up the LiveWindow, since we don't bother closing buttons.
-        @SuppressWarnings("resource")
-        JoystickButton button = new JoystickButton(jsWithData.js, btnData.port());
+        JoystickButton button = new JoystickButton(controllerWithData.controller, btnData.port());
         Field cmdField = btnData.field();
         Command command;
 
         try {
-          command = (Command) cmdField.get(jsClsInstance);
+          command = (Command) cmdField.get(instance);
         } catch (IllegalAccessException e) {
           reportError(
               String.format(
                   "OI: Could not access field %s in class %s: %s",
-                  cmdField.getName(), jsClass.getSimpleName(), e.getMessage()));
+                  cmdField.getName(), cls.getSimpleName(), e.getMessage()));
           continue;
         }
 
         if (command == null) {
           reportError(
               String.format(
-                  "OI: Command %s in %s is null", cmdField.getName(), jsClass.getSimpleName()));
+                  "OI: Command %s in %s is null", cmdField.getName(), cls.getSimpleName()));
           continue;
         }
 
         switch (btnData.action()) {
-          case WHEN_PRESSED:
-            button.onTrue(command);
-            break;
-          case WHEN_RELEASED:
-            button.onFalse(command);
-            break;
-          case WHILE_HELD:
-            button.whileTrue(command);
-            break;
+          case WHEN_PRESSED -> button.onTrue(command);
+          case WHEN_RELEASED -> button.onFalse(command);
+          case WHILE_HELD -> button.whileTrue(command);
         }
       }
     }
@@ -325,8 +330,8 @@ public class OI {
     }
   }
 
-  private static class JSWithData {
-    public Joystick js;
-    public JoystickData data;
+  private static class ControllerWithData {
+    public GenericHID controller;
+    public ControllerData data;
   }
 }

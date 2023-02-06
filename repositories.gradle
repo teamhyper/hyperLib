@@ -1,0 +1,43 @@
+import org.gradle.internal.os.OperatingSystem
+
+repositories {
+    String frcYear = '2023'
+    File frcHome
+    if (OperatingSystem.current().isWindows()) {
+        String publicFolder = System.getenv('PUBLIC')
+        if (publicFolder == null) {
+            publicFolder = "C:\\Users\\Public"
+        }
+        def homeRoot = new File(publicFolder, "wpilib")
+        frcHome = new File(homeRoot, frcYear)
+    } else {
+        def userFolder = System.getProperty("user.home")
+        def homeRoot = new File(userFolder, "wpilib")
+        frcHome = new File(homeRoot, frcYear)
+    }
+    def frcHomeMaven = new File(frcHome, 'maven')
+    maven {
+        name 'frcHome'
+        url frcHomeMaven
+    }
+    maven {
+        name = 'frc-wpi'
+        url 'https://frcmaven.wpi.edu/artifactory/release'
+    }
+    maven {
+        name = 'phoenix-ctr'
+        url 'https://maven.ctr-electronics.com/release/'
+    }
+    maven {
+        name = 'revrobotics'
+        url 'https://maven.revrobotics.com/'
+    }
+    maven {
+        credentials {
+            username = project.properties.hyperlibUser
+            password = project.properties.hyperlibPassword
+        }
+        name = 'hyperonline'
+        url = 'sftp://hyperlib.hyperonline.org:1234/home/hyperlib/webapps/hyperlib-repo'
+    }
+}
