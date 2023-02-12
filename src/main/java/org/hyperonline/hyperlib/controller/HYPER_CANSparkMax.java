@@ -69,6 +69,7 @@ public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorContr
   @Override
   public void resetMotorConfig() {
     this.restoreFactoryDefaults();
+    this.clearFaults();
   }
 
   /**

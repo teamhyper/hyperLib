@@ -48,5 +48,6 @@ public class HYPER_TalonSRX extends WPI_TalonSRX implements SendableMotorControl
   @Override
   public void resetMotorConfig() {
     this.configFactoryDefault();
+    this.clearStickyFaults();
   }
 }

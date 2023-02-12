@@ -29,5 +29,6 @@ public class HYPER_VictorSPX extends WPI_VictorSPX implements SendableMotorContr
   @Override
   public void resetMotorConfig() {
     this.configFactoryDefault();
+    this.clearStickyFaults();
   }
 }
