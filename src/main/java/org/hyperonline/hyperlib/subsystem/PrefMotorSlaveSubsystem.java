@@ -76,6 +76,7 @@ public abstract class PrefMotorSlaveSubsystem<
   @Override
   protected void configMotor() {
     super.configMotor();
+    m_slaveMotor.resetMotorConfig();
     this.setFollowing(m_invertedSlave);
   }
 

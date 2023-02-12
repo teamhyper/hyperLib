@@ -51,8 +51,6 @@ public abstract class PrefMotorSlaveSubsystemSparkMax
 
   @Override
   protected void configMotor() {
-    m_motor.restoreFactoryDefaults();
-    m_slaveMotor.restoreFactoryDefaults();
     super.configMotor();
 
     m_motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 500);

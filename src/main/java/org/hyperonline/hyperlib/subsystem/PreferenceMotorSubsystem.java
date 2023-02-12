@@ -317,7 +317,9 @@ public abstract class PreferenceMotorSubsystem<MotorType extends SendableMotorCo
   }
 
   /** helper for organizing motor configuration. */
-  protected void configMotor() {}
+  protected void configMotor() {
+    m_motor.resetMotorConfig();
+  }
 
   /** helper for organizing sensor configuration */
   protected void configSensors() {}
