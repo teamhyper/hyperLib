@@ -66,6 +66,11 @@ public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorContr
     this.setIdleMode(idleMode);
   }
 
+  @Override
+  public void resetMotorConfig() {
+    this.restoreFactoryDefaults();
+  }
+
   /**
    * Returns and object for interfacing with the encoder connected to the encoder pins or front port
    * of the SPARK MAX.

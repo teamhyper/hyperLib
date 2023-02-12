@@ -5,4 +5,6 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 public interface SendableMotorController extends MotorController, Sendable {
   void setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode mode);
+
+  void resetMotorConfig();
 }

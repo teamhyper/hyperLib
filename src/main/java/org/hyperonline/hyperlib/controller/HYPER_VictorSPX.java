@@ -7,7 +7,7 @@ import java.util.function.DoubleConsumer;
 /**
  * wrapper for added behavior on the {@link WPI_VictorSPX}
  *
- * <strong>added behavior</strong> *
+ * <strong>added behavior</strong>
  * <ul>
  *   <li>automatically add datapoints to LiveWindow</li>
  * </ul>
@@ -24,5 +24,10 @@ public class HYPER_VictorSPX extends WPI_VictorSPX implements SendableMotorContr
    */
   public HYPER_VictorSPX(int deviceNumber) {
     super(deviceNumber);
+  }
+
+  @Override
+  public void resetMotorConfig() {
+    this.configFactoryDefault();
   }
 }

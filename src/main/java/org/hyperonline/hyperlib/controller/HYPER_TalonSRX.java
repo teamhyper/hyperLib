@@ -44,4 +44,9 @@ public class HYPER_TalonSRX extends WPI_TalonSRX implements SendableMotorControl
       builder.addDoubleProperty("Velocity", this::getSelectedSensorVelocity, null);
     }
   }
+
+  @Override
+  public void resetMotorConfig() {
+    this.configFactoryDefault();
+  }
 }
