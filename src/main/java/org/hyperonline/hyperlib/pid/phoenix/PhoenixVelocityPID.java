@@ -47,6 +47,16 @@ public class PhoenixVelocityPID extends PhoenixPID {
   }
 
   @Override
+  public void disableContinuousInput() {
+    throw new UnsupportedOperationException("Velocity PID cannot have continuous input");
+  }
+
+  @Override
+  public void enableContinuousInput(double minIn, double maxIn) {
+    throw new UnsupportedOperationException("Velocity PID cannot have continuous input");
+  }
+
+  @Override
   public double getFromSource() {
     return nativeToFriendly(m_motor.getSelectedSensorVelocity(m_pidSlot));
   }

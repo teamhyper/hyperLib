@@ -65,4 +65,21 @@ public class PhoenixPositionPID extends PhoenixPID {
   protected void setSmartDashboardType(SendableBuilder builder) {
     builder.setSmartDashboardType("Phoenix Position PID");
   }
+
+  @Override
+  public void disableContinuousInput() {
+    m_motor.configFeedbackNotContinuous(true, 0);
+  }
+
+  @Override
+  /**
+   * @deprecated PhoenixPIDs cannot set the continuous input range, just enable and disable
+   */
+  public void enableContinuousInput(double minIn, double maxIn) {
+    throw new UnsupportedOperationException("Phoenix PIDs cannot set the min/max input values to wrap around");
+  }
+
+  public void enableContinuousInput() {
+    m_motor.configFeedbackNotContinuous(false, 0);
+  }
 }

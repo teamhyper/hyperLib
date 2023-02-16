@@ -121,4 +121,7 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
   }
 
   protected abstract void setSmartDashboardType(SendableBuilder builder);
+
+  public abstract void disableContinuousInput();
+  public abstract void enableContinuousInput(double minIn, double maxIn);
 }

@@ -168,4 +168,16 @@ public class SparkMaxPID extends PrefPIDController {
   protected void setSmartDashboardType(SendableBuilder builder) {
     builder.setSmartDashboardType("SparkMax PID");
   }
+
+  @Override
+  public void disableContinuousInput() {
+    m_pidController.setPositionPIDWrappingEnabled(false);
+  }
+
+  @Override
+  public void enableContinuousInput(double minIn, double maxIn) {
+    m_pidController.setPositionPIDWrappingEnabled(true);
+    m_pidController.setPositionPIDWrappingMinInput(friendlyToNative(minIn));
+    m_pidController.setPositionPIDWrappingMaxInput(friendlyToNative(maxIn));
+  }
 }
