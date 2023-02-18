@@ -3,24 +3,22 @@ package org.hyperonline.hyperlib.subsystem;
 import com.revrobotics.CANSparkMaxLowLevel;
 import org.hyperonline.hyperlib.controller.HYPER_CANSparkMax;
 
-import java.lang.annotation.Inherited;
-
 /**
  * @author Chris McGroarty
  */
-public abstract class PrefMotorSlaveSubsystemSparkMax
-    extends PrefMotorSlaveSubsystem<HYPER_CANSparkMax, HYPER_CANSparkMax> {
+public abstract class PrefControllerSlaveSubsystemSparkMax
+    extends PrefControllerSlaveSubsystem<HYPER_CANSparkMax, HYPER_CANSparkMax> {
   /**
    * {@inheritDoc}
    */
-  protected PrefMotorSlaveSubsystemSparkMax(
+  protected PrefControllerSlaveSubsystemSparkMax(
       HYPER_CANSparkMax masterMotor, HYPER_CANSparkMax slaveMotor, boolean inverted) {
     super(masterMotor, slaveMotor, inverted);
   }
   /**
    * {@inheritDoc}
    */
-  protected PrefMotorSlaveSubsystemSparkMax(
+  protected PrefControllerSlaveSubsystemSparkMax(
       HYPER_CANSparkMax masterMotor, HYPER_CANSparkMax slaveMotor) {
     super(masterMotor, slaveMotor);
   }
@@ -30,7 +28,7 @@ public abstract class PrefMotorSlaveSubsystemSparkMax
    * {@inheritDoc}
    */
   @Deprecated
-  protected PrefMotorSlaveSubsystemSparkMax(
+  protected PrefControllerSlaveSubsystemSparkMax(
       String name, HYPER_CANSparkMax masterMotor, HYPER_CANSparkMax slaveMotor, boolean inverted) {
     this(masterMotor, slaveMotor, inverted);
   }
@@ -39,7 +37,7 @@ public abstract class PrefMotorSlaveSubsystemSparkMax
    * {@inheritDoc}
    */
   @Deprecated
-  protected PrefMotorSlaveSubsystemSparkMax(
+  protected PrefControllerSlaveSubsystemSparkMax(
       String name, HYPER_CANSparkMax masterMotor, HYPER_CANSparkMax slaveMotor) {
     this(masterMotor, slaveMotor);
   }

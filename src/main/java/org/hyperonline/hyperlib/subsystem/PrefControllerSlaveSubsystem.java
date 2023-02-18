@@ -9,10 +9,10 @@ import java.util.stream.Stream;
 /**
  * @author Chris McGroarty
  */
-public abstract class PrefMotorSlaveSubsystem<
+public abstract class PrefControllerSlaveSubsystem<
         MasterMotorType extends SendableMotorController,
         SlaveMotorType extends SendableMotorController>
-    extends PreferenceMotorSubsystem<MasterMotorType> {
+    extends PreferenceControllerSubsystem<MasterMotorType> {
   protected SlaveMotorType m_slaveMotor;
   protected boolean m_invertedSlave;
 
@@ -22,7 +22,7 @@ public abstract class PrefMotorSlaveSubsystem<
    * @param slaveMotor the motor to follow the master motor in the subsystem
    * @param inverted is the slaveMotor inverted compared to the masterMotor
    */
-  protected PrefMotorSlaveSubsystem(
+  protected PrefControllerSlaveSubsystem(
           MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
     super(masterMotor);
     m_slaveMotor = slaveMotor;
@@ -33,7 +33,7 @@ public abstract class PrefMotorSlaveSubsystem<
   /**
    * {@inheritDoc}
    */
-  protected PrefMotorSlaveSubsystem(MasterMotorType masterMotor, SlaveMotorType slaveMotor) {
+  protected PrefControllerSlaveSubsystem(MasterMotorType masterMotor, SlaveMotorType slaveMotor) {
     this(masterMotor, slaveMotor, false);
   }
 
@@ -48,7 +48,7 @@ public abstract class PrefMotorSlaveSubsystem<
    *
    */
   @Deprecated
-  protected PrefMotorSlaveSubsystem(
+  protected PrefControllerSlaveSubsystem(
       String name, MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
     this(masterMotor, slaveMotor, inverted);
   }
@@ -60,7 +60,7 @@ public abstract class PrefMotorSlaveSubsystem<
    * @param slaveMotor the motor to follow the master motor in the subsystem
    */
   @Deprecated
-  protected PrefMotorSlaveSubsystem(
+  protected PrefControllerSlaveSubsystem(
       String name, MasterMotorType masterMotor, SlaveMotorType slaveMotor) {
     this(masterMotor, slaveMotor);
   }

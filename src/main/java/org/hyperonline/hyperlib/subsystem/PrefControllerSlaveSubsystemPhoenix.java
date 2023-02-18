@@ -5,17 +5,17 @@ import org.hyperonline.hyperlib.controller.SendableMotorController;
 /**
  * @author Chris McGroarty
  */
-public abstract class PrefMotorSlaveSubsystemPhoenix<
+public abstract class PrefControllerSlaveSubsystemPhoenix<
         MasterMotorType extends SendableMotorController & IMotorController,
         SlaveMotorType extends SendableMotorController & IMotorController>
-    extends PrefMotorSlaveSubsystem<MasterMotorType, SlaveMotorType> {
+    extends PrefControllerSlaveSubsystem<MasterMotorType, SlaveMotorType> {
   /** {@inheritDoc} */
-  protected PrefMotorSlaveSubsystemPhoenix(
+  protected PrefControllerSlaveSubsystemPhoenix(
       MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
     super(masterMotor, slaveMotor, inverted);
   }
   /** {@inheritDoc} */
-  protected PrefMotorSlaveSubsystemPhoenix(MasterMotorType masterMotor, SlaveMotorType slaveMotor) {
+  protected PrefControllerSlaveSubsystemPhoenix(MasterMotorType masterMotor, SlaveMotorType slaveMotor) {
     super(masterMotor, slaveMotor);
   }
 
@@ -23,7 +23,7 @@ public abstract class PrefMotorSlaveSubsystemPhoenix<
    * @deprecated SubsystemBase uses class.getSimpleName as default name {@inheritDoc}
    */
   @Deprecated
-  protected PrefMotorSlaveSubsystemPhoenix(
+  protected PrefControllerSlaveSubsystemPhoenix(
       String name, MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
     this(masterMotor, slaveMotor, inverted);
   }
