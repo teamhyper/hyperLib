@@ -109,17 +109,17 @@ public abstract class PreferenceRelaySubsystem extends PreferenceMotorSubsystem 
     }
 
     @Override
-    public void configMotor() {
+    protected void configMotor() {
 
     }
 
     @Override
-    public void configSensors() {
+    protected void configSensors() {
 
     }
 
     @Override
-    public void configPID() {
+    protected void configPID() {
 
     }
 
