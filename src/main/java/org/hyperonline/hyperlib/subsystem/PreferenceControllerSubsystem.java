@@ -31,18 +31,18 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
      * @param motor the motor to use in the subsystem
      */
     protected PreferenceControllerSubsystem(MotorType motor) {
-        super();
-        m_motor = motor;
-        this.addChild("Motor", m_motor);
-        this.setDefaultCommand(this.stopCmd());
+        this(null, motor);
     }
 
     /**
-     * @deprecated SubsystemBase uses class.getSimpleName as default name {@inheritDoc}
+     * @param name
+     * @param motor
      */
-    @Deprecated
     protected PreferenceControllerSubsystem(String name, MotorType motor) {
-        this(motor);
+        super(name);
+        m_motor = motor;
+        this.addChild("Motor", m_motor);
+        this.setDefaultCommand(this.stopCmd());
     }
 
     /**

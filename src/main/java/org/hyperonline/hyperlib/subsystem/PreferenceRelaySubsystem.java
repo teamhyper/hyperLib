@@ -13,7 +13,11 @@ public abstract class PreferenceRelaySubsystem extends PreferenceMotorSubsystem 
     protected Relay m_motor;
 
     public PreferenceRelaySubsystem(Relay motor) {
-        super();
+        this(null, motor);
+    }
+
+    public PreferenceRelaySubsystem(String name, Relay motor) {
+        super(name);
         m_motor = motor;
         this.addChild("Motor", m_motor);
         this.setDefaultCommand(this.stopCmd());

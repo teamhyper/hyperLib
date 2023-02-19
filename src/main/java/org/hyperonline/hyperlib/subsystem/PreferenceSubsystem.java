@@ -21,19 +21,17 @@ public abstract class PreferenceSubsystem extends SubsystemBase
   private boolean m_isTelemetryEnabled;
 
   protected PreferenceSubsystem() {
-    super();
-    m_prefs = new PreferencesSet(this.getName(), this);
-    this.initMyPreferences();
-    postConfig();
+    this(null);
   }
 
   /**
-   * @deprecated SubsystemBase uses class.getSimpleName as default name
    * @param name string to use as the Subsystem's name
    */
-  @Deprecated
   protected PreferenceSubsystem(String name) {
-    this();
+    super();
+    m_prefs = new PreferencesSet(name == null ? super.getName() : name, this);
+    this.initMyPreferences();
+    postConfig();
   }
 
   private void setTelemetryEnabled(boolean enabled) {

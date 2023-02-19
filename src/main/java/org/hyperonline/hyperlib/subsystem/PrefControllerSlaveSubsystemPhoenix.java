@@ -12,7 +12,7 @@ public abstract class PrefControllerSlaveSubsystemPhoenix<
   /** {@inheritDoc} */
   protected PrefControllerSlaveSubsystemPhoenix(
       MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
-    super(masterMotor, slaveMotor, inverted);
+    this( null, masterMotor, slaveMotor, inverted);
   }
   /** {@inheritDoc} */
   protected PrefControllerSlaveSubsystemPhoenix(MasterMotorType masterMotor, SlaveMotorType slaveMotor) {
@@ -20,12 +20,15 @@ public abstract class PrefControllerSlaveSubsystemPhoenix<
   }
 
   /**
-   * @deprecated SubsystemBase uses class.getSimpleName as default name {@inheritDoc}
+   *
+   * @param name
+   * @param masterMotor
+   * @param slaveMotor
+   * @param inverted
    */
-  @Deprecated
   protected PrefControllerSlaveSubsystemPhoenix(
       String name, MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
-    this(masterMotor, slaveMotor, inverted);
+    super(name, masterMotor, slaveMotor, inverted);
   }
 
   @Override

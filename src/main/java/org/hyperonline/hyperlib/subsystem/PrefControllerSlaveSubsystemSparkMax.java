@@ -13,7 +13,7 @@ public abstract class PrefControllerSlaveSubsystemSparkMax
    */
   protected PrefControllerSlaveSubsystemSparkMax(
       HYPER_CANSparkMax masterMotor, HYPER_CANSparkMax slaveMotor, boolean inverted) {
-    super(masterMotor, slaveMotor, inverted);
+    this(null, masterMotor, slaveMotor, inverted);
   }
   /**
    * {@inheritDoc}
@@ -24,13 +24,11 @@ public abstract class PrefControllerSlaveSubsystemSparkMax
   }
 
   /**
-   * @deprecated SubsystemBase uses class.getSimpleName as default name
    * {@inheritDoc}
    */
-  @Deprecated
   protected PrefControllerSlaveSubsystemSparkMax(
       String name, HYPER_CANSparkMax masterMotor, HYPER_CANSparkMax slaveMotor, boolean inverted) {
-    this(masterMotor, slaveMotor, inverted);
+    super(name, masterMotor, slaveMotor, inverted);
   }
   /**
    * @deprecated SubsystemBase uses class.getSimpleName as default name

@@ -24,10 +24,7 @@ public abstract class PrefControllerSlaveSubsystem<
    */
   protected PrefControllerSlaveSubsystem(
           MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
-    super(masterMotor);
-    m_slaveMotor = slaveMotor;
-    this.addChild("Slave Motor", m_slaveMotor);
-    m_invertedSlave = inverted;
+    this(null, masterMotor, slaveMotor, inverted);
   }
 
   /**
@@ -40,17 +37,18 @@ public abstract class PrefControllerSlaveSubsystem<
 
 
   /**
-   * @deprecated SubsystemBase uses class.getSimpleName as default name
    * @param name string to use as the Subsystem's name
    * @param masterMotor the motor to use in the subsystem
    * @param slaveMotor the motor to follow the master motor in the subsystem
    * @param inverted is the slaveMotor inverted compared to the masterMotor
    *
    */
-  @Deprecated
   protected PrefControllerSlaveSubsystem(
       String name, MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
-    this(masterMotor, slaveMotor, inverted);
+    super(name, masterMotor);
+    m_slaveMotor = slaveMotor;
+    this.addChild("Slave Motor", m_slaveMotor);
+    m_invertedSlave = inverted;
   }
 
   /**

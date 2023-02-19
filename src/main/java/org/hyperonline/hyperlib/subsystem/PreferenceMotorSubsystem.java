@@ -1,12 +1,19 @@
 package org.hyperonline.hyperlib.subsystem;
 
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import java.util.function.BooleanSupplier;
-import java.util.stream.Stream;
 
 public abstract class PreferenceMotorSubsystem extends PreferenceSubsystem {
+
+    public PreferenceMotorSubsystem() {
+        super(null);
+    }
+
+    public PreferenceMotorSubsystem(String name) {
+        super(name);
+    }
+
     public abstract Command forwardCmd();
 
     public abstract Command backwardCmd();
