@@ -43,7 +43,7 @@ public abstract class BaseRioPID<ControllerType extends IPIDController> extends 
         m_pid.disableContinuousInput();
     }
 
-    public void setIntegratorRange(double minimumIntegral, double maximumIntegral){
+    public void setIntegratorRange(double minimumIntegral, double maximumIntegral) {
         m_pid.setIntegratorRange(minimumIntegral, maximumIntegral);
     }
 
@@ -109,5 +109,9 @@ public abstract class BaseRioPID<ControllerType extends IPIDController> extends 
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
         builder.addBooleanProperty("Executable PID", () -> isExecutablePID, null);
+    }
+
+    public double getSpeed() {
+        return calculate(getFromSource());
     }
 }

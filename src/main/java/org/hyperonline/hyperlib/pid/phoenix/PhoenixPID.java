@@ -86,4 +86,8 @@ public abstract class PhoenixPID extends PrefPIDController {
   public double getMinOutput() {
     return m_PeakOutput.get();
   }
+
+  public double getSpeed() {
+    return m_motor.get();
+  }
 }

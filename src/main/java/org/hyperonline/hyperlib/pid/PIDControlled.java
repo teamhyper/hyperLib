@@ -22,4 +22,6 @@ public interface PIDControlled {
   boolean isEnabled();
 
   double getTolerance();
+
+  double getSpeed();
 }
