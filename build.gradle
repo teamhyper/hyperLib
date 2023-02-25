@@ -11,7 +11,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-def WPILIB_VER = '2023.4.1'
+def WPILIB_VER = '2023.4.2'
 def NTCORE_VER = WPILIB_VER
 def WPIUTIL_VER = WPILIB_VER
 def OPENCV_VER = '4.6.0-4'
