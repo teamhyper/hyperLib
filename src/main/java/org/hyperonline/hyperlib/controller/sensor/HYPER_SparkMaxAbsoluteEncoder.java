@@ -1,6 +1,8 @@
 package org.hyperonline.hyperlib.controller.sensor;
 
-import com.revrobotics.*;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.MotorFeedbackSensor;
+import com.revrobotics.REVLibError;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
 public record HYPER_SparkMaxAbsoluteEncoder(AbsoluteEncoder encoder) implements HYPER_CANSensorSendable {

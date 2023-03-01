@@ -1,18 +1,17 @@
 package org.hyperonline.hyperlib;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import org.hyperonline.hyperlib.oi.*;
 import org.hyperonline.hyperlib.oi.ButtonData.Action;
 import org.hyperonline.hyperlib.oi.MapController.Role;
 import org.hyperonline.hyperlib.oi.MapController.Type;
 import org.junit.jupiter.api.Test;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

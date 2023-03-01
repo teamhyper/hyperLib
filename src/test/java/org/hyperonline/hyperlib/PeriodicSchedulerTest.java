@@ -1,19 +1,18 @@
 package org.hyperonline.hyperlib;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.hyperonline.hyperlib.PeriodicScheduler;
 import org.hyperonline.hyperlib.test.MockRunnable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * {@link PeriodicSchedulerTest}
  * @author James
  *
  */
-public class PeroidicSchedulerTest {
+public class PeriodicSchedulerTest {
     
     private PeriodicScheduler m_sched;
 
