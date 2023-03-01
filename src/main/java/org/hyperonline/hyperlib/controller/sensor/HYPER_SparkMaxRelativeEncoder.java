@@ -18,55 +18,59 @@ import edu.wpi.first.util.sendable.SendableBuilder;
  */
 public record HYPER_SparkMaxRelativeEncoder(RelativeEncoder encoder) implements HYPER_CANSensorSendable {
 
-  @Override
-  public void initSendable(SendableBuilder builder) {
-    builder.setSmartDashboardType("SparkMaxRelativeEncoder");
-    builder.addDoubleProperty("Position", this::getPosition, null);
-    builder.addDoubleProperty("Velocity", this::getVelocity, null);
-  }
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("SparkMaxRelativeEncoder");
+        builder.addDoubleProperty("Position", this::getPosition, null);
+        builder.addDoubleProperty("Velocity", this::getVelocity, null);
+    }
 
-  @Override
-  public MotorFeedbackSensor getSensor() {
-    return encoder;
-  }
+    @Override
+    public MotorFeedbackSensor getSensor() {
+        return encoder;
+    }
 
-  @Override
-  public double getPosition() {
-    return encoder.getPosition();
-  }
+    @Override
+    public double getPosition() {
+        return encoder.getPosition();
+    }
 
-  @Override
-  public double getVelocity() {
-    return encoder.getVelocity();
-  }
+    @Override
+    public double getVelocity() {
+        return encoder.getVelocity();
+    }
 
-  @Override
-  public REVLibError setPositionConversionFactor(double factor) {
-    return encoder.setPositionConversionFactor(factor);
-  }
+    @Override
+    public REVLibError setPositionConversionFactor(double factor) {
+        return encoder.setPositionConversionFactor(factor);
+    }
 
-  @Override
-  public REVLibError setVelocityConversionFactor(double factor) {
-    return encoder.setVelocityConversionFactor(factor);
-  }
+    @Override
+    public REVLibError setVelocityConversionFactor(double factor) {
+        return encoder.setVelocityConversionFactor(factor);
+    }
 
-  @Override
-  public double getPositionConversionFactor() {
-    return encoder.getPositionConversionFactor();
-  }
+    @Override
+    public double getPositionConversionFactor() {
+        return encoder.getPositionConversionFactor();
+    }
 
-  @Override
-  public double getVelocityConversionFactor() {
-    return encoder.getVelocityConversionFactor();
-  }
+    @Override
+    public double getVelocityConversionFactor() {
+        return encoder.getVelocityConversionFactor();
+    }
 
-  @Override
-  public REVLibError setInverted(boolean inverted) {
-    return encoder.setInverted(inverted);
-  }
+    @Override
+    public REVLibError setInverted(boolean inverted) {
+        return encoder.setInverted(inverted);
+    }
 
-  @Override
-  public boolean getInverted() {
-    return encoder.getInverted();
-  }
+    @Override
+    public boolean getInverted() {
+        return encoder.getInverted();
+    }
+
+    public REVLibError setPosition(double position) {
+        return encoder.setPosition(position);
+    }
 }
