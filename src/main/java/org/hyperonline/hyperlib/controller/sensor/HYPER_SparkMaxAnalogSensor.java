@@ -3,7 +3,6 @@ package org.hyperonline.hyperlib.controller.sensor;
 import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxAnalogSensor;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
 /**
@@ -17,12 +16,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
  *
  * @author Chris McGroarty
  */
-public class HYPER_SparkMaxAnalogSensor implements HYPER_CANSensorSendable {
-  public final com.revrobotics.SparkMaxAnalogSensor analog;
-
-  public HYPER_SparkMaxAnalogSensor(SparkMaxAnalogSensor analog) {
-    this.analog = analog;
-  }
+public record HYPER_SparkMaxAnalogSensor(SparkMaxAnalogSensor analog) implements HYPER_CANSensorSendable {
 
   @Override
   public void initSendable(SendableBuilder builder) {

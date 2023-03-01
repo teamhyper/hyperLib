@@ -15,12 +15,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
  *
  * @author Chris McGroarty
  */
-public class HYPER_SparkMaxLimitSwitch implements Sendable {
-  public final SparkMaxLimitSwitch limitSwitch;
-
-  public HYPER_SparkMaxLimitSwitch(SparkMaxLimitSwitch limitSwitch) {
-    this.limitSwitch = limitSwitch;
-  }
+public record HYPER_SparkMaxLimitSwitch(SparkMaxLimitSwitch limitSwitch) implements Sendable {
 
   @Override
   public void initSendable(SendableBuilder builder) {

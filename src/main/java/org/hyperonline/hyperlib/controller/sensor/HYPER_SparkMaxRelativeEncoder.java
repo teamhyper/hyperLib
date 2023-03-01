@@ -3,7 +3,6 @@ package org.hyperonline.hyperlib.controller.sensor;
 import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
 /**
@@ -17,12 +16,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
  *
  * @author Chris McGroarty
  */
-public class HYPER_SparkMaxRelativeEncoder implements HYPER_CANSensorSendable {
-  public final RelativeEncoder encoder;
-
-  public HYPER_SparkMaxRelativeEncoder(RelativeEncoder encoder) {
-    this.encoder = encoder;
-  }
+public record HYPER_SparkMaxRelativeEncoder(RelativeEncoder encoder) implements HYPER_CANSensorSendable {
 
   @Override
   public void initSendable(SendableBuilder builder) {
@@ -31,6 +25,7 @@ public class HYPER_SparkMaxRelativeEncoder implements HYPER_CANSensorSendable {
     builder.addDoubleProperty("Velocity", this::getVelocity, null);
   }
 
+  @Override
   public MotorFeedbackSensor getSensor() {
     return encoder;
   }
