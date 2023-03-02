@@ -4,7 +4,17 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.REVLibError;
 import edu.wpi.first.util.sendable.SendableBuilder;
-
+/**
+ * wrapper for added behavior on {@link AbsoluteEncoder}.
+ *
+ * <strong>added behavior</strong>
+ * <ul>
+ *     <li>make a {@link com.revrobotics.SparkMaxAbsoluteEncoder} sendable for use with shuffleboard</li>
+ *     <li>automatically add datapoints to LiveWindow</li>
+ * </ul>
+ *
+ * @author Chris McGroarty
+ */
 public record HYPER_SparkMaxAbsoluteEncoder(AbsoluteEncoder encoder) implements HYPER_CANSensorSendable {
 
     @Override
