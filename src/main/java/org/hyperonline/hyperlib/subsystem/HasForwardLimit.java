@@ -6,6 +6,7 @@ import java.util.function.DoubleSupplier;
 
 public interface HasForwardLimit {
     boolean isAtForwardLimit();
+    boolean canMoveForward();
     boolean canMoveForward(DoubleSupplier speed);
     boolean canMove(DoubleSupplier speed);
     Command autoResetSensorAtForwardLimit();
