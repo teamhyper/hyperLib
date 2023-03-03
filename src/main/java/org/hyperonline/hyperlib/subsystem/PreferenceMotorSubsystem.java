@@ -17,15 +17,15 @@ abstract class PreferenceMotorSubsystem<MotorType extends Sendable> extends Pref
         super(null);
     }
 
-    @Override
-    public void initPreferences() {
-    }
-
     public PreferenceMotorSubsystem(String name, MotorType motor) {
         super(name);
         m_motor = motor;
         this.addChild("Motor", m_motor);
         this.setDefaultCommand(this.stopCmd());
+    }
+
+    @Override
+    public void initPreferences() {
     }
 
     /**
@@ -130,9 +130,7 @@ abstract class PreferenceMotorSubsystem<MotorType extends Sendable> extends Pref
         return new InstantCommand(this::resetPositionSensor);
     }
 
-    public boolean isAtForwardLimit() {
-        return false;
-    }
+    public abstract boolean isAtForwardLimit();
 
 
     public boolean canMoveForward() {
@@ -143,9 +141,7 @@ abstract class PreferenceMotorSubsystem<MotorType extends Sendable> extends Pref
         return !isAtReverseLimit();
     }
 
-    public boolean isAtReverseLimit() {
-        return false;
-    }
+    public abstract boolean isAtReverseLimit();
 
     public Command resetPositionSensorAtReverseLimitCmd() {
         return new RunCommand(() -> {
