@@ -3,7 +3,6 @@ package org.hyperonline.hyperlib.subsystem;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -13,7 +12,6 @@ import org.hyperonline.hyperlib.pref.DoublePreference;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
-import java.util.stream.Stream;
 
 /**
  * @param <MotorType> {@link org.hyperonline.hyperlib.controller.SendableMotorController} type to
@@ -21,9 +19,8 @@ import java.util.stream.Stream;
  * @author Chris McGroarty
  */
 public abstract class PreferenceControllerSubsystem<MotorType extends SendableMotorController>
-        extends PreferenceMotorSubsystem {
-    protected MotorType m_motor;
-    protected DoublePreference m_forwardSpeed, m_backwardSpeed, m_rampRate;
+        extends PreferenceMotorSubsystem<MotorType> {
+    protected DoublePreference m_forwardSpeed, m_reverseSpeed, m_rampRate;
     protected SlewRateLimiter m_rateLimiter;
     protected boolean useRampRate = false;
 
@@ -39,21 +36,18 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
      * @param motor
      */
     protected PreferenceControllerSubsystem(String name, MotorType motor) {
-        super(name);
-        m_motor = motor;
-        this.addChild("Motor", m_motor);
-        this.setDefaultCommand(this.stopCmd());
+        super(name, motor);
     }
 
     /**
-     * initialize the subsystem's forward/backward speed preferences
+     * initialize the subsystem's forward/reverse speed preferences
      *
-     * @param forward  default positive speed for motor
-     * @param backward default negative speed for motor
+     * @param forward default positive speed for motor
+     * @param reverse default negative speed for motor
      */
-    protected void initMotorSpeedPreference(double forward, double backward) {
+    protected void initMotorSpeedPreference(double forward, double reverse) {
         m_forwardSpeed = m_prefs.addDouble("Forward Speed", forward);
-        m_backwardSpeed = m_prefs.addDouble("Backward Speed", backward);
+        m_reverseSpeed = m_prefs.addDouble("Backward Speed", reverse);
     }
 
     /**
@@ -66,125 +60,6 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
         this.useRampRate = true;
         m_rampRate = m_prefs.addDouble("Seconds to Full Throttle", rampRate);
         m_rateLimiter = new SlewRateLimiter(1.0 / m_rampRate.get());
-    }
-
-    @Override
-    public void initPreferences() {
-    }
-
-    /**
-     * @return continuous {@link Command} to move the motor forward (positive voltage)
-     */
-    @Override
-    public Command forwardCmd() {
-        return new RunCommand(this::forward, this);
-    }
-
-    /**
-     * @param multiplier how to modify the preference speed
-     * @return continuous {@link Command} to move the motor forward (positive voltage) modified by the
-     * given multiplier
-     */
-    public Command forwardCmd(double multiplier) {
-        return new RunCommand(() -> this.forward(multiplier), this);
-    }
-
-    /**
-     * @return continuous {@link Command} to move the motor backward (negative voltage)
-     */
-    @Override
-    public Command backwardCmd() {
-        return new RunCommand(this::backward, this);
-    }
-
-    /**
-     * @param multiplier how to modify the preference speed
-     * @return continuous {@link Command} to move the motor backward (negative voltage) modified by
-     * the given multiplier
-     */
-    public Command backwardCmd(double multiplier) {
-        return new RunCommand(() -> this.backward(multiplier), this);
-    }
-
-    /**
-     * @return continuous {@link Command} stopping the motor (speed 0)
-     */
-    @Override
-    public Command stopCmd() {
-        return new RunCommand(this::stop, this);
-    }
-
-    /**
-     * move forward only if the given condition is satisfied, else stop the motor
-     *
-     * @param condition should the motor be driven forwards or stopped
-     * @return {@link Command} that moves the motor at its configured (preference) forward speed if
-     * the condition is true
-     */
-    @Override
-    public Command conditionalForwardCmd(BooleanSupplier condition) {
-        return conditionalForwardCmd(0.0, condition);
-    }
-
-    /**
-     * * move forward at the full preference speed only if the given condition is satisfied, else
-     * move at the speed times the multiplier
-     *
-     * @param multipler how to modify the preference speed
-     * @param condition should the motor be driven forwards at pref speed or modified speed
-     * @return {@link Command} that moves the motor at its configured (preference) forward speed if
-     * the condition is true
-     */
-    public Command conditionalForwardCmd(double multipler, BooleanSupplier condition) {
-        return new FunctionalCommand(
-                () -> {
-                },
-                () -> {
-                    if (condition.getAsBoolean()) {
-                        forward();
-                    } else {
-                        forward(multipler);
-                    }
-                },
-                interrupted -> stop(),
-                () -> false,
-                this);
-    }
-
-    /**
-     * move backward only if the given condition is satisfied, else stop the motor
-     *
-     * @param condition should the motor be driven backwards or stopped
-     * @return {@link Command} that moves the motor at its configured (preference) backward speed if
-     * the condition is true
-     */
-    @Override
-    public Command conditionalBackwardCmd(BooleanSupplier condition) {
-        return conditionalBackwardCmd(0.0, condition);
-    }
-
-    /**
-     * move backward at the full preference speed only if the given condition is satisfied, else move at the speed times the multiplier
-     *
-     * @param multipler how to modify the preference speed
-     * @param condition should the motor be driven backwards at pref speed or modified speed
-     * @return {@link Command} that moves the motor at its configured (preference) backward speed if *
-     * the condition is true
-     */
-    public Command conditionalBackwardCmd(double multipler, BooleanSupplier condition) {
-        return new FunctionalCommand(
-                () -> {
-                },
-                () -> {
-                    if (condition.getAsBoolean()) {
-                        backward();
-                    } else {
-                        backward(multipler);
-                    }
-                },
-                interrupted -> stop(),
-                () -> false,
-                this);
     }
 
     /**
@@ -270,21 +145,21 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
      * @param multiplier how to modify the preference speed
      */
     public void forward(double multiplier) {
-        m_motor.set(calculateSpeed(m_forwardSpeed.get() * multiplier));
+        move(m_forwardSpeed::get, multiplier);
     }
 
     @Override
-    public void backward() {
-        backward(1);
+    public void reverse() {
+        reverse(1);
     }
 
     /**
-     * move the motor backward (negative voltage) at the speed set in preference
+     * move the motor reverse (negative voltage) at the speed set in preference
      *
      * @param multiplier how to modify the preference speed
      */
-    public void backward(double multiplier) {
-        m_motor.set(calculateSpeed(m_backwardSpeed.get() * multiplier));
+    public void reverse(double multiplier) {
+        move(m_reverseSpeed::get, multiplier);
     }
 
     /**
@@ -329,6 +204,10 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
         move(speed.getAsDouble());
     }
 
+    public void move(DoubleSupplier speed, double multiplier) {
+        move(speed.getAsDouble() * multiplier);
+    }
+
     /**
      * @param mode coast or brake mode for the motor when set to 0
      */
@@ -344,23 +223,18 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
         m_motor.resetMotorConfig();
     }
 
-    /**
-     * helper for organizing sensor configuration
-     */
-    @Override
-    protected void configSensors() {
+    public boolean canMoveForward(DoubleSupplier speed) {
+        return speed.getAsDouble() < 0 || canMoveForward();
     }
 
-    /**
-     * helper for organizing PID configuration
-     */
-    @Override
-    protected void configPID() {
+    public boolean canMoveReverse(DoubleSupplier speed) {
+        return speed.getAsDouble() > 0 || canMoveReverse();
     }
 
-    @Override
-    protected Stream<Sendable> getSendables() {
-        return Stream.concat(
-                super.getSendables(), Stream.of(m_motor));
+
+    public boolean canMove(DoubleSupplier speed) {
+        return canMoveForward(speed) || canMoveReverse(speed);
     }
+
+
 }

@@ -5,6 +5,8 @@ import org.hyperonline.hyperlib.pref.DoublePreference;
 
 public interface MovesWithPID {
     Command moveTo(DoublePreference positionPreference);
+
+    Command moveTo(double setpoint);
+
     void initPositionPreferences();
-    void configPID();
 }
