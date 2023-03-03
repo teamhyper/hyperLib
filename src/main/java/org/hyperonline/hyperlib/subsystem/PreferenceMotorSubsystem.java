@@ -103,19 +103,20 @@ abstract class PreferenceMotorSubsystem<MotorType extends Sendable> extends Pref
 
     public abstract void stop();
 
+    /**
+     * helper for organizing motor configuration.
+     */
     protected abstract void configMotor();
 
     /**
      * helper for organizing sensor configuration
      */
-    protected void configSensors() {
-    }
+    protected abstract void configSensors();
 
     /**
      * helper for organizing PID configuration
      */
-    protected void configPID() {
-    }
+    protected abstract void configPID();
 
     protected Stream<Sendable> getSendables() {
         return Stream.concat(

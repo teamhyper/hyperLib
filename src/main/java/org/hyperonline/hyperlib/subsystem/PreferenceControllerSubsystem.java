@@ -260,12 +260,17 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
         m_motor.setNeutralMode(mode);
     }
 
-    /**
-     * helper for organizing motor configuration.
-     */
     @Override
     protected void configMotor() {
         m_motor.resetMotorConfig();
+    }
+
+    @Override
+    protected void configSensors() {
+    }
+
+    @Override
+    protected void configPID() {
     }
 
     public boolean canMoveForward(DoubleSupplier speed) {

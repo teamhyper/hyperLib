@@ -12,6 +12,7 @@ public abstract class PreferenceRelaySubsystem extends PreferenceMotorSubsystem<
     public PreferenceRelaySubsystem(String name, Relay motor) {
         super(name, motor);
     }
+
     @Override
     public void forward() {
         m_motor.set(Relay.Value.kForward);
@@ -25,5 +26,17 @@ public abstract class PreferenceRelaySubsystem extends PreferenceMotorSubsystem<
     @Override
     public void stop() {
         m_motor.set(Relay.Value.kOff);
+    }
+
+    @Override
+    protected void configMotor() {
+    }
+
+    @Override
+    protected void configSensors() {
+    }
+
+    @Override
+    protected void configPID() {
     }
 }
