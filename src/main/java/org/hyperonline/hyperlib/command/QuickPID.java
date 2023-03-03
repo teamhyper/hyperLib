@@ -7,6 +7,7 @@ import org.hyperonline.hyperlib.pid.PIDControlled;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+import java.util.function.Predicate;
 
 public class QuickPID {
     /**
@@ -16,7 +17,7 @@ public class QuickPID {
      * @param req      The subsystem to require
      * @param pid      The PID controller to use
      * @param setPoint The point to move the PID controller to
-     * @param hold     Whether or not to continue running the PID loop after the target setpoint is
+     * @param hold     Whether to continue running the PID loop after the target setpoint is
      *                 reached
      * @return The newly created {@link Command}
      */
@@ -58,7 +59,7 @@ public class QuickPID {
      * @param req      The subsystem to require
      * @param pid      The PID controller to use
      * @param setPoint The point to move the PID controller to
-     * @param stop     Whether or not to continue running the PID loop after the target setpoint is
+     * @param stop     Whether to continue running the PID loop after the target setpoint is
      *                 reached
      * @return The newly created {@link Command}
      */
@@ -101,7 +102,7 @@ public class QuickPID {
      * @param req      The subsystem to require
      * @param pid      The PID controller to use
      * @param setPoint The point to move the PID controller to
-     * @param pause    Whether or not to continue running the PID loop after the target setpoint is
+     * @param pause    Whether to continue running the PID loop after the target setpoint is
      *                 reached
      * @return The newly created {@link Command}
      */
@@ -150,7 +151,7 @@ public class QuickPID {
      * @param req      The subsystem to require
      * @param pid      The PID controller to use
      * @param setPoint The point to move the PID controller to
-     * @param hold     Whether or not to continue running the PID loop after the target setpoint is
+     * @param hold     Whether to continue running the PID loop after the target setpoint is
      *                 reached
      * @return The newly created {@link Command}
      */
@@ -193,7 +194,7 @@ public class QuickPID {
      * @param req      The subsystem to require
      * @param pid      The PID controller to use
      * @param setPoint The point to move the PID controller to
-     * @param hold     Whether or not to continue running the PID loop after the target setpoint is
+     * @param hold     Whether to continue running the PID loop after the target setpoint is
      *                 reached
      * @return The newly created {@link Command}
      */
@@ -292,7 +293,7 @@ public class QuickPID {
      * @param req    The subsystem to require
      * @param pid    The PID controller to use
      * @param target The point to move the PID controller under
-     * @param hold   Whether or not to continue running the PID loop after the target is reached
+     * @param hold   Whether to continue running the PID loop after the target is reached
      * @return The newly created {@link Command}
      */
     public static Command pidMoveUnder(
@@ -337,7 +338,7 @@ public class QuickPID {
      * @param req    The subsystem to require
      * @param pid    The PID controller to use
      * @param target The point to move the PID controller over
-     * @param hold   Whether or not to continue running the PID loop after the target is reached
+     * @param hold   Whether to continue running the PID loop after the target is reached
      * @return The newly created {@link Command}
      */
     public static Command pidMoveOver(Subsystem req, PIDControlled pid, double target, boolean hold) {
@@ -379,24 +380,32 @@ public class QuickPID {
      * finishing when it is ontarget, or if the speed is positive and the forwardLimit is tripped,
      * or if the speed is negative and the reverseLimit is tripped
      *
-     * @param req
-     * @param pid
-     * @param setPoint
-     * @param hold
-     * @param forwardStop
-     * @param reverseStop
+     * @param req               The subsystem to require
+     * @param pid               The PID controller to use
+     * @param setPoint          The point to move the PID controller to
+     * @param hold              Whether to continue running the PID loop after the target setpoint is reached
+     * @param canMoveForward    Can the PID move the motor forward (positive speed) with the given speed or end command
+     * @param canMoveReverse    Can the PID move the motor reverse (negative speed) with the given speed or end command
      * @return
      */
-    public static Command pidMoveWithLimits(Subsystem req, PIDControlled pid, double setPoint, boolean hold, BooleanSupplier forwardStop, BooleanSupplier reverseStop) {
-        return QuickPID.pidMove(req, pid, setPoint, hold).until(() -> (pid.getSpeed() > 0 && forwardStop.getAsBoolean()) ||
-                (pid.getSpeed() < 0 && reverseStop.getAsBoolean()));
+    public static Command pidMoveWithLimits(Subsystem req, PIDControlled pid, double setPoint, boolean hold, Predicate<DoubleSupplier> canMoveForward, Predicate<DoubleSupplier> canMoveReverse) {
+        return QuickPID.pidMove(req, pid, setPoint, hold).until(() -> !canMoveForward.test(pid::getSpeed) || !canMoveReverse.test(pid::getSpeed));
     }
 
     /**
-     * {@inheritDoc}
+     * Constructs a command that moves a {@link PIDControlled} to a given setpoint,
+     * finishing when it is ontarget, or if the speed is positive and the forwardLimit is tripped,
+     * or if the speed is negative and the reverseLimit is tripped
+     *
+     * @param req               The subsystem to require
+     * @param pid               The PID controller to use
+     * @param setPoint          The point to move the PID controller to
+     * @param hold              Whether to continue running the PID loop after the target setpoint is reached
+     * @param canMoveForward    Can the PID move the motor forward (positive speed) with the given speed or end command
+     * @param canMoveReverse    Can the PID move the motor reverse (negative speed) with the given speed or end command
+     * @return
      */
-    public static Command pidMoveWithLimits(Subsystem req, PIDControlled pid, DoubleSupplier setPoint, boolean hold, BooleanSupplier forwardStop, BooleanSupplier reverseStop) {
-        return QuickPID.pidMove(req, pid, setPoint.getAsDouble(), hold).until(() -> (pid.getSpeed() > 0 && forwardStop.getAsBoolean()) ||
-                (pid.getSpeed() < 0 && reverseStop.getAsBoolean()));
+    public static Command pidMoveWithLimits(Subsystem req, PIDControlled pid, DoubleSupplier setPoint, boolean hold, Predicate<DoubleSupplier> canMoveForward, Predicate<DoubleSupplier> canMoveReverse) {
+        return QuickPID.pidMove(req, pid, setPoint.getAsDouble(), hold).until(() -> !canMoveForward.test(pid::getSpeed) || !canMoveReverse.test(pid::getSpeed));
     }
 }

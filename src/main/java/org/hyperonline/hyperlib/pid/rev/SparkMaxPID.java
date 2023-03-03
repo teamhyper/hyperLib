@@ -141,8 +141,8 @@ public class SparkMaxPID extends PrefPIDController {
         super.onPreferencesUpdated();
         m_pidController.setIZone(m_IZone.get(), m_pidSlot);
         double maxVelocityUnits = m_maxVelocityUnits.get();
-        if(maxVelocityUnits != 0) {
-          m_pidController.setFF(1 / maxVelocityUnits, m_pidSlot);
+        if (maxVelocityUnits != 0) {
+            m_pidController.setFF(1 / maxVelocityUnits, m_pidSlot);
         }
 
         if (useSmartMotion) {
