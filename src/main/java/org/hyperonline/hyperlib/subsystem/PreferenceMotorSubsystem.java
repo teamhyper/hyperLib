@@ -17,6 +17,10 @@ abstract class PreferenceMotorSubsystem<MotorType extends Sendable> extends Pref
         super(null);
     }
 
+    @Override
+    public void initPreferences() {
+    }
+
     public PreferenceMotorSubsystem(String name, MotorType motor) {
         super(name);
         m_motor = motor;
