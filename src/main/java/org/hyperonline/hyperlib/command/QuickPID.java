@@ -1,8 +1,6 @@
 package org.hyperonline.hyperlib.command;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.*;
 import org.hyperonline.hyperlib.pid.PIDControlled;
 
 import java.util.function.BooleanSupplier;
@@ -380,16 +378,21 @@ public class QuickPID {
      * finishing when it is ontarget, or if the speed is positive and the forwardLimit is tripped,
      * or if the speed is negative and the reverseLimit is tripped
      *
-     * @param req               The subsystem to require
-     * @param pid               The PID controller to use
-     * @param setPoint          The point to move the PID controller to
-     * @param hold              Whether to continue running the PID loop after the target setpoint is reached
-     * @param canMoveForward    Can the PID move the motor forward (positive speed) with the given speed or end command
-     * @param canMoveReverse    Can the PID move the motor reverse (negative speed) with the given speed or end command
+     * @param req            The subsystem to require
+     * @param pid            The PID controller to use
+     * @param setPoint       The point to move the PID controller to
+     * @param hold           Whether to continue running the PID loop after the target setpoint is reached
+     * @param canMoveForward Can the PID move the motor forward (positive speed) with the given speed or end command
+     * @param canMoveReverse Can the PID move the motor reverse (negative speed) with the given speed or end command
      * @return
      */
     public static Command pidMoveWithLimits(Subsystem req, PIDControlled pid, double setPoint, boolean hold, Predicate<DoubleSupplier> canMoveForward, Predicate<DoubleSupplier> canMoveReverse) {
-        return QuickPID.pidMove(req, pid, setPoint, hold).until(() -> !canMoveForward.test(pid::getSpeed) && !canMoveReverse.test(pid::getSpeed));
+        return new ParallelRaceGroup(
+                QuickPID.pidMove(req, pid, setPoint, hold),
+                new SequentialCommandGroup(
+                        new WaitCommand(0.25),
+                        new WaitUntilCommand(() -> !canMoveForward.test(pid::getSpeed) || !canMoveReverse.test(pid::getSpeed)))
+        );
     }
 
     /**
@@ -397,12 +400,12 @@ public class QuickPID {
      * finishing when it is ontarget, or if the speed is positive and the forwardLimit is tripped,
      * or if the speed is negative and the reverseLimit is tripped
      *
-     * @param req               The subsystem to require
-     * @param pid               The PID controller to use
-     * @param setPoint          The point to move the PID controller to
-     * @param hold              Whether to continue running the PID loop after the target setpoint is reached
-     * @param canMoveForward    Can the PID move the motor forward (positive speed) with the given speed or end command
-     * @param canMoveReverse    Can the PID move the motor reverse (negative speed) with the given speed or end command
+     * @param req            The subsystem to require
+     * @param pid            The PID controller to use
+     * @param setPoint       The point to move the PID controller to
+     * @param hold           Whether to continue running the PID loop after the target setpoint is reached
+     * @param canMoveForward Can the PID move the motor forward (positive speed) with the given speed or end command
+     * @param canMoveReverse Can the PID move the motor reverse (negative speed) with the given speed or end command
      * @return
      */
     public static Command pidMoveWithLimits(Subsystem req, PIDControlled pid, DoubleSupplier setPoint, boolean hold, Predicate<DoubleSupplier> canMoveForward, Predicate<DoubleSupplier> canMoveReverse) {
