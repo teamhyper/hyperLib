@@ -274,11 +274,11 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
     }
 
     public boolean canMoveForward(DoubleSupplier speed) {
-        return speed.getAsDouble() > 0 && canMoveForward();
+        return speed.getAsDouble() >= 0 && canMoveForward();
     }
 
     public boolean canMoveReverse(DoubleSupplier speed) {
-        return speed.getAsDouble() < 0 && canMoveReverse();
+        return speed.getAsDouble() <= 0 && canMoveReverse();
     }
 
 
