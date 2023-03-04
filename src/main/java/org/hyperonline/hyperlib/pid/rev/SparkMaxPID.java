@@ -98,7 +98,7 @@ public class SparkMaxPID extends PrefPIDController {
 
     @Override
     public double getSpeed() {
-        return m_motor.get();
+        return m_motor.getAppliedOutput();
     }
 
     @Override

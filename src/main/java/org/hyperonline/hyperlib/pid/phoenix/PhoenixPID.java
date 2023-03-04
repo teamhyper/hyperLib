@@ -88,6 +88,6 @@ public abstract class PhoenixPID extends PrefPIDController {
   }
 
   public double getSpeed() {
-    return m_motor.get();
+    return m_motor.getMotorOutputPercent();
   }
 }
