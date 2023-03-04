@@ -286,5 +286,21 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
         return canMoveForward(speed) || canMoveReverse(speed);
     }
 
+    @Override
+    public Command resetPositionSensorAtReverseLimitCmd() {
+        return new RunCommand(() -> {
+            if (isAtReverseLimit() && m_motor.get() < 0) {
+                this.resetPositionSensor();
+            }
+        });
+    }
 
+    @Override
+    public Command resetPositionSensorAtForwardLimitCmd() {
+        return new RunCommand(() -> {
+            if (isAtForwardLimit() && m_motor.get() > 0) {
+                this.resetPositionSensor();
+            }
+        });
+    }
 }
