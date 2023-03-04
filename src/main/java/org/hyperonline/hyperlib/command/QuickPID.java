@@ -406,6 +406,6 @@ public class QuickPID {
      * @return
      */
     public static Command pidMoveWithLimits(Subsystem req, PIDControlled pid, DoubleSupplier setPoint, boolean hold, Predicate<DoubleSupplier> canMoveForward, Predicate<DoubleSupplier> canMoveReverse) {
-        return QuickPID.pidMove(req, pid, setPoint.getAsDouble(), hold).until(() -> !canMoveForward.test(pid::getSpeed) || !canMoveReverse.test(pid::getSpeed));
+        return QuickPID.pidMoveWithLimits(req, pid, setPoint.getAsDouble(), hold, canMoveForward, canMoveReverse);
     }
 }
