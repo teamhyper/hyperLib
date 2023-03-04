@@ -389,9 +389,7 @@ public class QuickPID {
     public static Command pidMoveWithLimits(Subsystem req, PIDControlled pid, double setPoint, boolean hold, Predicate<DoubleSupplier> canMoveForward, Predicate<DoubleSupplier> canMoveReverse) {
         return new ParallelRaceGroup(
                 QuickPID.pidMove(req, pid, setPoint, hold),
-                new SequentialCommandGroup(
-                        new WaitCommand(0.25),
-                        new WaitUntilCommand(() -> !canMoveForward.test(pid::getSpeed) || !canMoveReverse.test(pid::getSpeed)))
+                new WaitUntilCommand(() -> !canMoveForward.test(pid::getSpeed) || !canMoveReverse.test(pid::getSpeed))
         );
     }
 
@@ -410,5 +408,30 @@ public class QuickPID {
      */
     public static Command pidMoveWithLimits(Subsystem req, PIDControlled pid, DoubleSupplier setPoint, boolean hold, Predicate<DoubleSupplier> canMoveForward, Predicate<DoubleSupplier> canMoveReverse) {
         return QuickPID.pidMoveWithLimits(req, pid, setPoint.getAsDouble(), hold, canMoveForward, canMoveReverse);
+    }
+
+    /**
+     * Constructs a command that moves a {@link PIDControlled} to a given setpoint,
+     * finishing when it is ontarget, or if the speed is positive and the forwardLimit is tripped,
+     * or if the speed is negative and the reverseLimit is tripped
+     *
+     * @param req
+     * @param pid
+     * @param setPoint
+     * @param hold
+     * @param forwardStop
+     * @param reverseStop
+     * @return
+     */
+    public static Command pidMoveWithLimits(Subsystem req, PIDControlled pid, double setPoint, boolean hold, BooleanSupplier forwardStop, BooleanSupplier reverseStop) {
+        return QuickPID.pidMove(req, pid, setPoint, hold).until(() -> (pid.getSpeed() > 0 && forwardStop.getAsBoolean()) ||
+                (pid.getSpeed() < 0 && reverseStop.getAsBoolean()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static Command pidMoveWithLimits(Subsystem req, PIDControlled pid, DoubleSupplier setPoint, boolean hold, BooleanSupplier forwardStop, BooleanSupplier reverseStop) {
+        return pidMoveWithLimits(req, pid, setPoint.getAsDouble(), hold, forwardStop, reverseStop);
     }
 }
