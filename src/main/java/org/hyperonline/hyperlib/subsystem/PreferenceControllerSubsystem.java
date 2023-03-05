@@ -298,7 +298,7 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
     @Override
     public Command resetPositionSensorAtReverseLimitCmd() {
         return new RunCommand(() -> {
-            if (isAtReverseLimit() && m_motor.get() < 0) {
+            if (isAtReverseLimit() && m_motor.get() <= 0) {
                 this.resetPositionSensor();
             }
         });
@@ -307,7 +307,7 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
     @Override
     public Command resetPositionSensorAtForwardLimitCmd() {
         return new RunCommand(() -> {
-            if (isAtForwardLimit() && m_motor.get() > 0) {
+            if (isAtForwardLimit() && m_motor.get() >= 0) {
                 this.resetPositionSensor();
             }
         });
