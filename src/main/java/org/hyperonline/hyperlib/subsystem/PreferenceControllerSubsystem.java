@@ -213,7 +213,9 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
     @Override
     public void stop() {
         m_motor.set(0);
-        m_rateLimiter.reset(0);
+        if (useRampRate) {
+            m_rateLimiter.reset(0);
+        }
     }
 
     /**
@@ -283,11 +285,11 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
 
 
     public boolean canMove(DoubleSupplier speed) {
-        if(speed.getAsDouble() > 0) {
+        if (speed.getAsDouble() > 0) {
             return canMoveForward();
         }
 
-        if(speed.getAsDouble() < 0) {
+        if (speed.getAsDouble() < 0) {
             return canMoveReverse();
         }
 
