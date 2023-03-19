@@ -12,6 +12,7 @@ import org.hyperonline.hyperlib.pref.DoublePreference;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+import java.util.function.Predicate;
 
 /**
  * @param <MotorType> {@link org.hyperonline.hyperlib.controller.SendableMotorController} type to
@@ -78,10 +79,10 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
      * @param canMove should the motor be allowed to move (at hardstop/sensor)
      * @return {@link Command} that moves the motor at the given speed if the condition is true
      */
-    public Command conditionalMoveCmd(DoubleSupplier speed, BooleanSupplier canMove) {
+    public Command conditionalMoveCmd(DoubleSupplier speed, Predicate<DoubleSupplier> canMove) {
         return new FunctionalCommand(() -> {
         }, () -> {
-            if (canMove.getAsBoolean()) {
+            if (canMove.test(speed)) {
                 move(speed);
             } else {
                 stop();
@@ -98,10 +99,10 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
      * @param canMove    should the motor be allowed to move (at hardstop/sensor)
      * @return {@link Command} that moves the motor at the given or max speed if the condition is true
      */
-    public Command conditionalMoveWithSpeedLimitCmd(DoubleSupplier speed, double peakOutput, BooleanSupplier canMove) {
+    public Command conditionalMoveWithSpeedLimitCmd(DoubleSupplier speed, double peakOutput, Predicate<DoubleSupplier> canMove) {
         return new FunctionalCommand(() -> {
         }, () -> {
-            if (canMove.getAsBoolean()) {
+            if (canMove.test(speed)) {
                 move(() -> DriverInput.governor(speed.getAsDouble(), peakOutput));
             } else {
                 stop();
