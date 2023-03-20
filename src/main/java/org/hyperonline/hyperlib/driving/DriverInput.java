@@ -2,6 +2,7 @@ package org.hyperonline.hyperlib.driving;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import org.hyperonline.hyperlib.pref.DoublePreference;
 
 import java.util.function.DoubleSupplier;
 
@@ -132,5 +133,41 @@ public class DriverInput {
      */
     public static double cubeInput(double input) {
         return input * input * input;
+    }
+
+    /**
+     *
+     * @param speed
+     * @param invertInput
+     * @param applyDeadband
+     * @param deadband
+     * @param applySquareInputs
+     * @param applyFF
+     * @param ff
+     * @param applySlewRate
+     * @param rateLimiter
+     * @return
+     */
+    public static double calculateDriverInput(DoubleSupplier speed, boolean invertInput, boolean applyDeadband, DoublePreference deadband, boolean applySquareInputs, boolean applyFF, DoublePreference ff, boolean applySlewRate, SlewRateLimiter rateLimiter) {
+        double sign = invertInput ? -1 : 1;
+        double value = sign * speed.getAsDouble();
+
+        if (applyDeadband) {
+            value = deadband(value, deadband.get());
+        }
+
+        if (applySquareInputs) {
+            value = DriverInput.squareInput(value);
+        }
+
+        if (applyFF) {
+            value = DriverInput.feedforward(value, ff.get());
+        }
+
+        if (applySlewRate) {
+            value = DriverInput.filterAllowZero(value, rateLimiter, value == 0);
+        }
+
+        return value;
     }
 }
