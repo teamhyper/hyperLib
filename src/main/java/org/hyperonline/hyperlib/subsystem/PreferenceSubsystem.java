@@ -31,7 +31,6 @@ public abstract class PreferenceSubsystem extends SubsystemBase
     super();
     m_prefs = new PreferencesSet(name == null ? super.getName() : name, this);
     this.initMyPreferences();
-    postConfig();
   }
 
   private void setTelemetryEnabled(boolean enabled) {
@@ -72,9 +71,5 @@ public abstract class PreferenceSubsystem extends SubsystemBase
 
   protected void applyToSendables(Consumer<Sendable> sendableConsumer) {
     getSendables().forEach(sendableConsumer);
-  }
-
-  protected void postConfig() {
-    onTelemetryDisable();
   }
 }
