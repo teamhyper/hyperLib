@@ -2,12 +2,14 @@ package org.hyperonline.hyperlib.pref;
 
 import edu.wpi.first.wpilibj.Preferences;
 
+import java.util.function.BooleanSupplier;
+
 /**
  * A class which represents a boolean-valued preference
  *
  * @author James Hagborg
  */
-public class BooleanPreference extends Preference {
+public class BooleanPreference extends Preference implements BooleanSupplier {
   private final boolean m_default;
   private boolean m_lastValue;
 
@@ -47,5 +49,10 @@ public class BooleanPreference extends Preference {
    */
   public boolean get() {
     return Preferences.getBoolean(getName(), m_default);
+  }
+
+  @Override
+  public boolean getAsBoolean() {
+    return this.get();
   }
 }

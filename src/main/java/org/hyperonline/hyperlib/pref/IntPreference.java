@@ -2,12 +2,14 @@ package org.hyperonline.hyperlib.pref;
 
 import edu.wpi.first.wpilibj.Preferences;
 
+import java.util.function.IntSupplier;
+
 /**
  * A class which represents an integer-valued preference
  *
  * @author James Hagborg
  */
-public class IntPreference extends Preference {
+public class IntPreference extends Preference implements IntSupplier {
   private final int m_default;
   private int m_lastValue;
 
@@ -47,5 +49,10 @@ public class IntPreference extends Preference {
    */
   public int get() {
     return Preferences.getInt(getName(), m_default);
+  }
+
+  @Override
+  public int getAsInt() {
+    return this.get();
   }
 }
