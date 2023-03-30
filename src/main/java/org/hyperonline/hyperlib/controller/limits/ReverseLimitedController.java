@@ -1,5 +1,7 @@
 package org.hyperonline.hyperlib.controller.limits;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -19,7 +21,7 @@ import java.util.function.DoubleSupplier;
  *
  * TODO: write docs for methods (copy from ForwardLimitedController)
  */
-public class ReverseLimitedController {
+public class ReverseLimitedController implements SendableMotorController {
     private final SendableMotorController controller;
     private final DigitalInput limit;
     private final DoublePreference reverseSpeed;
@@ -111,5 +113,50 @@ public class ReverseLimitedController {
 
     public Subsystem getSubsystem() {
         return subsystem;
+    }
+
+    @Override
+    public void setNeutralMode(NeutralMode mode) {
+        controller.setNeutralMode(mode);
+    }
+
+    @Override
+    public void resetMotorConfig() {
+        controller.resetMotorConfig();
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        controller.initSendable(builder);
+    }
+
+    @Override
+    public void set(double speed) {
+        controller.set(speed);
+    }
+
+    @Override
+    public double get() {
+        return controller.get();
+    }
+
+    @Override
+    public void setInverted(boolean isInverted) {
+        controller.setInverted(isInverted);
+    }
+
+    @Override
+    public boolean getInverted() {
+        return controller.getInverted();
+    }
+
+    @Override
+    public void disable() {
+        controller.disable();
+    }
+
+    @Override
+    public void stopMotor() {
+        controller.stopMotor();
     }
 }
