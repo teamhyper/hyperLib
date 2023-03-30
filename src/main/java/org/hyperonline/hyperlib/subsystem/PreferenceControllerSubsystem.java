@@ -275,44 +275,4 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
     @Override
     protected void configPID() {
     }
-
-    public boolean canMoveForward(DoubleSupplier speed) {
-        return speed.getAsDouble() >= 0 && canMoveForward();
-    }
-
-    public boolean canMoveReverse(DoubleSupplier speed) {
-        return speed.getAsDouble() <= 0 && canMoveReverse();
-    }
-
-
-    public boolean canMove(DoubleSupplier speed) {
-        if (speed.getAsDouble() > 0) {
-            return canMoveForward();
-        }
-
-        if (speed.getAsDouble() < 0) {
-            return canMoveReverse();
-        }
-
-        return true;
-
-    }
-
-    @Override
-    public Command resetPositionSensorAtReverseLimitCmd() {
-        return new RunCommand(() -> {
-            if (isAtReverseLimit() && m_motor.get() <= 0) {
-                this.resetPositionSensor();
-            }
-        });
-    }
-
-    @Override
-    public Command resetPositionSensorAtForwardLimitCmd() {
-        return new RunCommand(() -> {
-            if (isAtForwardLimit() && m_motor.get() >= 0) {
-                this.resetPositionSensor();
-            }
-        });
-    }
 }
