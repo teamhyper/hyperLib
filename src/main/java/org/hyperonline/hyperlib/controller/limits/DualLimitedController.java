@@ -38,14 +38,15 @@ public class DualLimitedController implements SendableMotorController {
         return this.canMove(speed.getAsDouble());
     }
 
-    // delegate methods to controller classes
-
-    public void move(double speed) {
+    public void move(DoubleSupplier speed) {
         forwardController.move(speed);
     }
 
-    public void move(DoubleSupplier speed) {
-        forwardController.move(speed);
+    // delegate methods to controller classes
+
+    public void move(double speed) {
+        if (speed > 0 && canMoveForward()) forwardController.move(speed);
+        if (speed < 0 && canMoveReverse()) reverseController.move(speed);
     }
 
     public void stop() {
