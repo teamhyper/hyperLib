@@ -2,6 +2,7 @@ package org.hyperonline.hyperlib.controller.groups;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import org.hyperonline.hyperlib.controller.MetaController;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
 
 /**
@@ -13,7 +14,7 @@ import org.hyperonline.hyperlib.controller.SendableMotorController;
  *
  * @author Dheeraj Prakash
  */
-abstract class ControllerGroup<M extends SendableMotorController, S extends SendableMotorController> implements SendableMotorController {
+abstract class ControllerGroup<M extends SendableMotorController, S extends SendableMotorController> implements MetaController<M> {
     protected final M master;
     protected final S slave;
 
@@ -48,6 +49,11 @@ abstract class ControllerGroup<M extends SendableMotorController, S extends Send
     @Override
     public double get() {
         return master.get();
+    }
+
+    @Override
+    public M getController() {
+        return master;
     }
 
     @Override

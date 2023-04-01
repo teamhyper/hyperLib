@@ -1,6 +1,7 @@
 package org.hyperonline.hyperlib.controller.groups;
 
 import org.hyperonline.hyperlib.controller.HYPER_CANSparkMax;
+import org.hyperonline.hyperlib.controller.MetaController;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
 
 /**
@@ -9,7 +10,7 @@ import org.hyperonline.hyperlib.controller.SendableMotorController;
  *
  * @author Dheeraj Prakash
  */
-public class CANSparkMaxGroup extends ControllerGroup<HYPER_CANSparkMax, HYPER_CANSparkMax> implements SendableMotorController {
+public class CANSparkMaxGroup extends ControllerGroup<HYPER_CANSparkMax, HYPER_CANSparkMax> implements MetaController<HYPER_CANSparkMax> {
     public CANSparkMaxGroup(HYPER_CANSparkMax master, HYPER_CANSparkMax slave, boolean invertSlave) {
         super(master, slave);
         slave.follow(master, invertSlave);

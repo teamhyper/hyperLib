@@ -1,6 +1,7 @@
 package org.hyperonline.hyperlib.controller.groups;
 
 import com.ctre.phoenix.motorcontrol.IMotorController;
+import org.hyperonline.hyperlib.controller.MetaController;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
 
 /**
@@ -15,7 +16,7 @@ import org.hyperonline.hyperlib.controller.SendableMotorController;
 public class PhoenixControllerGroup<
         M extends SendableMotorController & IMotorController,
         S extends SendableMotorController & IMotorController
-        > extends ControllerGroup<M, S> implements SendableMotorController {
+        > extends ControllerGroup<M, S> implements MetaController<M> {
     public PhoenixControllerGroup(M master, S slave, boolean invertSlave) {
         super(master, slave);
         slave.follow(master);

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.hyperonline.hyperlib.controller.MetaController;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 
@@ -19,7 +20,7 @@ import java.util.function.DoubleSupplier;
  *
  * @author Dheeraj Prakash
  */
-public class ForwardLimitedController<T extends SendableMotorController> implements SendableMotorController {
+public class ForwardLimitedController<T extends SendableMotorController> implements MetaController<T> {
 
     /**
      * The controller being used
@@ -191,14 +192,6 @@ public class ForwardLimitedController<T extends SendableMotorController> impleme
     }
 
     /**
-     * Get motor controller being used.
-     * @return the controller
-     */
-    public T getController() {
-        return controller;
-    }
-
-    /**
      * Get limit source.
      * @return DigitalInput of the limit switch
      */
@@ -265,5 +258,14 @@ public class ForwardLimitedController<T extends SendableMotorController> impleme
     @Override
     public void stopMotor() {
         controller.stopMotor();
+    }
+
+    /**
+     * Get motor controller being used.
+     * @return the controller
+     */
+    @Override
+    public T getController() {
+        return controller;
     }
 }

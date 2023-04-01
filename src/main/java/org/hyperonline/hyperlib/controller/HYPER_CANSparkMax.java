@@ -24,10 +24,7 @@ import java.util.function.DoubleConsumer;
  *
  * @author Chris McGroarty
  */
-public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorController {
-
-    public DoubleConsumer consumeSpeed = speed -> this.set(speed);
-
+public class HYPER_CANSparkMax extends CANSparkMax implements RawController {
     /**
      * Create a new object to control a SPARK MAX motor Controller.
      *

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.hyperonline.hyperlib.controller.MetaController;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 
@@ -21,7 +22,7 @@ import java.util.function.DoubleSupplier;
  *
  * TODO: write docs for methods (copy from ForwardLimitedController)
  */
-public class ReverseLimitedController<T extends SendableMotorController> implements SendableMotorController {
+public class ReverseLimitedController<T extends SendableMotorController> implements MetaController<T> {
     private final T controller;
     private final DigitalInput limit;
     private final DoublePreference reverseSpeed;
@@ -103,10 +104,6 @@ public class ReverseLimitedController<T extends SendableMotorController> impleme
         return !this.atReverseLimit();
     }
 
-    public T getController() {
-        return controller;
-    }
-
     public DigitalInput getLimit() {
         return limit;
     }
@@ -162,5 +159,10 @@ public class ReverseLimitedController<T extends SendableMotorController> impleme
     @Override
     public void stopMotor() {
         controller.stopMotor();
+    }
+
+    @Override
+    public T getController() {
+        return controller;
     }
 }

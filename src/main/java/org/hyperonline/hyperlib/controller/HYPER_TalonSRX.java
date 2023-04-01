@@ -15,7 +15,7 @@ import java.util.function.DoubleConsumer;
  *
  * @author Chris McGroarty
  */
-public class HYPER_TalonSRX extends WPI_TalonSRX implements SendableMotorController {
+public class HYPER_TalonSRX extends WPI_TalonSRX implements RawController {
 
   private final boolean m_useSensor;
 

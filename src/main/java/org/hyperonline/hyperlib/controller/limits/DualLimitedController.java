@@ -5,9 +5,11 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.hyperonline.hyperlib.controller.MetaController;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 
+import java.util.Map;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -17,7 +19,7 @@ import java.util.function.DoubleSupplier;
  *
  * @author Dheeraj Prakash
  */
-public class DualLimitedController<T extends SendableMotorController> implements SendableMotorController {
+public class DualLimitedController<T extends SendableMotorController> implements MetaController<T> {
     private final T controller;
     private final ForwardLimitedController<T> forwardController;
     private final ReverseLimitedController<T> reverseController;
@@ -146,10 +148,6 @@ public class DualLimitedController<T extends SendableMotorController> implements
         return reverseController.canMoveReverse();
     }
 
-    public T getController() {
-        return forwardController.getController();
-    }
-
     public DigitalInput getForwardLimit() {
         return forwardController.getLimit();
     }
@@ -213,5 +211,10 @@ public class DualLimitedController<T extends SendableMotorController> implements
     @Override
     public void stopMotor() {
         controller.stopMotor();
+    }
+
+    @Override
+    public T getController() {
+        return forwardController.getController();
     }
 }
