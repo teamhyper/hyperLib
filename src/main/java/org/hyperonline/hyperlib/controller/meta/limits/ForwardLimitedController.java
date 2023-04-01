@@ -1,4 +1,4 @@
-package org.hyperonline.hyperlib.controller.limits;
+package org.hyperonline.hyperlib.controller.meta.limits;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import org.hyperonline.hyperlib.controller.MetaController;
+import org.hyperonline.hyperlib.controller.meta.MetaController;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
 import org.hyperonline.hyperlib.pref.DoublePreference;
 

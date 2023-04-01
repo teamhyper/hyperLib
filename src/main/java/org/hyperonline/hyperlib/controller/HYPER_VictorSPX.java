@@ -1,6 +1,7 @@
 package org.hyperonline.hyperlib.controller;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import org.hyperonline.hyperlib.controller.meta.RawController;
 
 import java.util.function.DoubleConsumer;
 

@@ -1,4 +1,6 @@
-package org.hyperonline.hyperlib.controller;
+package org.hyperonline.hyperlib.controller.meta;
+
+import org.hyperonline.hyperlib.controller.SendableMotorController;
 
 /**
  * Interface to represent a raw (not {@link MetaController}) controller.

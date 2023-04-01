@@ -1,6 +1,7 @@
-package org.hyperonline.hyperlib.controller;
+package org.hyperonline.hyperlib.controller.meta;
 
-import org.hyperonline.hyperlib.controller.groups.ControllerGroup;
+import org.hyperonline.hyperlib.controller.SendableMotorController;
+import org.hyperonline.hyperlib.controller.meta.groups.ControllerGroup;
 
 /**
  * Interface that represents a meta-controller as opposed to a raw controller (see HYPER_* classes)

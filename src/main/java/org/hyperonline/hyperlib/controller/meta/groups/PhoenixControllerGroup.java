@@ -1,7 +1,7 @@
-package org.hyperonline.hyperlib.controller.groups;
+package org.hyperonline.hyperlib.controller.meta.groups;
 
 import com.ctre.phoenix.motorcontrol.IMotorController;
-import org.hyperonline.hyperlib.controller.MetaController;
+import org.hyperonline.hyperlib.controller.meta.MetaController;
 import org.hyperonline.hyperlib.controller.SendableMotorController;
 
 /**

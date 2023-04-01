@@ -3,12 +3,11 @@ package org.hyperonline.hyperlib.controller;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.*;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import org.hyperonline.hyperlib.controller.meta.RawController;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxAbsoluteEncoder;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxAnalogSensor;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxLimitSwitch;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxRelativeEncoder;
-
-import java.util.function.DoubleConsumer;
 
 /**
  * wrapper for added behavior on the {@link CANSparkMax}.

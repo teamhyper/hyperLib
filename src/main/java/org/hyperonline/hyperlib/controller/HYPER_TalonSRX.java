@@ -2,6 +2,7 @@ package org.hyperonline.hyperlib.controller;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import org.hyperonline.hyperlib.controller.meta.RawController;
 
 import java.util.function.DoubleConsumer;
 

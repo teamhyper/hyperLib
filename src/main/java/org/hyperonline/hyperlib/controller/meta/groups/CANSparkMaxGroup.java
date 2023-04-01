@@ -1,8 +1,7 @@
-package org.hyperonline.hyperlib.controller.groups;
+package org.hyperonline.hyperlib.controller.meta.groups;
 
 import org.hyperonline.hyperlib.controller.HYPER_CANSparkMax;
-import org.hyperonline.hyperlib.controller.MetaController;
-import org.hyperonline.hyperlib.controller.SendableMotorController;
+import org.hyperonline.hyperlib.controller.meta.MetaController;
 
 /**
  * Class that groups together two {@link HYPER_CANSparkMax}es as master and slave.
