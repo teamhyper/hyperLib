@@ -14,7 +14,7 @@ import org.hyperonline.hyperlib.controller.SendableMotorController;
  *
  * @author Dheeraj Prakash
  */
-abstract class ControllerGroup<M extends SendableMotorController, S extends SendableMotorController> implements MetaController<M> {
+public abstract class ControllerGroup<M extends SendableMotorController, S extends SendableMotorController> implements MetaController<M> {
     protected final M master;
     protected final S slave;
 
