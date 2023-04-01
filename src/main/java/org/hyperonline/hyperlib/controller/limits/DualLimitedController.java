@@ -17,15 +17,15 @@ import java.util.function.DoubleSupplier;
  *
  * @author Dheeraj Prakash
  */
-public class DualLimitedController implements SendableMotorController {
-    private final SendableMotorController controller;
-    private final ForwardLimitedController forwardController;
-    private final ReverseLimitedController reverseController;
+public class DualLimitedController<T extends SendableMotorController> implements SendableMotorController {
+    private final T controller;
+    private final ForwardLimitedController<T> forwardController;
+    private final ReverseLimitedController<T> reverseController;
 
-    public DualLimitedController(SendableMotorController controller, DigitalInput forwardLimit, DigitalInput reverseLimit, DoublePreference forwardSpeed, DoublePreference reverseSpeed, Subsystem subsystem) {
+    public DualLimitedController(T controller, DigitalInput forwardLimit, DigitalInput reverseLimit, DoublePreference forwardSpeed, DoublePreference reverseSpeed) {
         this.controller = controller;
-        this.forwardController = new ForwardLimitedController(controller, forwardLimit, forwardSpeed);
-        this.reverseController = new ReverseLimitedController(controller, reverseLimit, reverseSpeed);
+        this.forwardController = new ForwardLimitedController<>(controller, forwardLimit, forwardSpeed);
+        this.reverseController = new ReverseLimitedController<>(controller, reverseLimit, reverseSpeed);
     }
 
     public void setSubsystem(Subsystem subsystem) {
@@ -146,7 +146,7 @@ public class DualLimitedController implements SendableMotorController {
         return reverseController.canMoveReverse();
     }
 
-    public SendableMotorController getController() {
+    public T getController() {
         return forwardController.getController();
     }
 

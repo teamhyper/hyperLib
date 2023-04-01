@@ -19,12 +19,12 @@ import java.util.function.DoubleSupplier;
  *
  * @author Dheeraj Prakash
  */
-public class ForwardLimitedController implements SendableMotorController {
+public class ForwardLimitedController<T extends SendableMotorController> implements SendableMotorController {
 
     /**
      * The controller being used
      */
-    private final SendableMotorController controller;
+    private final T controller;
 
     /**
      * The limit switch to stop at
@@ -48,7 +48,7 @@ public class ForwardLimitedController implements SendableMotorController {
      * @param limit the forward limit switch
      * @param forwardSpeed the speed preference to move at
      */
-    public ForwardLimitedController(SendableMotorController controller, DigitalInput limit, DoublePreference forwardSpeed) {
+    public ForwardLimitedController(T controller, DigitalInput limit, DoublePreference forwardSpeed) {
         this.controller = controller;
         this.limit = limit;
         this.forwardSpeed = forwardSpeed;
@@ -194,7 +194,7 @@ public class ForwardLimitedController implements SendableMotorController {
      * Get motor controller being used.
      * @return the controller
      */
-    public SendableMotorController getController() {
+    public T getController() {
         return controller;
     }
 

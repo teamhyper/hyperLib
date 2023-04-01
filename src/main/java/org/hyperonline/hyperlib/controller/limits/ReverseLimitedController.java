@@ -21,13 +21,13 @@ import java.util.function.DoubleSupplier;
  *
  * TODO: write docs for methods (copy from ForwardLimitedController)
  */
-public class ReverseLimitedController implements SendableMotorController {
-    private final SendableMotorController controller;
+public class ReverseLimitedController<T extends SendableMotorController> implements SendableMotorController {
+    private final T controller;
     private final DigitalInput limit;
     private final DoublePreference reverseSpeed;
     private Subsystem subsystem;
 
-    public ReverseLimitedController(SendableMotorController controller, DigitalInput limit, DoublePreference forwardSpeed) {
+    public ReverseLimitedController(T controller, DigitalInput limit, DoublePreference forwardSpeed) {
         this.controller = controller;
         this.limit = limit;
         this.reverseSpeed = forwardSpeed;
@@ -103,7 +103,7 @@ public class ReverseLimitedController implements SendableMotorController {
         return !this.atReverseLimit();
     }
 
-    public SendableMotorController getController() {
+    public T getController() {
         return controller;
     }
 
