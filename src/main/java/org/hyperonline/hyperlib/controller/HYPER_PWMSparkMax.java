@@ -2,8 +2,9 @@ package org.hyperonline.hyperlib.controller;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import org.hyperonline.hyperlib.controller.meta.RawController;
 
-public class HYPER_PWMSparkMax extends PWMSparkMax implements SendableMotorController {
+public class HYPER_PWMSparkMax extends PWMSparkMax implements RawController {
     /**
      * Common initialization code called by all constructors.
      *

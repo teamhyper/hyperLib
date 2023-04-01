@@ -2,6 +2,7 @@ package org.hyperonline.hyperlib.controller;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import org.hyperonline.hyperlib.controller.meta.RawController;
 
 import java.util.function.DoubleConsumer;
 
@@ -15,7 +16,7 @@ import java.util.function.DoubleConsumer;
  *
  * @author Chris McGroarty
  */
-public class HYPER_TalonSRX extends WPI_TalonSRX implements SendableMotorController {
+public class HYPER_TalonSRX extends WPI_TalonSRX implements RawController {
 
   private final boolean m_useSensor;
 

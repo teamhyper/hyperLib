@@ -129,41 +129,4 @@ abstract class PreferenceMotorSubsystem<MotorType extends Sendable> extends Pref
     public Command resetPositionSensorCmd() {
         return new InstantCommand(this::resetPositionSensor);
     }
-
-    public abstract boolean isAtForwardLimit();
-
-
-    public boolean canMoveForward() {
-        return !isAtForwardLimit();
-    }
-
-    public boolean canMoveReverse() {
-        return !isAtReverseLimit();
-    }
-
-    public abstract boolean isAtReverseLimit();
-
-    public Command resetPositionSensorAtReverseLimitCmd() {
-        return new RunCommand(() -> {
-            if (isAtReverseLimit()) {
-                this.resetPositionSensor();
-            }
-        });
-    }
-
-    public Command resetPositionSensorAtForwardLimitCmd() {
-        return new RunCommand(() -> {
-            if (isAtForwardLimit()) {
-                this.resetPositionSensor();
-            }
-        });
-    }
-
-    public Command moveAllWayReverseCmd() {
-        return this.reverseCmd().until(this::isAtReverseLimit);
-    }
-
-    public Command moveAllWayForwardCmd() {
-        return this.forwardCmd().until(this::isAtForwardLimit);
-    }
 }

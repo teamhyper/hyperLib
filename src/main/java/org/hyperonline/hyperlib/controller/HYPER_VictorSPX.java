@@ -1,6 +1,7 @@
 package org.hyperonline.hyperlib.controller;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import org.hyperonline.hyperlib.controller.meta.RawController;
 
 import java.util.function.DoubleConsumer;
 
@@ -14,7 +15,7 @@ import java.util.function.DoubleConsumer;
  *
  * @author Chris McGroarty
  */
-public class HYPER_VictorSPX extends WPI_VictorSPX implements SendableMotorController {
+public class HYPER_VictorSPX extends WPI_VictorSPX implements RawController {
   public DoubleConsumer consumeSpeed = speed -> this.set(speed);
 
   /**
