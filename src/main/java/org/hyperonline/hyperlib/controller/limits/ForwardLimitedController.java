@@ -39,7 +39,7 @@ public class ForwardLimitedController implements SendableMotorController {
     /**
      * The subsystem the controller is being attached to
      */
-    private final Subsystem subsystem;
+    private Subsystem subsystem;
 
 
     /**
@@ -47,12 +47,15 @@ public class ForwardLimitedController implements SendableMotorController {
      * @param controller the controller to limit
      * @param limit the forward limit switch
      * @param forwardSpeed the speed preference to move at
-     * @param subsystem the subsystem the controller belongs to (to set requirement for commands)
      */
-    public ForwardLimitedController(SendableMotorController controller, DigitalInput limit, DoublePreference forwardSpeed, Subsystem subsystem) {
+    public ForwardLimitedController(SendableMotorController controller, DigitalInput limit, DoublePreference forwardSpeed) {
         this.controller = controller;
         this.limit = limit;
         this.forwardSpeed = forwardSpeed;
+    }
+
+    public void setSubsystem(Subsystem subsystem) {
+        if (this.subsystem != null) throw new UnsupportedOperationException("Cannot replace already set subsystem.");
         this.subsystem = subsystem;
     }
 

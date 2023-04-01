@@ -25,12 +25,16 @@ public class ReverseLimitedController implements SendableMotorController {
     private final SendableMotorController controller;
     private final DigitalInput limit;
     private final DoublePreference reverseSpeed;
-    private final Subsystem subsystem;
+    private Subsystem subsystem;
 
-    public ReverseLimitedController(SendableMotorController controller, DigitalInput limit, DoublePreference forwardSpeed, Subsystem subsystem) {
+    public ReverseLimitedController(SendableMotorController controller, DigitalInput limit, DoublePreference forwardSpeed) {
         this.controller = controller;
         this.limit = limit;
         this.reverseSpeed = forwardSpeed;
+    }
+
+    public void setSubsystem(Subsystem subsystem) {
+        if (this.subsystem != null) throw new UnsupportedOperationException("Cannot replace already set subsystem.");
         this.subsystem = subsystem;
     }
 

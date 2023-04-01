@@ -24,8 +24,13 @@ public class DualLimitedController implements SendableMotorController {
 
     public DualLimitedController(SendableMotorController controller, DigitalInput forwardLimit, DigitalInput reverseLimit, DoublePreference forwardSpeed, DoublePreference reverseSpeed, Subsystem subsystem) {
         this.controller = controller;
-        this.forwardController = new ForwardLimitedController(controller, forwardLimit, forwardSpeed, subsystem);
-        this.reverseController = new ReverseLimitedController(controller, reverseLimit, reverseSpeed, subsystem);
+        this.forwardController = new ForwardLimitedController(controller, forwardLimit, forwardSpeed);
+        this.reverseController = new ReverseLimitedController(controller, reverseLimit, reverseSpeed);
+    }
+
+    public void setSubsystem(Subsystem subsystem) {
+        forwardController.setSubsystem(subsystem);
+        reverseController.setSubsystem(subsystem);
     }
 
     public boolean canMove(double speed) {
