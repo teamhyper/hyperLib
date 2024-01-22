@@ -1,7 +1,7 @@
 package org.hyperonline.hyperlib.pid.rev;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import org.hyperonline.hyperlib.controller.HYPER_CANSparkMax;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_CANSensorSendable;
@@ -59,9 +59,9 @@ public class SparkMaxPID extends PrefPIDController {
             double maxVel,
             double minVel,
             double maxAcc,
-            SparkMaxPIDController.AccelStrategy accelStrategy) {
+            SparkPIDController.AccelStrategy accelStrategy) {
         if (m_controlType == CANSparkMax.ControlType.kSmartMotion) {
-            if (accelStrategy == SparkMaxPIDController.AccelStrategy.kTrapezoidal) {
+            if (accelStrategy == SparkPIDController.AccelStrategy.kTrapezoidal) {
                 useSmartMotion = true;
 
                 m_smartMinVel = m_prefs.addDouble("SmartMotion Min Velocity", minVel);
@@ -89,7 +89,7 @@ public class SparkMaxPID extends PrefPIDController {
     public void initSmartMotionProfile(
             double maxVel, double minVel, double maxAcc) {
         initSmartMotionProfile(
-                maxVel, minVel, maxAcc, SparkMaxPIDController.AccelStrategy.kTrapezoidal);
+                maxVel, minVel, maxAcc, SparkPIDController.AccelStrategy.kTrapezoidal);
     }
 
     public void setSetpoint(double setpoint) {

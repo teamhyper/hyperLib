@@ -2,9 +2,9 @@ package org.hyperonline.hyperlib.controller;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkAnalogSensor;
 import com.revrobotics.SparkLimitSwitch;
-import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkRelativeEncoder;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -155,7 +155,7 @@ public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorContr
      * @param encoderType The encoder type for the motor: currently only kDutyCycle
      * @return An object for interfacing with a connected absolute encoder
      */
-    public HYPER_SparkMaxAbsoluteEncoder getAbsoluteEncoderSendable(SparkMaxAbsoluteEncoder.Type encoderType) {
+    public HYPER_SparkMaxAbsoluteEncoder getAbsoluteEncoderSendable(SparkAbsoluteEncoder.Type encoderType) {
         return new HYPER_SparkMaxAbsoluteEncoder(getAbsoluteEncoder(encoderType));
     }
 
