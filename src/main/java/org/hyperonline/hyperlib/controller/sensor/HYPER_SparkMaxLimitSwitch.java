@@ -1,12 +1,11 @@
 package org.hyperonline.hyperlib.controller.sensor;
 
 import com.revrobotics.SparkLimitSwitch;
-import com.revrobotics.SparkMaxLimitSwitch;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
 /**
- * wrapper for added behavior on the {@link SparkMaxLimitSwitch}.
+ * wrapper for added behavior on the {@link SparkLimitSwitch}.
  *
  * <strong>added behavior</strong>
  * <ul>

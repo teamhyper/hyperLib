@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class PeriodicScheduler {
 
   private static PeriodicScheduler theInstance;
-  private ArrayList<Runnable> events = new ArrayList<Runnable>();
+  private ArrayList<Runnable> events = new ArrayList<>();
 
   private PeriodicScheduler() {}
 
@@ -60,8 +60,8 @@ public class PeriodicScheduler {
      * If we use an iterator, then calling addEvent from an event itself
      * will cause a ConcurrentModificationException
      */
-    for (int i = 0; i < events.size(); i++) {
-      events.get(i).run();
+    for (Runnable event : events) {
+      event.run();
     }
   }
 }

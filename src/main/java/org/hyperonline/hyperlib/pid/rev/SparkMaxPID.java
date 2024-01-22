@@ -17,7 +17,7 @@ public class SparkMaxPID extends PrefPIDController {
     private double m_setPoint;
     private CANSparkMax.ControlType m_controlType;
     private HYPER_CANSensorSendable m_sensor;
-    private SparkMaxPIDController m_pidController;
+    private SparkPIDController m_pidController;
     private int m_pidSlot;
 
     private boolean useSmartMotion = false;
@@ -119,16 +119,11 @@ public class SparkMaxPID extends PrefPIDController {
 
     @Override
     public double getFromSource() {
-        switch (m_controlType) {
-            case kVelocity:
-            case kSmartVelocity:
-                return nativeToFriendly(m_sensor.getVelocity());
-            case kPosition:
-            case kSmartMotion:
-                return nativeToFriendly(m_sensor.getPosition());
-            default:
-                return 0.0;
-        }
+        return switch (m_controlType) {
+            case kVelocity, kSmartVelocity -> nativeToFriendly(m_sensor.getVelocity());
+            case kPosition, kSmartMotion -> nativeToFriendly(m_sensor.getPosition());
+            default -> 0.0;
+        };
     }
 
     @Override

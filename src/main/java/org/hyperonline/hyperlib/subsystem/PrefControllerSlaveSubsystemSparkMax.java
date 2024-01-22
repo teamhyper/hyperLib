@@ -1,6 +1,6 @@
 package org.hyperonline.hyperlib.subsystem;
 
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkLowLevel;
 import org.hyperonline.hyperlib.controller.HYPER_CANSparkMax;
 
 /**
@@ -49,10 +49,10 @@ public abstract class PrefControllerSlaveSubsystemSparkMax
   protected void configMotor() {
     super.configMotor();
 
-    m_motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 500);
-    m_motor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 500);
-    m_slaveMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 10);
-    m_slaveMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 500);
-    m_slaveMotor.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 500);
+    m_motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 500);
+    m_motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 500);
+    m_slaveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 10);
+    m_slaveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 500);
+    m_slaveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 500);
   }
 }

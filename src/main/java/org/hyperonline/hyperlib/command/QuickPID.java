@@ -1,7 +1,6 @@
 package org.hyperonline.hyperlib.command;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -24,7 +23,7 @@ public class QuickPID {
      * @return The newly created {@link Command}
      */
     public static Command pidMove(Subsystem req, PIDControlled pid, double setPoint, boolean hold) {
-        return new CommandBase() {
+        return new Command() {
             {
                 if (req != null) // not sure when we're going to use pid outside
                     // a subsystem lol
@@ -67,7 +66,7 @@ public class QuickPID {
      */
     public static Command pidMoveWithStop(
             Subsystem req, PIDControlled pid, double setPoint, BooleanSupplier stop) {
-        return new CommandBase() {
+        return new Command() {
             {
                 if (req != null) // not sure when we're going to use pid outside
                     // a subsystem lol
@@ -110,7 +109,7 @@ public class QuickPID {
      */
     public static Command pidMoveWithPause(
             Subsystem req, PIDControlled pid, double setPoint, BooleanSupplier pause) {
-        return new CommandBase() {
+        return new Command() {
             {
                 if (req != null) // not sure when we're going to use pid outside
                     // a subsystem lol
@@ -159,7 +158,7 @@ public class QuickPID {
      */
     public static Command pidMove(
             Subsystem req, PIDControlled pid, DoubleSupplier setPoint, boolean hold) {
-        return new CommandBase() {
+        return new Command() {
             {
                 if (req != null) // not sure when we're going to use pid outside
                     // a subsystem lol
@@ -202,7 +201,7 @@ public class QuickPID {
      */
     public static Command pidMoveContinuous(
             Subsystem req, PIDControlled pid, DoubleSupplier setPoint, boolean hold) {
-        return new CommandBase() {
+        return new Command() {
             {
                 if (req != null) // not sure when we're going to use pid outside
                     // a subsystem lol
@@ -257,7 +256,7 @@ public class QuickPID {
      * @return The newly created command
      */
     public static Command pidHold(Subsystem req, PIDControlled pid, BooleanSupplier interrupt) {
-        return new CommandBase() {
+        return new Command() {
             {
                 if (req != null) addRequirements(req);
             }
@@ -300,7 +299,7 @@ public class QuickPID {
      */
     public static Command pidMoveUnder(
             Subsystem req, PIDControlled pid, double target, boolean hold) {
-        return new CommandBase() {
+        return new Command() {
             {
                 if (req != null) // not sure when we're going to use pid outside
                     // a subsystem lol
@@ -344,7 +343,7 @@ public class QuickPID {
      * @return The newly created {@link Command}
      */
     public static Command pidMoveOver(Subsystem req, PIDControlled pid, double target, boolean hold) {
-        return new CommandBase() {
+        return new Command() {
             {
                 if (req != null) // not sure when we're going to use pid outside
                     // a subsystem lol

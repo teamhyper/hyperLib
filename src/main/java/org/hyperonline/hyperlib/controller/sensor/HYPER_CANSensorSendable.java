@@ -5,7 +5,7 @@ import com.revrobotics.REVLibError;
 import edu.wpi.first.util.sendable.Sendable;
 
 /**
- * annoyingly in REVLib the {@link com.revrobotics.SparkMaxRelativeEncoder}, {@link com.revrobotics.SparkMaxAlternateEncoder}, and {@link com.revrobotics.SparkMaxAnalogSensor} do not share a common ancestor,
+ * annoyingly in REVLib the {@link com.revrobotics.SparkRelativeEncoder}, {@link com.revrobotics.SparkMaxAlternateEncoder}, and {@link com.revrobotics.SparkAnalogSensor} do not share a common ancestor,
  * even though all implement getPosition, getVelocity, setPositionConversionFactor, setVelocityConversionFactor, setInverted.
  *
  * this is a work-around to allow the {@link org.hyperonline.hyperlib.pid.rev.SparkMaxPID} to receive any of the 3 sensors types without needing additional PID classes per sensor type

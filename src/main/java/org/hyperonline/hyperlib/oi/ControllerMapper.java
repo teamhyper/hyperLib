@@ -31,16 +31,11 @@ public class ControllerMapper {
     BufferedImage img = null;
 
     switch (joystick.type()) {
-      case LOGITECH_2_AXIS:
-        img = draw2Axis(joystick);
-        break;
-      case LOGITECH_3_AXIS:
-        img = draw3Axis(joystick);
-        break;
-      default:
-        System.err.printf(
-            "On joystick %s: type %s is not recognized, so no diagram",
-            joystick.name(), joystick.type());
+      case LOGITECH_2_AXIS -> img = draw2Axis(joystick);
+      case LOGITECH_3_AXIS -> img = draw3Axis(joystick);
+      default -> System.err.printf(
+              "On joystick %s: type %s is not recognized, so no diagram",
+              joystick.name(), joystick.type());
     }
 
     // img is null if new enum types are added

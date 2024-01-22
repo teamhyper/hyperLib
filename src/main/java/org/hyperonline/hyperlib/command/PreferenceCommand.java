@@ -1,10 +1,10 @@
 package org.hyperonline.hyperlib.command;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import org.hyperonline.hyperlib.pref.PreferencesListener;
 import org.hyperonline.hyperlib.pref.PreferencesSet;
 
-public abstract class PreferenceCommand extends CommandBase implements PreferencesListener {
+public abstract class PreferenceCommand extends Command implements PreferencesListener {
   protected PreferencesSet m_prefs;
 
   public PreferenceCommand(String name) {

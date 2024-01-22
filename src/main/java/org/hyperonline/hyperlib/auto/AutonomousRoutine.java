@@ -124,11 +124,11 @@ public abstract class AutonomousRoutine implements NTSendable {
   }
 
   String[] getPreferenceNames() {
-    return m_prefs.stream().map(pref -> pref.getName()).toArray(String[]::new);
+    return m_prefs.stream().map(AutonomousPreference::getName).toArray(String[]::new);
   }
 
   String[] getSubroutineNames() {
-    return m_subroutines.stream().map(rtn -> rtn.getName()).toArray(String[]::new);
+    return m_subroutines.stream().map(AutonomousRoutine::getName).toArray(String[]::new);
   }
 
   /**

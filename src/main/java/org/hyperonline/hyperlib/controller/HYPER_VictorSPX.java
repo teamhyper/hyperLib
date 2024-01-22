@@ -15,7 +15,7 @@ import java.util.function.DoubleConsumer;
  * @author Chris McGroarty
  */
 public class HYPER_VictorSPX extends WPI_VictorSPX implements SendableMotorController {
-  public DoubleConsumer consumeSpeed = speed -> this.set(speed);
+  public DoubleConsumer consumeSpeed = this::set;
 
   /**
    * Constructor for motor controller

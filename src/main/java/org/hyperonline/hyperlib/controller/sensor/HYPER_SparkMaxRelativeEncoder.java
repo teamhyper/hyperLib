@@ -10,7 +10,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
  *
  * <strong>added behavior</strong>
  * <ul>
- *     <li>make a {@link com.revrobotics.SparkMaxRelativeEncoder} or {@link com.revrobotics.SparkMaxAlternateEncoder} sendable for use with shuffleboard</li>
+ *     <li>make a {@link com.revrobotics.SparkRelativeEncoder} or {@link com.revrobotics.SparkMaxAlternateEncoder} sendable for use with shuffleboard</li>
  *     <li>automatically add datapoints to LiveWindow</li>
  * </ul>
  *

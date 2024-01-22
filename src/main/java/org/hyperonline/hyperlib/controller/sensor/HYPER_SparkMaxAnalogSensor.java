@@ -3,11 +3,10 @@ package org.hyperonline.hyperlib.controller.sensor;
 import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkAnalogSensor;
-import com.revrobotics.SparkMaxAnalogSensor;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
 /**
- * wrapper for added behavior on the {@link SparkMaxAnalogSensor}.
+ * wrapper for added behavior on the {@link SparkAnalogSensor}.
  *
  * <strong>added behavior</strong>
  * <ul>

@@ -19,7 +19,7 @@ public class HYPER_TalonSRX extends WPI_TalonSRX implements SendableMotorControl
 
   private final boolean m_useSensor;
 
-  public DoubleConsumer consumeSpeed = speed -> this.set(speed);
+  public DoubleConsumer consumeSpeed = this::set;
 
   /**
    * Constructor for motor controller

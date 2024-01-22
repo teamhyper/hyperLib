@@ -198,7 +198,7 @@ public class OI<LD extends GenericHID, RD extends GenericHID, LO extends Generic
   }
 
   private ControllerData createDataFromMap(MapController annotation, Class<?> cls) {
-    ArrayList<ButtonData> buttons = new ArrayList<ButtonData>();
+    ArrayList<ButtonData> buttons = new ArrayList<>();
     for (Field f : cls.getFields()) {
       WhenPressed wp = f.getAnnotation(WhenPressed.class);
       WhenReleased wr = f.getAnnotation(WhenReleased.class);
