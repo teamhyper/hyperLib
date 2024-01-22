@@ -17,7 +17,7 @@ import java.util.function.Supplier;
  * @author James Hagborg
  *
  */
-public class JustInTimeCommand implements Command {
+public class JustInTimeCommand extends Command {
 
 	private final Supplier<Command> m_getCommand;
 	private final Set<Subsystem> m_requirements;
@@ -29,7 +29,6 @@ public class JustInTimeCommand implements Command {
 		m_requirements = Set.of(requirements);
 	}
 
-	@Override
 	public void initialize() {
 		m_command = m_getCommand.get();
 		m_command.initialize();

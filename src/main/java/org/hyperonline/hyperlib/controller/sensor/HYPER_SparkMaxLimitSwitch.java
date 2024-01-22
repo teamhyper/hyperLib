@@ -1,5 +1,6 @@
 package org.hyperonline.hyperlib.controller.sensor;
 
+import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkMaxLimitSwitch;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -15,7 +16,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
  *
  * @author Chris McGroarty
  */
-public record HYPER_SparkMaxLimitSwitch(SparkMaxLimitSwitch limitSwitch) implements Sendable {
+public record HYPER_SparkMaxLimitSwitch(SparkLimitSwitch limitSwitch) implements Sendable {
 
   @Override
   public void initSendable(SendableBuilder builder) {

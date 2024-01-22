@@ -1,7 +1,12 @@
 package org.hyperonline.hyperlib.controller;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.revrobotics.*;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkAnalogSensor;
+import com.revrobotics.SparkLimitSwitch;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
+import com.revrobotics.SparkRelativeEncoder;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxAbsoluteEncoder;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxAnalogSensor;
@@ -82,7 +87,7 @@ public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorContr
      * @return An object for interfacing with the integrated encoder.
      */
     public HYPER_SparkMaxRelativeEncoder getEncoderSendable() {
-        return getEncoderSendable(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+        return getEncoderSendable(SparkRelativeEncoder.Type.kHallSensor, 42);
     }
 
     /**
@@ -97,7 +102,7 @@ public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorContr
      * @return An object for interfacing with an encoder
      */
     public HYPER_SparkMaxRelativeEncoder getEncoderSendable(
-            SparkMaxRelativeEncoder.Type sensorType, int countsPerRev) {
+            SparkRelativeEncoder.Type sensorType, int countsPerRev) {
         return new HYPER_SparkMaxRelativeEncoder(getEncoder(sensorType, countsPerRev));
     }
 
@@ -160,7 +165,7 @@ public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorContr
      * @param mode The mode of the analog sensor, either absolute or relative
      * @return An object for interfacing with a connected analog sensor.
      */
-    public HYPER_SparkMaxAnalogSensor getAnalogSendable(SparkMaxAnalogSensor.Mode mode) {
+    public HYPER_SparkMaxAnalogSensor getAnalogSendable(SparkAnalogSensor.Mode mode) {
         return new HYPER_SparkMaxAnalogSensor(getAnalog(mode));
     }
 
@@ -174,7 +179,7 @@ public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorContr
      * @return An object for interfacing with the forward limit switch.
      */
     public HYPER_SparkMaxLimitSwitch getForwardLimitSwitchSendable(
-            SparkMaxLimitSwitch.Type switchType) {
+            SparkLimitSwitch.Type switchType) {
         return new HYPER_SparkMaxLimitSwitch(getForwardLimitSwitch(switchType));
     }
 
@@ -188,7 +193,7 @@ public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorContr
      * @return An object for interfacing with the reverse limit switch.
      */
     public HYPER_SparkMaxLimitSwitch getReverseLimitSwitchSendable(
-            SparkMaxLimitSwitch.Type switchType) {
+            SparkLimitSwitch.Type switchType) {
         return new HYPER_SparkMaxLimitSwitch(getReverseLimitSwitch(switchType));
     }
 }
