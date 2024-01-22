@@ -4,10 +4,17 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import org.hyperonline.hyperlib.oi.*;
+import org.hyperonline.hyperlib.oi.BadOIMapException;
+import org.hyperonline.hyperlib.oi.ButtonData;
 import org.hyperonline.hyperlib.oi.ButtonData.Action;
+import org.hyperonline.hyperlib.oi.ControllerData;
+import org.hyperonline.hyperlib.oi.MapController;
 import org.hyperonline.hyperlib.oi.MapController.Role;
 import org.hyperonline.hyperlib.oi.MapController.Type;
+import org.hyperonline.hyperlib.oi.OI;
+import org.hyperonline.hyperlib.oi.WhenPressed;
+import org.hyperonline.hyperlib.oi.WhenReleased;
+import org.hyperonline.hyperlib.oi.WhileHeld;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
