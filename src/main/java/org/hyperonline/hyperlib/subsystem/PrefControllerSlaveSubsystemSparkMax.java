@@ -13,7 +13,7 @@ public abstract class PrefControllerSlaveSubsystemSparkMax
    */
   protected PrefControllerSlaveSubsystemSparkMax(
       HYPER_CANSparkMax masterMotor, HYPER_CANSparkMax slaveMotor, boolean inverted) {
-    this(null, masterMotor, slaveMotor, inverted);
+    super(masterMotor, slaveMotor, inverted);
   }
   /**
    * {@inheritDoc}

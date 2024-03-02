@@ -6,7 +6,7 @@ public abstract class PreferenceRelaySubsystem extends PreferenceMotorSubsystem<
     protected Relay m_motor;
 
     public PreferenceRelaySubsystem(Relay motor) {
-        this(null, motor);
+        super(motor);
     }
 
     public PreferenceRelaySubsystem(String name, Relay motor) {

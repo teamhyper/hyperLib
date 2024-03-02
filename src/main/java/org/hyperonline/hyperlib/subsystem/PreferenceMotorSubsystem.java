@@ -13,8 +13,11 @@ abstract class PreferenceMotorSubsystem<MotorType extends Sendable> extends Pref
 
     protected MotorType m_motor;
 
-    public PreferenceMotorSubsystem() {
-        super(null);
+    public PreferenceMotorSubsystem(MotorType motor) {
+        super();
+        m_motor = motor;
+        this.addChild("Motor", m_motor);
+        this.setDefaultCommand(this.stopCmd());
     }
 
     public PreferenceMotorSubsystem(String name, MotorType motor) {

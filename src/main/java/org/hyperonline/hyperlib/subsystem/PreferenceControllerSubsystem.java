@@ -28,7 +28,7 @@ public abstract class PreferenceControllerSubsystem<MotorType extends SendableMo
      * @param motor the motor to use in the subsystem
      */
     protected PreferenceControllerSubsystem(MotorType motor) {
-        this(null, motor);
+        super(motor);
     }
 
     /**

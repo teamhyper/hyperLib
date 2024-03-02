@@ -15,61 +15,63 @@ import java.util.stream.Stream;
  * @author Chris McGroarty
  */
 public abstract class PreferenceSubsystem extends SubsystemBase
-    implements PreferencesListener, HasPreferences {
-  protected PreferencesSet m_prefs;
-  protected BooleanPreference m_telemetryEnabled;
-  private boolean m_isTelemetryEnabled;
+        implements PreferencesListener, HasPreferences {
+    protected PreferencesSet m_prefs;
+    protected BooleanPreference m_telemetryEnabled;
+    private boolean m_isTelemetryEnabled;
 
-  protected PreferenceSubsystem() {
-    this(null);
-  }
-
-  /**
-   * @param name string to use as the Subsystem's name
-   */
-  protected PreferenceSubsystem(String name) {
-    super();
-    m_prefs = new PreferencesSet(name == null ? super.getName() : name, this);
-    this.initMyPreferences();
-  }
-
-  private void setTelemetryEnabled(boolean enabled) {
-    if (enabled != m_isTelemetryEnabled) {
-      m_isTelemetryEnabled = enabled;
-      if (m_isTelemetryEnabled) onTelemetryEnable();
-      else onTelemetryDisable();
+    protected PreferenceSubsystem() {
+        super();
+        m_prefs = new PreferencesSet(super.getName(), this);
+        this.initMyPreferences();
     }
-  }
 
-  /**
-   * runs when preferences in this PreferencesSet are updated always call
-   * super.onPreferencesUpdated() when overriding, so the telemetry pref is correctly configured
-   */
-  public void onPreferencesUpdated() {
-    this.setTelemetryEnabled(m_telemetryEnabled.get());
-  }
+    /**
+     * @param name string to use as the Subsystem's name
+     */
+    protected PreferenceSubsystem(String name) {
+        super(name);
+        m_prefs = new PreferencesSet(name, this);
+        this.initMyPreferences();
+    }
 
-  private void initMyPreferences() {
-    m_telemetryEnabled = m_prefs.addBoolean("LiveWindow Telemetry", false);
-    this.setTelemetryEnabled(m_telemetryEnabled.get());
-    this.initPreferences();
-  }
+    private void setTelemetryEnabled(boolean enabled) {
+        if (enabled != m_isTelemetryEnabled) {
+            m_isTelemetryEnabled = enabled;
+            if (m_isTelemetryEnabled) onTelemetryEnable();
+            else onTelemetryDisable();
+        }
+    }
 
-  protected void onTelemetryEnable() {
-    applyToSendables(LiveWindow::enableTelemetry);
-  }
+    /**
+     * runs when preferences in this PreferencesSet are updated always call
+     * super.onPreferencesUpdated() when overriding, so the telemetry pref is correctly configured
+     */
+    public void onPreferencesUpdated() {
+        this.setTelemetryEnabled(m_telemetryEnabled.get());
+    }
 
-  protected void onTelemetryDisable() {
-    applyToSendables(LiveWindow::disableTelemetry);
-  }
+    private void initMyPreferences() {
+        m_telemetryEnabled = m_prefs.addBoolean("LiveWindow Telemetry", false);
+        this.setTelemetryEnabled(m_telemetryEnabled.get());
+        this.initPreferences();
+    }
 
-  public abstract void initPreferences();
+    protected void onTelemetryEnable() {
+        applyToSendables(LiveWindow::enableTelemetry);
+    }
 
-  protected Stream<Sendable> getSendables() {
-    return Stream.of(this);
-  }
+    protected void onTelemetryDisable() {
+        applyToSendables(LiveWindow::disableTelemetry);
+    }
 
-  protected void applyToSendables(Consumer<Sendable> sendableConsumer) {
-    getSendables().forEach(sendableConsumer);
-  }
+    public abstract void initPreferences();
+
+    protected Stream<Sendable> getSendables() {
+        return Stream.of(this);
+    }
+
+    protected void applyToSendables(Consumer<Sendable> sendableConsumer) {
+        getSendables().forEach(sendableConsumer);
+    }
 }

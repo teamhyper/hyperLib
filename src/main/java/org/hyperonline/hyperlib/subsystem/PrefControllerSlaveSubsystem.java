@@ -24,7 +24,10 @@ public abstract class PrefControllerSlaveSubsystem<
    */
   protected PrefControllerSlaveSubsystem(
           MasterMotorType masterMotor, SlaveMotorType slaveMotor, boolean inverted) {
-    this(null, masterMotor, slaveMotor, inverted);
+    super(masterMotor);
+    m_slaveMotor = slaveMotor;
+    this.addChild("Slave Motor", m_slaveMotor);
+    m_invertedSlave = inverted;
   }
 
   /**
