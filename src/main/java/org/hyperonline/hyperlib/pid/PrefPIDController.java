@@ -126,7 +126,7 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
     builder.addBooleanProperty("On Target", this::onTarget, null);
     builder.addDoubleProperty("Friendly Value", this::getFromSource, null);
     builder.addDoubleProperty("Native Value", () -> friendlyToNative(this.getFromSource()), null);
-    builder.addDoubleProperty("Friendly Value from Offset", m_pidOffsetBase::getAsDouble, null);
+    builder.addDoubleProperty("Offset Value", m_pidOffsetBase, null);
   }
 
   protected abstract void setSmartDashboardType(SendableBuilder builder);
