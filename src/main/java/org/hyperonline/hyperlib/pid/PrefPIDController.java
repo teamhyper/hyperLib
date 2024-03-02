@@ -6,10 +6,14 @@ import org.hyperonline.hyperlib.pref.DoublePreference;
 import org.hyperonline.hyperlib.pref.PreferencesListener;
 import org.hyperonline.hyperlib.pref.PreferencesSet;
 
+import java.util.function.DoubleSupplier;
+
 public abstract class PrefPIDController implements PIDControlled, PreferencesListener, Sendable {
   protected PreferencesSet m_prefs;
   protected final DoublePreference m_P_pref, m_I_pref, m_D_pref, m_tolerance_pref;
   protected DoublePreference m_minOut_pref, m_maxOut_pref;
+
+  protected DoubleSupplier m_pidOffsetBase = () -> 0;
   protected double m_minOut = -1, m_maxOut = 1;
   protected boolean m_enabled = false;
   protected double m_conversionFactor = 1;
@@ -47,6 +51,10 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
     } else {
       m_maxOut = 1;
     }
+  }
+
+  public void setOffset(DoubleSupplier offset) {
+    this.m_pidOffsetBase = offset;
   }
 
   public void setConversionFactor(double factor) {
@@ -118,6 +126,7 @@ public abstract class PrefPIDController implements PIDControlled, PreferencesLis
     builder.addBooleanProperty("On Target", this::onTarget, null);
     builder.addDoubleProperty("Friendly Value", this::getFromSource, null);
     builder.addDoubleProperty("Native Value", () -> friendlyToNative(this.getFromSource()), null);
+    builder.addDoubleProperty("Friendly Value from Offset", m_pidOffsetBase::getAsDouble, null);
   }
 
   protected abstract void setSmartDashboardType(SendableBuilder builder);
