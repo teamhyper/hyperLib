@@ -1,0 +1,20 @@
+{
+  "fileName": "hyperlib.json",
+  "name": "hyperLib",
+  "version": "2024",
+  "frcYear": 2024,
+  "uuid": "1655eae7-2e5d-4e2f-902b-8bb67ff2177d",
+  "mavenUrls": [
+    "https://hyperlib.hyperonline.org/"
+  ],
+  "jsonUrl": "https://hyperlib.hyperonline.org/hyperlib.json",
+  "javaDependencies": [
+    {
+      "groupId": "org.hyperonline",
+      "artifactId": "hyperlib",
+      "version": "[2024.2.3-beta-3, 2025)"
+    }
+  ],
+  "jniDependencies": [],
+  "cppDependencies": []
+}
