@@ -11,12 +11,12 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-def WPILIB_VER = '2024.3.1'
+def WPILIB_VER = '2024.3.2'
 def NTCORE_VER = WPILIB_VER
 def WPIUTIL_VER = WPILIB_VER
 def OPENCV_VER = '4.8.0-2'
-def PHOENIX_VER = '5.33.0'
-def REV_VERSION = '2024.2.0'
+def PHOENIX_VER = '5.33.1'
+def REV_VERSION = '2024.2.3'
 def JUNIT_VER = '5.9.2'
 def ARCH = 'linuxx86-64'
 
