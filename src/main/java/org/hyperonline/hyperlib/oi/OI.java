@@ -1,10 +1,6 @@
 package org.hyperonline.hyperlib.oi;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import org.hyperonline.hyperlib.oi.ButtonData.Action;
@@ -14,6 +10,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * The {@link OI} class represents the operator interface. This class reads the OI layout from
@@ -144,10 +141,10 @@ public class OI<LD extends GenericHID, RD extends GenericHID, LO extends Generic
   }
 
   /**
-   * Draw diagrams of the OI using {@link ControllerMapper#drawMap(java.util.List)}
+   * Draw diagrams of the OI using {@link ControllerMapper#drawMap(List)}
    *
    * @throws IOException if there is an error reading or writing the diagrams
-   * @see ControllerMapper#drawMap(java.util.List)
+   * @see ControllerMapper#drawMap(List)
    */
   public void drawMaps() throws IOException {
     ControllerMapper.drawMap(getControllerData());
@@ -222,7 +219,10 @@ public class OI<LD extends GenericHID, RD extends GenericHID, LO extends Generic
   private GenericHID createControllerFromMap(MapController jsAnnotation) throws BadOIMapException {
     var cls = switch (jsAnnotation.type()) {
       case LOGITECH_2_AXIS, LOGITECH_3_AXIS -> Joystick.class;
-      case XBOX -> XboxController.class;
+        case APEM_HF45S10U -> GenericHID.class;
+        case VKB_GLADIATOR_NXT_EVO_SCE_LEFT -> GenericHID.class;
+        case VKB_GLADIATOR_NXT_EVO_SCE_RIGHT -> GenericHID.class;
+        case XBOX -> XboxController.class;
       case PS4 -> PS4Controller.class;
       case OTHER -> GenericHID.class;
     };

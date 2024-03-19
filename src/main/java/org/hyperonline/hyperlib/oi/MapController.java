@@ -75,6 +75,9 @@ public @interface MapController {
   public enum Type {
     LOGITECH_3_AXIS,
     LOGITECH_2_AXIS,
+    APEM_HF45S10U,
+    VKB_GLADIATOR_NXT_EVO_SCE_LEFT,
+    VKB_GLADIATOR_NXT_EVO_SCE_RIGHT,
     XBOX,
     PS4,
     OTHER
