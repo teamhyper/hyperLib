@@ -1,13 +1,9 @@
 package org.hyperonline.hyperlib.controller;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkAnalogSensor;
-import com.revrobotics.SparkLimitSwitch;
-import com.revrobotics.SparkMaxAlternateEncoder;
-import com.revrobotics.SparkRelativeEncoder;
+import com.revrobotics.*;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.Timer;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxAbsoluteEncoder;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxAnalogSensor;
 import org.hyperonline.hyperlib.controller.sensor.HYPER_SparkMaxLimitSwitch;
@@ -195,5 +191,15 @@ public class HYPER_CANSparkMax extends CANSparkMax implements SendableMotorContr
     public HYPER_SparkMaxLimitSwitch getReverseLimitSwitchSendable(
             SparkLimitSwitch.Type switchType) {
         return new HYPER_SparkMaxLimitSwitch(getReverseLimitSwitch(switchType));
+    }
+
+    /**
+     * adds delays for burning the flash to the SparkMax
+     * hopefully averts this issue: https://www.chiefdelphi.com/t/revlib-2024-burnflash-spark-max-unreliabilty/446192/10
+     */
+    public void safeBurnFlash() {
+        Timer.delay(0.01);
+        super.burnFlash();
+        Timer.delay(0.01);
     }
 }
