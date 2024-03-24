@@ -2,12 +2,14 @@ package org.hyperonline.hyperlib.pref;
 
 import edu.wpi.first.wpilibj.Preferences;
 
+import java.util.function.DoubleSupplier;
+
 /**
  * A class which represents a double-valued preference
  *
  * @author James Hagborg
  */
-public class DoublePreference extends Preference {
+public class DoublePreference extends Preference implements DoubleSupplier {
   private final double m_default;
   private double m_lastValue;
 
@@ -47,5 +49,10 @@ public class DoublePreference extends Preference {
    */
   public double get() {
     return Preferences.getDouble(getName(), m_default);
+  }
+
+  @Override
+  public double getAsDouble() {
+    return this.get();
   }
 }
