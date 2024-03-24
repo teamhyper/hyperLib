@@ -123,6 +123,9 @@ public abstract class HYPERRobot extends TimedRobot {
         m_sparkMaxes.add(motor);
     }
 
+    /**
+     * burn config to flash for any SparkMax controllers registered as "on" the robot
+     */
     private void burnSparkMaxFlash() {
         System.out.println("Start: Burn SparkMax Flash");
         if (!this.m_sparkMaxes.isEmpty()) {
