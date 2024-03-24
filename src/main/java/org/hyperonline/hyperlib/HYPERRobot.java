@@ -21,6 +21,8 @@ public abstract class HYPERRobot extends TimedRobot {
     protected static final ArrayList<HYPER_CANSparkMax> m_sparkMaxes = new ArrayList<>();
     public static NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
 
+    protected static boolean m_burnFlashOnInit;
+
     /**
      * Initialize the robot. This initializes in the following order:
      *
@@ -127,14 +129,18 @@ public abstract class HYPERRobot extends TimedRobot {
      * burn config to flash for any SparkMax controllers registered as "on" the robot
      */
     private void burnSparkMaxFlash() {
-        System.out.println("Start: Burn SparkMax Flash");
-        if (!this.m_sparkMaxes.isEmpty()) {
-            Timer.delay(1);
-            this.m_sparkMaxes.forEach(HYPER_CANSparkMax::safeBurnFlash);
-            Timer.delay(0.25);
+        if(m_burnFlashOnInit) {
+            System.out.println("Start: Burn SparkMax Flash");
+            if (!this.m_sparkMaxes.isEmpty()) {
+                Timer.delay(1);
+                this.m_sparkMaxes.forEach(HYPER_CANSparkMax::safeBurnFlash);
+                Timer.delay(0.25);
+            } else {
+                System.out.println("Robot has no SparkMaxes");
+            }
+            System.out.println("End: Burn SparkMax Flash");
         } else {
-            System.out.println("Robot has no SparkMaxes");
+            System.out.println("Skipping Burn SparkMax Flash");
         }
-        System.out.println("End: Burn SparkMax Flash");
     }
 }
