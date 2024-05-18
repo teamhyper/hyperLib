@@ -4,13 +4,14 @@ import org.opencv.core.Scalar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * {@link ScalarPreference}
  *
  * @author James
  */
-public class ScalarPreference {
+public class ScalarPreference implements Supplier<Scalar> {
 
   private List<DoublePreference> m_prefs = new ArrayList<>();
 
@@ -50,6 +51,7 @@ public class ScalarPreference {
    *
    * @return The current value of the preference.
    */
+  @Override
   public Scalar get() {
     return new Scalar(m_prefs.stream().mapToDouble(DoublePreference::get).toArray());
   }

@@ -2,12 +2,14 @@ package org.hyperonline.hyperlib.pref;
 
 import edu.wpi.first.wpilibj.Preferences;
 
+import java.util.function.Supplier;
+
 /**
  * A class which represents a string-valued preference
  *
  * @author James Hagborg
  */
-public class StringPreference extends Preference {
+public class StringPreference extends Preference implements Supplier<String> {
   private final String m_default;
   private String m_lastValue;
 
@@ -50,6 +52,7 @@ public class StringPreference extends Preference {
    * @return The value of the preference
    * @see Preferences#getString(String, String)
    */
+  @Override
   public String get() {
     return Preferences.getString(getName(), m_default);
   }
